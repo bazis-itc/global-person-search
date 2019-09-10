@@ -27,7 +27,12 @@
         <dependency>
             <groupId>sitex</groupId>
             <artifactId>sitex</artifactId>
-            <version>tmb</version>
+            <version>rzn</version>
+        </dependency>
+        <dependency>
+            <groupId>sitex</groupId>
+            <artifactId>sx-jdbc</artifactId>
+            <version>rzn</version>
         </dependency>
         <dependency>
             <groupId>bazis</groupId>

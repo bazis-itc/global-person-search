@@ -21,7 +21,7 @@ public final class JdbcRegisterTest {
                 new GsonBuilder().setPrettyPrinting().create().toJson(
                     new JsonPersons(
                         new JdbcRegister(connection)
-                            .persons("145-906-148 72")
+                            .persons("14590614872")
                     ).asJson()
                 )
             );

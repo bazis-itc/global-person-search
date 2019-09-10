@@ -22,6 +22,7 @@ public final class JdbcRegister implements Register {
     @Override
     public Iterable<Person> persons(String snils) {
         final Text query = new Lines(
+            "",
             "SELECT ",
             "  surname.A_NAME AS surname,",
             "  name.A_NAME AS name,",
@@ -34,12 +35,13 @@ public final class JdbcRegister implements Register {
             "  LEFT JOIN SPR_FIO_NAME name ON name.OUID = person.A_NAME",
             "  LEFT JOIN SPR_FIO_SECONDNAME secondName ",
             "    ON secondName.OUID = person.A_SECONDNAME",
-            "WHERE person.A_SNILS = '#snils#'"
+            "WHERE REPLACE(",
+            "  REPLACE(person.A_SNILS, ' ', ''), '-', ''",
+            ") = ?"
         );
         return new MappedIterable<>(
             DSL.using(this.connection).fetch(
-                new UncheckedText(query).asString()
-                    .replace("#snils#", snils)
+                new UncheckedText(query).asString(), snils
             ),
             new Func<Record, Person>() {
                 @Override
