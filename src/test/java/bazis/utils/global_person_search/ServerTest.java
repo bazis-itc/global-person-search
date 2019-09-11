@@ -9,7 +9,7 @@ public final class ServerTest {
         final Iterable<Person> persons = new JsonPersons(
             new JsonParser().parse(
                 new Server("http://10.65.12.11:8080/update_test_central/")
-                    .send("145-906-148 72")
+                    .send("14590614872")
             ).getAsJsonArray()
         );
         for (final Person person : persons) {

@@ -1,6 +1,7 @@
 package bazis.utils.global_person_search.json;
 
 import bazis.cactoos3.Func;
+import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.utils.global_person_search.Person;
 import com.google.gson.JsonArray;
@@ -25,7 +26,7 @@ public final class JsonPersons implements Iterable<Person>, Jsonable {
     }
 
     @Override
-    public JsonElement asJson() {
+    public JsonElement asJson() throws BazisException {
         final JsonArray json = new JsonArray();
         for (final Person person : this)
             json.add(new JsonPerson(person).asJson());

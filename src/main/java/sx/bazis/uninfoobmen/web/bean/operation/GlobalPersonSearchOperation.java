@@ -4,6 +4,7 @@ import bazis.utils.global_person_search.EncryptedText;
 import bazis.utils.global_person_search.jdbc.JdbcRegister;
 import bazis.utils.global_person_search.json.JsonAsText;
 import bazis.utils.global_person_search.json.JsonPersons;
+import bazis.utils.global_person_search.uson.UsonBoroughs;
 import java.sql.Connection;
 import java.util.HashMap;
 import javax.servlet.http.HttpSession;
@@ -32,7 +33,9 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
                 new EncryptedText(
                     new JsonAsText(
                         new JsonPersons(
-                            new JdbcRegister(conn).persons(request)
+                            new JdbcRegister(
+                                conn, new UsonBoroughs(conn)
+                            ).persons(request)
                         )
                     )
                 ).asBytes()

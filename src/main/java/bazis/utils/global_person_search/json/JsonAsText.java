@@ -1,6 +1,7 @@
 package bazis.utils.global_person_search.json;
 
 import bazis.cactoos3.Text;
+import bazis.cactoos3.exception.BazisException;
 import com.google.gson.GsonBuilder;
 
 public final class JsonAsText implements Text {
@@ -12,7 +13,7 @@ public final class JsonAsText implements Text {
     }
 
     @Override
-    public String asString() {
+    public String asString() throws BazisException {
         return new GsonBuilder()
             .setPrettyPrinting()
             .create()
