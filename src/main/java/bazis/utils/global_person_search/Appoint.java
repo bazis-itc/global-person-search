@@ -5,6 +5,8 @@ import java.util.Date;
 
 public interface Appoint {
 
+    String type();
+
     String msp();
 
     String category();

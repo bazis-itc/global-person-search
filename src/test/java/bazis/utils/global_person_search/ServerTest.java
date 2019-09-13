@@ -1,22 +1,20 @@
 package bazis.utils.global_person_search;
 
-import bazis.utils.global_person_search.json.JsonPersons;
-import com.google.gson.JsonParser;
-
 public final class ServerTest {
 
     public static void main(String... args) throws Exception {
-        final Iterable<Person> persons = new JsonPersons(
-            new JsonParser().parse(
-                new Server("http://10.65.12.11:8080/update_test_central/")
-                    .send("14590614872")
-            ).getAsJsonArray()
-        );
-        for (final Person person : persons) {
-            System.out.println(person.fio());
-            System.out.println(person.birthdate());
-            System.out.println(person.address());
-        }
+        final String response =
+            new Server("http://10.65.12.11:8080/update_test_central/")
+                .send("04859235392");
+        System.out.println(response);
+//        final Iterable<Person> persons = new JsonPersons(
+//            new JsonParser().parse(response).getAsJsonArray()
+//        );
+//        for (final Person person : persons) {
+//            System.out.println(person.fio());
+//            System.out.println(person.birthdate());
+//            System.out.println(person.address());
+//        }
     }
 
 }

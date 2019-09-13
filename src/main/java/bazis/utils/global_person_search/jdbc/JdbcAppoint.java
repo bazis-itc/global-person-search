@@ -20,6 +20,11 @@ final class JdbcAppoint implements Appoint {
     }
 
     @Override
+    public String type() {
+        return this.record.getValue("mspGuid", String.class);
+    }
+
+    @Override
     public String msp() {
         return this.record.getValue("mspName", String.class);
     }

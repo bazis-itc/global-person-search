@@ -14,7 +14,8 @@ import java.util.Date;
 final class JsonAppoint implements Appoint, Jsonable {
 
     private static final String
-        MSP = "msp", CATEGORY = "category", CHILD = "child", STATUS = "status",
+        TYPE = "type", MSP = "msp", CATEGORY = "category",
+        CHILD = "child", STATUS = "status",
         START_DATE = "startDate", END_DATE = "endDate";
 
     private static final DateFormat DATE_FORMAT =
@@ -28,6 +29,11 @@ final class JsonAppoint implements Appoint, Jsonable {
 
     JsonAppoint(Appoint origin) {
         this.origin = origin;
+    }
+
+    @Override
+    public String type() {
+        return this.origin.type();
     }
 
     @Override
@@ -63,6 +69,7 @@ final class JsonAppoint implements Appoint, Jsonable {
     @Override
     public JsonElement asJson() {
         final JsonObject json = new JsonObject();
+        json.addProperty(JsonAppoint.TYPE, this.type());
         json.addProperty(JsonAppoint.MSP, this.msp());
         json.addProperty(JsonAppoint.CATEGORY, this.category());
         json.addProperty(JsonAppoint.CHILD, this.child());
@@ -86,6 +93,11 @@ final class JsonAppoint implements Appoint, Jsonable {
 
         private Parsed(JsonObject json) {
             this.json = json;
+        }
+
+        @Override
+        public String type() {
+            return this.json.get(JsonAppoint.TYPE).getAsString();
         }
 
         @Override

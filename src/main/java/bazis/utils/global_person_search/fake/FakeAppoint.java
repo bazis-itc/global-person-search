@@ -3,18 +3,51 @@ package bazis.utils.global_person_search.fake;
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.Appoint;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public final class FakeAppoint implements Appoint {
 
-    @Override
-    public String msp() {
-        return "Ежемесячная денежная компенсация военнослужащим, гражданам, " +
+    private static final DateFormat DATE_FORMAT =
+        new SimpleDateFormat("yyyy-MM-dd");
+
+    private final String type, msp, startDate, endDate;
+
+    public FakeAppoint() {
+        this.type = "37145780-704c-48a2-9272-1f99afddaa9f";
+        this.msp =
+            "Ежемесячная денежная компенсация военнослужащим, гражданам, " +
             "призванным на военные сборы, пенсионное обеспечение которых " +
             "осуществляется Пенсионным фондом Российской Федерации, и " +
             "членам их семей";
+        this.startDate = "2019-01-01";
+        this.endDate = "2019-12-31";
+    }
+
+    public FakeAppoint(String type, String msp) {
+        this.type = type;
+        this.msp = msp;
+        this.startDate = "2019-01-01";
+        this.endDate = "2019-12-31";
+    }
+
+    public FakeAppoint(String msp, String startDate, String endDate) {
+        this.type = "37145780-704c-48a2-9272-1f99afddaa9f";
+        this.msp = msp;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    @Override
+    public String msp() {
+        return this.msp;
     }
 
     @Override
@@ -41,8 +74,7 @@ public final class FakeAppoint implements Appoint {
     public Opt<Date> startDate() {
         try {
             return new OptOf<>(
-                new SimpleDateFormat("yyyy-MM-dd")
-                    .parse("2019-01-01")
+                FakeAppoint.DATE_FORMAT.parse(this.startDate)
             );
         } catch (final ParseException ex) {
             throw new IllegalStateException(ex);
@@ -53,8 +85,7 @@ public final class FakeAppoint implements Appoint {
     public Opt<Date> endDate() {
         try {
             return new OptOf<>(
-                new SimpleDateFormat("yyyy-MM-dd")
-                    .parse("2019-12-31")
+                FakeAppoint.DATE_FORMAT.parse(this.endDate)
             );
         } catch (final ParseException ex) {
             throw new IllegalStateException(ex);

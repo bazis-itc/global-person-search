@@ -4,8 +4,8 @@ import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
 import bazis.utils.global_person_search.fake.FakeBorough;
 import bazis.utils.global_person_search.jdbc.JdbcRegister;
+import bazis.utils.global_person_search.json.JsonAsText;
 import bazis.utils.global_person_search.json.JsonPersons;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,19 +26,18 @@ public final class JdbcRegisterTest {
                     "user=sa;password=S1tex2016"
             )
         ) {
-            final String json =
-                new GsonBuilder().setPrettyPrinting().create().toJson(
-                    new JsonPersons(
-                        new JdbcRegister(
-                            central,
-                            new MapOf<>(
-                                new Entry<Integer, Borough>(
-                                    15, new FakeBorough(borough)
-                                )
+            final String json = new JsonAsText(
+                new JsonPersons(
+                    new JdbcRegister(
+                        central,
+                        new MapOf<>(
+                            new Entry<Integer, Borough>(
+                                15, new FakeBorough(borough)
                             )
-                        ).persons("04859235392")
-                    ).asJson()
-                );
+                        )
+                    ).persons("04859235392")
+                )
+            ).asString();
             final Iterable<Person> persons = new JsonPersons(
                 new JsonParser().parse(json).getAsJsonArray()
             );

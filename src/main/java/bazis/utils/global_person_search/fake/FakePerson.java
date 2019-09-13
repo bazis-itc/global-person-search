@@ -7,9 +7,31 @@ import java.util.Date;
 
 public final class FakePerson implements Person {
 
+    private final String fio;
+
+    private final Iterable<Appoint> appoints;
+
+    public FakePerson() {
+        this(
+            "Иванов Владислав Александрович",
+            new IterableOf<Appoint>(
+                new FakeAppoint(), new FakeAppoint(), new FakeAppoint()
+            )
+        );
+    }
+
+    public FakePerson(String fio, Appoint... appoints) {
+        this(fio, new IterableOf<>(appoints));
+    }
+
+    public FakePerson(String fio, Iterable<Appoint> appoints) {
+        this.fio = fio;
+        this.appoints = appoints;
+    }
+
     @Override
     public String fio() {
-        return "Иванов Владислав Александрович";
+        return this.fio;
     }
 
     @Override
@@ -34,7 +56,7 @@ public final class FakePerson implements Person {
 
     @Override
     public Iterable<Appoint> appoints() {
-        return new IterableOf<Appoint>(new FakeAppoint());
+        return this.appoints;
     }
 
 }
