@@ -12,6 +12,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
+
+        <sitex.version>tmb</sitex.version>
     </properties>
 
     <build>
@@ -27,17 +29,17 @@
         <dependency>
             <groupId>sitex</groupId>
             <artifactId>sitex</artifactId>
-            <version>rzn</version>
+            <version>${sitex.version}</version>
         </dependency>
         <dependency>
             <groupId>sitex</groupId>
             <artifactId>sx-jdbc</artifactId>
-            <version>rzn</version>
+            <version>${sitex.version}</version>
         </dependency>
         <dependency>
             <groupId>bazis</groupId>
             <artifactId>uson</artifactId>
-            <version>tmb</version>
+            <version>${sitex.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
