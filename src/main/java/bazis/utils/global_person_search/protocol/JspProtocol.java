@@ -1,6 +1,5 @@
 package bazis.utils.global_person_search.protocol;
 
-import bazis.cactoos3.exception.BazisException;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.jsp.JspPerson;
@@ -20,7 +19,7 @@ public final class JspProtocol implements Protocol {
     }
 
     @Override
-    public void write(Person person) throws BazisException {
+    public void write(Person person) {
         if (this.request.get(this.param) == null)
             this.request.set(this.param, new LinkedList<JspPerson>());
         final Collection<JspPerson> list =

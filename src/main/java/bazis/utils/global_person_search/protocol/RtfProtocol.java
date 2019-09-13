@@ -3,6 +3,7 @@ package bazis.utils.global_person_search.protocol;
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.IterableOf;
+import bazis.cactoos3.scalar.IsEmpty;
 import bazis.cactoos3.text.CheckedText;
 import bazis.cactoos3.text.JoinedText;
 import bazis.utils.global_person_search.Appoint;
@@ -12,6 +13,7 @@ import bazis.utils.global_person_search.Report;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public final class RtfProtocol implements Protocol {
 
@@ -42,10 +44,12 @@ public final class RtfProtocol implements Protocol {
                     )
                 )
             ).asString();
-        for (final Appoint appoint : person.appoints()) {
+        final Number id = new Random().nextInt();
+        for (final Appoint appoint : person.appoints())
             this.report.append(
                 this.group,
                 new Report.Data()
+                    .withInt("personId", id)
                     .withString("person", people)
                     .withString("msp", appoint.msp())
                     .withString("category", appoint.category())
@@ -55,12 +59,18 @@ public final class RtfProtocol implements Protocol {
                         String.format(
                             "%s\n%s",
                             this.dateAsString("с ", appoint.startDate()),
-                            this.dateAsString("по ", appoint.startDate())
+                            this.dateAsString("по ", appoint.endDate())
                         )
                     )
                     .withString("status", appoint.status())
             );
-        }
+        if (new IsEmpty(person.appoints()).value())
+            this.report.append(
+                this.group,
+                new Report.Data()
+                    .withInt("personId", id)
+                    .withString("person", people)
+            );
     }
 
     private String dateAsString(String prefix, Opt<Date> date) {
