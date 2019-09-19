@@ -23,6 +23,8 @@ import bazis.utils.global_person_search.sx.SxPerson;
 import bazis.utils.global_person_search.sx.SxReport;
 import com.google.gson.JsonParser;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import sx.admin.AdmAction;
 import sx.admin.AdmApplication;
@@ -61,17 +63,19 @@ public final class GlobalPersonSearchUtil extends AdmAction {
 //                        )
 //                    )
 //                );
+            final List<String> log = new LinkedList<>();
             final Iterable<Person> persons =
                 new JsonPersons(
                     new JsonParser().parse(
                         new Server(
-                            "http://192.168.155.9:8080/central/"
+                            "http://192.168.155.9:8080/central/", log
                         ).send(person.snils())
                     ).getAsJsonArray()
                 );
-            if (new IsEmpty(persons).value()) request.set(
-                "error", "Нет информации о данном гражданине на других базах"
+            if (new IsEmpty(persons).value()) log.add(
+                "Нет информации о данном гражданине на других базах"
             );
+            if (!log.isEmpty()) request.set("error", log.get(0));
             final Report report =
                 new SxReport("globalPersonSearchProtocol");
             final Protocol protocol = new ForkProtocol(

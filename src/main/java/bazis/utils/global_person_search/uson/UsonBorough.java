@@ -1,29 +1,42 @@
 package bazis.utils.global_person_search.uson;
 
-import bazis.cactoos3.Scalar;
-import bazis.cactoos3.exception.BazisException;
-import bazis.cactoos3.scalar.CheckedScalar;
+import bazis.cactoos3.Opt;
+import bazis.cactoos3.opt.EmptyOpt;
+import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.Borough;
 import java.sql.ResultSet;
+import java.util.Collection;
+import org.jooq.Record;
 import sx.bazis.uninfoobmen.sys.sql.ExecSelectRayon;
 
 final class UsonBorough implements Borough {
 
-    private final String url;
+    private final Record record;
 
-    UsonBorough(String url) {
-        this.url = url;
+    private final Collection<String> log;
+
+    public UsonBorough(Record record, Collection<String> log) {
+        this.record = record;
+        this.log = log;
     }
 
     @Override
-    public ResultSet select(final String query) throws BazisException {
-        return new CheckedScalar<>(
-            new Scalar<ResultSet>() {
-                @Override
-                public ResultSet value() throws Exception {
-                    return ExecSelectRayon.exec(query, UsonBorough.this.url);
-                }
-            }
-        ).value();
+    public Opt<ResultSet> select(final String query) {
+        try {
+            return new OptOf<ResultSet>(
+                ExecSelectRayon.exec(
+                    query,
+                    this.record.getValue("url", String.class)
+                )
+            );
+        } catch (final Exception ex) {
+            this.log.add(
+                String.format(
+                    "Сервер не опрошен: %s",
+                    this.record.getValue("name", String.class)
+                )
+            );
+            return new EmptyOpt<>();
+        }
     }
 }

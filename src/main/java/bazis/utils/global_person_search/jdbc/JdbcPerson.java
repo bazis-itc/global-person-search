@@ -1,8 +1,10 @@
 package bazis.utils.global_person_search.jdbc;
 
 import bazis.cactoos3.Func;
+import bazis.cactoos3.Opt;
 import bazis.cactoos3.Text;
 import bazis.cactoos3.exception.BazisException;
+import bazis.cactoos3.iterable.EmptyIterable;
 import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.text.CheckedText;
@@ -12,6 +14,7 @@ import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Borough;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.ext.Lines;
+import java.sql.ResultSet;
 import java.util.Date;
 import java.util.Map;
 import org.jooq.Record;
@@ -103,23 +106,24 @@ final class JdbcPerson implements Person {
             this.record.getValue("boroughId", Integer.class)
         );
         if (borough == null) throw new BazisException("Borough not found");
-        return DSL.using(SQLDialect.DEFAULT)
-            .fetch(
-                borough.select(
-                    new CheckedText(query).asString().replace(
-                        "#id#",
-                        this.record.getValue("localId", String.class)
-                    )
-                )
+        final Opt<ResultSet> result = borough.select(
+            new CheckedText(query).asString().replace(
+                "#id#",
+                this.record.getValue("localId", String.class)
             )
-            .map(
-                new RecordMapper<Record, Appoint>() {
-                    @Override
-                    public Appoint map(Record appoint) {
-                        return new JdbcAppoint(appoint);
+        );
+        return result.has()
+            ? DSL.using(SQLDialect.DEFAULT)
+                .fetch(result.get())
+                .map(
+                    new RecordMapper<Record, Appoint>() {
+                        @Override
+                        public Appoint map(Record appoint) {
+                            return new JdbcAppoint(appoint);
+                        }
                     }
-                }
-            );
+                )
+            : new EmptyIterable<Appoint>();
     }
 
 }

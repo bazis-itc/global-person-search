@@ -7,6 +7,8 @@ import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.uson.UsonBoroughs;
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import sx.bazis.uninfoobmen.sys.store.StoreFactory;
 import sx.datastore.SXDsFactory;
@@ -23,6 +25,7 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
     public HashMap<String, String> exec(HashMap<String, String> inputMap,
         String requestId, HttpSession session) throws Exception {
         try (final Connection conn = SXDsFactory.getDs().getConnection()) {
+            final List<String> log = new LinkedList<>();
             final String request = new EncryptedText(
                 StoreFactory.getInstance()
                     .inMap.get(requestId)
@@ -34,7 +37,7 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
                     new JsonAsText(
                         new JsonPersons(
                             new JdbcRegister(
-                                conn, new UsonBoroughs(conn)
+                                conn, new UsonBoroughs(conn, log)
                             ).persons(request)
                         )
                     )
@@ -42,7 +45,7 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
             );
             return super.getRetMessage(
                 "COMPLETE",
-                String.format("request is '%s'", request),
+                log.isEmpty() ? "" : log.get(0),
                 null, requestId
             );
         } catch (final Exception ex) {

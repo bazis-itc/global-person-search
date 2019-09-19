@@ -1,6 +1,8 @@
 package bazis.utils.global_person_search.fake;
 
+import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
+import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.Borough;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,9 +17,11 @@ public final class FakeBorough implements Borough {
     }
 
     @Override
-    public ResultSet select(String query) throws BazisException {
+    public Opt<ResultSet> select(String query) throws BazisException {
         try {
-            return this.connection.createStatement().executeQuery(query);
+            return new OptOf<>(
+                this.connection.createStatement().executeQuery(query)
+            );
         } catch (final SQLException ex) {
             throw new BazisException(ex);
         }
