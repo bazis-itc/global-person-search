@@ -6,7 +6,15 @@
 
     <groupId>bazis</groupId>
     <artifactId>global-person-search</artifactId>
+    <packaging>pom</packaging>
     <version>snapshot</version>
+
+    <modules>
+        <module>core</module>
+        <module>tmb</module>
+        <module>rzn</module>
+        <module>vrn</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -16,51 +24,55 @@
         <sitex.version>vrn</sitex.version>
     </properties>
 
-    <build>
-        <finalName>bazis-global-person-search</finalName>
-    </build>
-
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>sitex</groupId>
             <artifactId>sitex</artifactId>
             <version>${sitex.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>sitex</groupId>
             <artifactId>sx-jdbc</artifactId>
             <version>${sitex.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>bazis</groupId>
             <artifactId>uson</artifactId>
             <version>${sitex.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.2.4</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>bazis</groupId>
             <artifactId>bazis-cactoos</artifactId>
             <version>3.2</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
             <version>3.6.4</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

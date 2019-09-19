@@ -1,4 +1,4 @@
-package bazis.utils;
+package bazis.utils.global_person_search;
 
 import bazis.cactoos3.Func;
 import bazis.cactoos3.exception.BazisException;
@@ -6,12 +6,6 @@ import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.map.EmptyMap;
 import bazis.cactoos3.scalar.IsEmpty;
 import bazis.cactoos3.text.JoinedText;
-import bazis.utils.global_person_search.DefaultDateFormat;
-import bazis.utils.global_person_search.Person;
-import bazis.utils.global_person_search.Protocol;
-import bazis.utils.global_person_search.Report;
-import bazis.utils.global_person_search.RequestedPerson;
-import bazis.utils.global_person_search.Server;
 import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.protocol.CompositeProtocol;
 import bazis.utils.global_person_search.protocol.ForkProtocol;
@@ -32,11 +26,17 @@ import sx.admin.AdmRequest;
 import sx.common.DateUtils;
 import sx.datastore.SXId;
 
-//bazis.utils.GlobalPersonSearchUtil
-public final class GlobalPersonSearchUtil extends AdmAction {
+public abstract class BaseSearchUtil extends AdmAction {
+
+    private final String url;
+
+    protected BaseSearchUtil(String url) {
+        super();
+        this.url = url;
+    }
 
     @Override
-    public void execute(
+    public final void execute(
         final AdmRequest request, final AdmApplication app) throws Exception {
         final String cmd = request.getParam("cmd");
         if (cmd == null) super.includeTemplate(
@@ -67,9 +67,7 @@ public final class GlobalPersonSearchUtil extends AdmAction {
             final Iterable<Person> persons =
                 new JsonPersons(
                     new JsonParser().parse(
-                        new Server(
-                            "http://192.168.155.9:8080/central/", log
-                        ).send(person.snils())
+                        new Server(this.url, log).send(person.snils())
                     ).getAsJsonArray()
                 );
             if (new IsEmpty(persons).value()) log.add(
