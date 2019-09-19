@@ -65,7 +65,7 @@ public final class GlobalPersonSearchUtil extends AdmAction {
                 new JsonPersons(
                     new JsonParser().parse(
                         new Server(
-                            "http://10.65.12.11:8080/update_test_central/"
+                            "http://192.168.155.9:8080/central/"
                         ).send(person.snils())
                     ).getAsJsonArray()
                 );
