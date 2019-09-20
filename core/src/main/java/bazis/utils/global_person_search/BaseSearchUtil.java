@@ -6,6 +6,7 @@ import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.map.EmptyMap;
 import bazis.cactoos3.scalar.IsEmpty;
 import bazis.cactoos3.text.JoinedText;
+import bazis.utils.global_person_search.ext.ReportData;
 import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.protocol.CompositeProtocol;
 import bazis.utils.global_person_search.protocol.ForkProtocol;
@@ -125,7 +126,7 @@ public abstract class BaseSearchUtil extends AdmAction {
                 "protocol",
                 new DownloadUrl(
                     report.create(
-                        new Report.Data()
+                        new ReportData.Immutable()
                             .withDate("startDate", start)
                             .withDate("endDate", end)
                             .withString(
