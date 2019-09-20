@@ -27,6 +27,26 @@
     <build>
         <plugins>
             <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>auto-clean</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>target/WEB-INF</directory>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.1.0</version>
@@ -37,8 +57,9 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <finalName>bazis-global-person-search</finalName>
-                            <outputDirectory>target/WEB-INF/lib</outputDirectory>
+                            <outputFile>
+                                target/WEB-INF/lib/bazis-global-person-search.jar
+                            </outputFile>
                         </configuration>
                     </execution>
                 </executions>
