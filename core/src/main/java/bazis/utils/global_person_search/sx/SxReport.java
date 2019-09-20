@@ -34,7 +34,7 @@ public final class SxReport implements Report {
                 group.intValue(),
                 new LinkedList<Map<String, Object>>()
             );
-        this.data.get(group.intValue()).add(row);
+        this.data.get(group.intValue()).add(new HashMap<>(row));
         return this;
     }
 
@@ -45,7 +45,7 @@ public final class SxReport implements Report {
         final SXId id = this.id();
         try {
             report = new CreateReport().create(
-                id, null, login, params, this.data
+                id, null, login, new HashMap<>(params), this.data
             );
         } catch (final Exception ex) {
             throw new BazisException(
