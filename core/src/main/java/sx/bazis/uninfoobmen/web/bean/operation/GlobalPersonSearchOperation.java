@@ -4,7 +4,9 @@ import bazis.utils.global_person_search.EncryptedText;
 import bazis.utils.global_person_search.jdbc.JdbcRegister;
 import bazis.utils.global_person_search.json.JsonAsText;
 import bazis.utils.global_person_search.json.JsonPersons;
+import bazis.utils.global_person_search.json.JsonRequest;
 import bazis.utils.global_person_search.uson.UsonBoroughs;
+import com.google.gson.JsonParser;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -26,11 +28,15 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
         String requestId, HttpSession session) throws Exception {
         try (final Connection conn = SXDsFactory.getDs().getConnection()) {
             final List<String> log = new LinkedList<>();
-            final String request = new EncryptedText(
-                StoreFactory.getInstance()
-                    .inMap.get(requestId)
-                    .getInputStream()
-            ).asString();
+            final JsonRequest request = new JsonRequest(
+                new JsonParser().parse(
+                    new EncryptedText(
+                        StoreFactory.getInstance()
+                            .inMap.get(requestId)
+                            .getInputStream()
+                    ).asString()
+                ).getAsJsonObject()
+            );
             StoreFactory.getInstance().outMap.put(
                 requestId,
                 new EncryptedText(
@@ -38,7 +44,11 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
                         new JsonPersons(
                             new JdbcRegister(
                                 conn, new UsonBoroughs(conn, log)
-                            ).persons(request)
+                            ).persons(
+                                request.fio(),
+                                request.birthdate(),
+                                request.snils()
+                            )
                         )
                     )
                 ).asBytes()

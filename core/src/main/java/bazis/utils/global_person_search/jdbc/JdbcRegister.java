@@ -1,14 +1,17 @@
 package bazis.utils.global_person_search.jdbc;
 
 import bazis.cactoos3.Func;
+import bazis.cactoos3.Opt;
 import bazis.cactoos3.Text;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.text.UncheckedText;
 import bazis.utils.global_person_search.Borough;
+import bazis.utils.global_person_search.DefaultDateFormat;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Register;
 import bazis.utils.global_person_search.ext.Lines;
 import java.sql.Connection;
+import java.util.Date;
 import java.util.Map;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
@@ -25,8 +28,14 @@ public final class JdbcRegister implements Register {
     }
 
     @Override
-    public Iterable<Person> persons(String snils) {
+    public Iterable<Person> persons(
+        String fio, Opt<Date> birthdate, String snils) {
         final Text query = new Lines(
+            "",
+            "DECLARE",
+            "  @fio VARCHAR(1000) = ?,",
+            "  @birthdate DATETIME = CONVERT(DATETIME, ?, 120),",
+            "  @snils VARCHAR(255) = ?",
             "",
             "SELECT ",
             "  surname.A_NAME AS surname,",
@@ -62,13 +71,19 @@ public final class JdbcRegister implements Register {
             "    ON patronymic.OUID = person.A_SECONDNAME",
             "  LEFT JOIN REFERENCE_INF borough ",
             "    ON borough.A_OUID = person.A_SERV",
-            "WHERE REPLACE(",
-            "  REPLACE(person.A_SNILS, ' ', ''), '-', ''",
-            ") = ?"
+            "WHERE ",
+            "  surname.A_NAME + ' ' + name.A_NAME + ' ' ",
+            "  + ISNULL(patronymic.A_NAME, '') = @fio",
+            "  AND DATEDIFF(DAY, person.BIRTHDATE, @birthdate) = 0",
+            "  OR REPLACE(REPLACE(person.A_SNILS, ' ', ''), '-', '') = @snils"
         );
         return new MappedIterable<>(
             DSL.using(this.connection).fetch(
-                new UncheckedText(query).asString(), snils
+                new UncheckedText(query).asString(),
+                fio.isEmpty() ? null : fio,
+                birthdate.has()
+                    ? new DefaultDateFormat().format(birthdate.get()) : null,
+                snils.isEmpty() ? null : snils
             ),
             new Func<Record, Person>() {
                 @Override

@@ -7,7 +7,10 @@ import bazis.cactoos3.map.EmptyMap;
 import bazis.cactoos3.scalar.IsEmpty;
 import bazis.cactoos3.text.JoinedText;
 import bazis.utils.global_person_search.ext.ReportData;
+import bazis.utils.global_person_search.json.JsonAsText;
 import bazis.utils.global_person_search.json.JsonPersons;
+import bazis.utils.global_person_search.json.JsonRequest;
+import bazis.utils.global_person_search.json.Jsonable;
 import bazis.utils.global_person_search.protocol.CompositeProtocol;
 import bazis.utils.global_person_search.protocol.ForkProtocol;
 import bazis.utils.global_person_search.protocol.JspProtocol;
@@ -16,6 +19,7 @@ import bazis.utils.global_person_search.sx.DownloadUrl;
 import bazis.utils.global_person_search.sx.MspMap;
 import bazis.utils.global_person_search.sx.SxPerson;
 import bazis.utils.global_person_search.sx.SxReport;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.Date;
 import java.util.LinkedList;
@@ -31,9 +35,25 @@ public abstract class BaseSearchUtil extends AdmAction {
 
     private final String url;
 
+    private final Func<Person, Jsonable> requests;
+
     protected BaseSearchUtil(String url) {
+        this(
+            url,
+            new Func<Person, Jsonable>() {
+                @Override
+                public Jsonable apply(Person person) throws BazisException {
+                    return new JsonRequest(new JsonObject())
+                        .withSnils(person.snils());
+                }
+            }
+        );
+    }
+
+    protected BaseSearchUtil(String url, Func<Person, Jsonable> requests) {
         super();
         this.url = url;
+        this.requests = requests;
     }
 
     @Override
@@ -50,10 +70,11 @@ public abstract class BaseSearchUtil extends AdmAction {
             final Person person = new SxPerson(
                 new SXId(request.getAction().getObjId())
             );
+            final List<String> errors = new LinkedList<>();
 //            final Iterable<Person> persons =
 //                new IterableOf<Person>(
 //                    new FakePerson(
-//                        "Мванов Владислав Александрович",
+//                        "Иванов Владислав Александрович",
 //                        new FakeAppoint(
 //                            "Первое назначение",
 //                            "2019-01-01", "2019-12-31"
@@ -64,17 +85,20 @@ public abstract class BaseSearchUtil extends AdmAction {
 //                        )
 //                    )
 //                );
-            final List<String> log = new LinkedList<>();
             final Iterable<Person> persons =
                 new JsonPersons(
                     new JsonParser().parse(
-                        new Server(this.url, log).send(person.snils())
+                        new Server(this.url, errors).send(
+                            new JsonAsText(
+                                this.requests.apply(person)
+                            ).asString()
+                        )
                     ).getAsJsonArray()
                 );
-            if (new IsEmpty(persons).value()) log.add(
+            if (new IsEmpty(persons).value()) errors.add(
                 "Нет информации о данном гражданине на других базах"
             );
-            if (!log.isEmpty()) request.set("error", log.get(0));
+            if (!errors.isEmpty()) request.set("error", errors.get(0));
             final Report report =
                 new SxReport("globalPersonSearchProtocol");
             final Protocol protocol = new ForkProtocol(
