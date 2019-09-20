@@ -14,6 +14,7 @@
         <module>tmb</module>
         <module>rzn</module>
         <module>vrn</module>
+        <module>assembly</module>
     </modules>
 
     <properties>
@@ -106,40 +107,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>
-                                ${basedir}/${sitex.version}/target/WEB-INF
-                            </outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>
-                                        ${basedir}/${sitex.version}/src/main/WEB-INF
-                                    </directory>
-                                </resource>
-                                <resource>
-                                    <directory>
-                                        ${basedir}/core/src/main/WEB-INF
-                                    </directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
