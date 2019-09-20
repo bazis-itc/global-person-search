@@ -29,7 +29,7 @@ public final class UsonBoroughs extends MapEnvelope<Integer, Borough> {
                                     "",
                                     "SELECT",
                                     "  A_OUID AS id,",
-                                    "  A_IP_ADRESS_RAION AS url",
+                                    "  A_IP_ADRESS_RAION AS url,",
                                     "  A_RAION_NAME AS name",
                                     "FROM REFERENCE_INF"
                                 ).asString()
