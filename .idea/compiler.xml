@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="core" />
+        <module name="global-person-search-core" />
         <module name="global-person-search-rzn" />
         <module name="global-person-search-tmb" />
         <module name="global-person-search-vrn" />

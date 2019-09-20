@@ -17,11 +17,11 @@
     </modules>
 
     <properties>
+        <sitex.version>rzn</sitex.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
-
-        <sitex.version>vrn</sitex.version>
     </properties>
 
     <dependencies>
@@ -115,7 +115,7 @@
                 <executions>
                     <execution>
                         <id>copy-resources</id>
-                        <phase>validate</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
@@ -126,33 +126,13 @@
                             <resources>
                                 <resource>
                                     <directory>
-                                        ${basedir}/core/src/main/WEB-INF
+                                        ${basedir}/${sitex.version}/src/main/WEB-INF
                                     </directory>
-                                    <filtering>true</filtering>
                                 </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-resource-one</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>
-                                ${basedir}/${sitex.version}/target/WEB-INF/lib
-                            </outputDirectory>
-                            <resources>
                                 <resource>
                                     <directory>
-                                        ${basedir}/${sitex.version}/target
+                                        ${basedir}/core/src/main/WEB-INF
                                     </directory>
-                                    <includes>
-                                        <include>
-                                            bazis-global-person-search.jar
-                                        </include>
-                                    </includes>
                                 </resource>
                             </resources>
                         </configuration>

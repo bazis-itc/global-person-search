@@ -25,36 +25,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.1.0</version>
-                <configuration>
-                    <finalName>bazis-global-person-search</finalName>
-                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/WEB-INF</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/WEB-INF</directory>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
+                            <finalName>bazis-global-person-search</finalName>
+                            <outputDirectory>target/WEB-INF/lib</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
