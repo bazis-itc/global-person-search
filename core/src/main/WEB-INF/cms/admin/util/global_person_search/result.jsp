@@ -22,16 +22,16 @@
 		
 		<c:if test="${not empty requestScope.error}">			
 			<span style="color:red; font-size:12px; font-weight:bold" id="err">
-				${requestScope.error}
+				<c:out value="${requestScope.error}"/>
 			</span>
 		</c:if>	
 		
 		<c:forEach var="person" items="${requestScope.completely}" varStatus="row">		
-			<b>${row.count}) ФИО:</b> ${person.fio}<br>
-			<b>Дата рождения:</b> ${person.birthdate}<br>
-			<b>Адрес регистрации:</b> ${person.address}<br>
-			<b>СНИЛС:</b> ${person.snils}<br>
-			<b>Район:</b> ${person.borough}<br>
+			<b><c:out value="${row.count}"/>) ФИО:</b> <c:out value="${person.fio}"/><br>
+			<b>Дата рождения:</b> <c:out value="${person.birthdate}"/><br>
+			<b>Адрес регистрации:</b> <c:out value="${person.address}"/><br>
+			<b>СНИЛС:</b> <c:out value="${person.snils}"/><br>
+			<b>Район:</b> <c:out value="${person.borough}"/><br>
 						
 			<table border="1">
 				<tr>
@@ -43,11 +43,11 @@
 				</tr>					
 				<c:forEach var="appoint" items="${person.appoints}">
 					<tr>
-						<td>${appoint.msp}</td>
-						<td>${appoint.category}</td>
-						<td>${appoint.child}</td>
-						<td>с ${appoint.startDate}<br>по ${appoint.endDate}</td>
-						<td>${appoint.status}</td>
+						<td><c:out value="${appoint.msp}"/></td>
+						<td><c:out value="${appoint.category}"/></td>
+						<td><c:out value="${appoint.child}"/></td>
+						<td>с <c:out value="${appoint.startDate}"/><br>по <c:out value="${appoint.endDate}"/></td>
+						<td><c:out value="${appoint.status}"/></td>
 					</tr>			
 				</c:forEach>
 			</table>
@@ -59,11 +59,11 @@
 		</c:if>	
 		
 		<c:forEach var="person" items="${requestScope.partially}" varStatus="row">		
-			<b>${row.count}) ФИО:</b> ${person.fio}<br>
-			<b>Дата рождения:</b> ${person.birthdate}<br>
-			<b>Адрес регистрации:</b> ${person.address}<br>
-			<b>СНИЛС:</b> ${person.snils}<br>
-			<b>Район:</b> ${person.borough}<br>
+			<b><c:out value="${row.count}"/>) ФИО:</b> <c:out value="${person.fio}"/><br>
+			<b>Дата рождения:</b> <c:out value="${person.birthdate}"/><br>
+			<b>Адрес регистрации:</b> <c:out value="${person.address}"/><br>
+			<b>СНИЛС:</b> <c:out value="${person.snils}"/><br>
+			<b>Район:</b> <c:out value="${person.borough}"/><br>
 						
 			<table border="1">
 				<tr>
@@ -75,11 +75,11 @@
 				</tr>					
 				<c:forEach var="appoint" items="${person.appoints}">
 					<tr>
-						<td>${appoint.msp}</td>
-						<td>${appoint.category}</td>
-						<td>${appoint.child}</td>
-						<td>с ${appoint.startDate}<br>по ${appoint.endDate}</td>
-						<td>${appoint.status}</td>
+						<td><c:out value="${appoint.msp}"/></td>
+						<td><c:out value="${appoint.category}"/></td>
+						<td><c:out value="${appoint.child}"/></td>
+						<td>с <c:out value="${appoint.startDate}"/><br>по <c:out value="${appoint.endDate}"/></td>
+						<td><c:out value="${appoint.status}"/></td>
 					</tr>			
 				</c:forEach>
 			</table>
