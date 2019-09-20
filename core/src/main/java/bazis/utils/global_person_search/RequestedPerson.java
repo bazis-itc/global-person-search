@@ -51,6 +51,11 @@ public final class RequestedPerson implements Person {
     }
 
     @Override
+    public String passport() {
+        return this.origin.passport();
+    }
+
+    @Override
     public Iterable<Appoint> appoints() throws BazisException {
         final Collection<String> list = new SetOf<>(this.msp);
         return new FilteredIterable<>(

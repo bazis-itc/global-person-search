@@ -15,10 +15,5 @@
         <module name="vrn" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="rzn" target="1.7" />
-      <module name="tmb" target="1.7" />
-      <module name="vrn" target="1.7" />
-    </bytecodeTargetLevel>
   </component>
 </project>

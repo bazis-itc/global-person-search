@@ -4,6 +4,7 @@ import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.scalar.IsEmpty;
+import bazis.cactoos3.text.FormattedText;
 import bazis.cactoos3.text.JoinedText;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Person;
@@ -49,6 +50,12 @@ public final class RtfProtocol implements Protocol {
                         ),
                         person.address()
                     )
+                )
+            )
+            .withString(
+                "passport",
+                new FormattedText(
+                    "%s, %s", person.snils(), person.passport()
                 )
             );
         if (new IsEmpty(person.appoints()).value())

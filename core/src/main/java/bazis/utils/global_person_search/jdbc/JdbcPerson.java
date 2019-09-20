@@ -74,6 +74,11 @@ final class JdbcPerson implements Person {
     }
 
     @Override
+    public String passport() {
+        return this.record.getValue("passport", String.class);
+    }
+
+    @Override
     public Iterable<Appoint> appoints() throws BazisException {
         final Text query = new Lines(
             "",

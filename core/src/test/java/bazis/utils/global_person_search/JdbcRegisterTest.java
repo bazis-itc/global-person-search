@@ -47,6 +47,7 @@ public final class JdbcRegisterTest {
                 System.out.println(person.address());
                 System.out.println(person.snils());
                 System.out.println(person.borough());
+                System.out.println(person.passport());
                 System.out.println();
                 for (final Appoint appoint : person.appoints()) {
                     System.out.println(appoint.category());

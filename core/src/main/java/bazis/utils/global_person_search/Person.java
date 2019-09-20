@@ -15,6 +15,8 @@ public interface Person {
 
     String borough();
 
+    String passport();
+
     Iterable<Appoint> appoints() throws BazisException;
 
 }

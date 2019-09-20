@@ -17,7 +17,8 @@ final class JsonPerson implements Person, Jsonable {
 
     private static final String
         FIO = "fio", BIRTHDATE = "birthdate", ADDRESS = "address",
-        SNILS = "snils", BOROUGH = "borough", APPOINTS = "appoints";
+        SNILS = "snils", BOROUGH = "borough", APPOINTS = "appoints",
+        PASSPORT = "passport";
 
     private static final DateFormat DATE_FORMAT =
         new SimpleDateFormat("yyyy-MM-dd");
@@ -58,6 +59,11 @@ final class JsonPerson implements Person, Jsonable {
     }
 
     @Override
+    public String passport() {
+        return this.origin.passport();
+    }
+
+    @Override
     public Iterable<Appoint> appoints() throws BazisException {
         return this.origin.appoints();
     }
@@ -73,6 +79,7 @@ final class JsonPerson implements Person, Jsonable {
         json.addProperty(JsonPerson.ADDRESS, this.address());
         json.addProperty(JsonPerson.SNILS, this.snils());
         json.addProperty(JsonPerson.BOROUGH, this.borough());
+        json.addProperty(JsonPerson.PASSPORT, this.passport());
         final JsonArray appoints = new JsonArray();
         for (final Appoint appoint : this.appoints())
             appoints.add(new JsonAppoint(appoint).asJson());
@@ -117,6 +124,11 @@ final class JsonPerson implements Person, Jsonable {
         @Override
         public String borough() {
             return this.json.get(JsonPerson.BOROUGH).getAsString();
+        }
+
+        @Override
+        public String passport() {
+            return this.json.get(JsonPerson.PASSPORT).getAsString();
         }
 
         @Override

@@ -55,6 +55,11 @@ public final class FakePerson implements Person {
     }
 
     @Override
+    public String passport() {
+        return "6804 162300";
+    }
+
+    @Override
     public Iterable<Appoint> appoints() {
         return this.appoints;
     }

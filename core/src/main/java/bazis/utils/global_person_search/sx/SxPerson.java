@@ -90,6 +90,11 @@ public final class SxPerson implements Person {
     }
 
     @Override
+    public String passport() {
+        throw new UnsupportedOperationException("Method not implemented");
+    }
+
+    @Override
     public Iterable<Appoint> appoints() throws BazisException {
         throw new BazisException("Method not implemented");
     }
