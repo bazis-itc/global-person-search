@@ -2,6 +2,7 @@ package bazis.utils.global_person_search.fake;
 
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
+import bazis.cactoos3.opt.EmptyOpt;
 import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.Appoint;
 import java.text.DateFormat;
@@ -73,21 +74,19 @@ public final class FakeAppoint implements Appoint {
 
     @Override
     public Opt<Date> startDate() throws BazisException {
-        try {
-            return new OptOf<>(
-                FakeAppoint.DATE_FORMAT.parse(this.startDate)
-            );
-        } catch (final ParseException ex) {
-            throw new BazisException(ex);
-        }
+        return FakeAppoint.dateFrom(this.startDate);
     }
 
     @Override
     public Opt<Date> endDate() throws BazisException {
+        return FakeAppoint.dateFrom(this.endDate);
+    }
+
+    private static Opt<Date> dateFrom(String date) throws BazisException {
         try {
-            return new OptOf<>(
-                FakeAppoint.DATE_FORMAT.parse(this.endDate)
-            );
+            return date.isEmpty()
+                ? new EmptyOpt<Date>()
+                : new OptOf<>(FakeAppoint.DATE_FORMAT.parse(date));
         } catch (final ParseException ex) {
             throw new BazisException(ex);
         }
