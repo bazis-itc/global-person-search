@@ -37,6 +37,10 @@ public final class JspPerson {
         return this.person.borough();
     }
 
+    public String getPassport() {
+        return this.person.passport();
+    }
+
     public JspAppoint[] getAppoints() throws BazisException {
         return new ListOf<>(
             new MappedIterable<>(

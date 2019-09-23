@@ -10,16 +10,16 @@ import sx.common.MonthYearBean;
 public final class ServerTest {
 
     public static void main(String... args) throws Exception {
-        System.out.println("2");
+        System.out.println("3");
         final Collection<String> log = new LinkedList<>();
         final String response = new Server(
             "http://192.168.120.108:8080/central_test/", log
         ).send(
             new JsonAsText(
                 new JsonRequest(new JsonObject())
-                    .withFio("Абанина Ольга Александровна")
+                    .withFio("Абанин Николай Григорьевич")
                     .withBirthdate(
-                        new MonthYearBean(	1992, 2, 13)
+                        new MonthYearBean(	1950, 9, 19)
                             .getDate()
                     )
                     .withSnils("")

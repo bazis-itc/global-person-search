@@ -32,6 +32,7 @@
 			<b>Адрес регистрации:</b> <c:out value="${person.address}"/><br>
 			<b>СНИЛС:</b> <c:out value="${person.snils}"/><br>
 			<b>Район:</b> <c:out value="${person.borough}"/><br>
+			<b>Документ удостоверяющий личность:</b> <c:out value="${person.passport}"/><br>
 						
 			<table border="1">
 				<tr>
@@ -64,6 +65,7 @@
 			<b>Адрес регистрации:</b> <c:out value="${person.address}"/><br>
 			<b>СНИЛС:</b> <c:out value="${person.snils}"/><br>
 			<b>Район:</b> <c:out value="${person.borough}"/><br>
+			<b>Документ удостоверяющий личность:</b> <c:out value="${person.passport}"/><br>
 						
 			<table border="1">
 				<tr>
