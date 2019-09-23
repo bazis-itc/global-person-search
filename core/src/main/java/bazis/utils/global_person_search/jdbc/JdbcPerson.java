@@ -43,9 +43,8 @@ final class JdbcPerson implements Person {
                     new Func<String, String>() {
                         @Override
                         public String apply(String field) {
-                            final String value = JdbcPerson.this.record
-                                .getValue(field, String.class);
-                            return value == null ? "" : value;
+                            return new SmartRecord(JdbcPerson.this.record)
+                                .string(field);
                         }
                     }
                 )
@@ -55,27 +54,31 @@ final class JdbcPerson implements Person {
 
     @Override
     public Date birthdate() {
-        return this.record.getValue("birthdate", Date.class);
+        final Opt<Date> date =
+            new SmartRecord(this.record).date("birthdate");
+        if (!date.has())
+            throw new IllegalStateException("Person birthdate not defined");
+        return date.get();
     }
 
     @Override
     public String address() {
-        return this.record.getValue("address", String.class);
+        return new SmartRecord(this.record).string("address");
     }
 
     @Override
     public String snils() {
-        return this.record.getValue("snils", String.class);
+        return new SmartRecord(this.record).string("snils");
     }
 
     @Override
     public String borough() {
-        return this.record.getValue("boroughName", String.class);
+        return new SmartRecord(this.record).string("boroughName");
     }
 
     @Override
     public String passport() {
-        return this.record.getValue("passport", String.class);
+        return new SmartRecord(this.record).string("passport");
     }
 
     @Override

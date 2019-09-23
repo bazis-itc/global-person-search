@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="assembly" />
         <module name="core" />
+        <module name="global-person-search-assembly" />
         <module name="global-person-search-core" />
         <module name="global-person-search-rzn" />
         <module name="global-person-search-tmb" />
