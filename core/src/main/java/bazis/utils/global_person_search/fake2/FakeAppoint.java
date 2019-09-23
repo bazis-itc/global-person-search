@@ -47,7 +47,7 @@ public final class FakeAppoint implements Appoint {
     }
 
     public FakeAppoint withMsp(String msp) {
-        return this.with(FakeAppoint.TYPE, msp);
+        return this.with(FakeAppoint.MSP, msp);
     }
 
     public FakeAppoint withDates(String start, String end) {
