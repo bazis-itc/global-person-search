@@ -20,7 +20,7 @@ public final class JspPerson {
         return this.person.fio();
     }
 
-    public String getBirthdate() {
+    public String getBirthdate() throws BazisException {
         return new SimpleDateFormat("dd.MM.yyyy")
             .format(this.person.birthdate());
     }

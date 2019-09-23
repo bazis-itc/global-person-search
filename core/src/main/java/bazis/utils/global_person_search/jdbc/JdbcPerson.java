@@ -53,11 +53,11 @@ final class JdbcPerson implements Person {
     }
 
     @Override
-    public Date birthdate() {
+    public Date birthdate() throws BazisException {
         final Opt<Date> date =
             new SmartRecord(this.record).date("birthdate");
         if (!date.has())
-            throw new IllegalStateException("Person birthdate not defined");
+            throw new BazisException("Person birthdate not defined");
         return date.get();
     }
 

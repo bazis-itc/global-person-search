@@ -1,6 +1,7 @@
 package bazis.utils.global_person_search;
 
 import bazis.cactoos3.Opt;
+import bazis.cactoos3.exception.BazisException;
 import java.util.Date;
 
 public interface Appoint {
@@ -15,8 +16,8 @@ public interface Appoint {
 
     String status();
 
-    Opt<Date> startDate();
+    Opt<Date> startDate() throws BazisException;
 
-    Opt<Date> endDate();
+    Opt<Date> endDate() throws BazisException;
 
 }

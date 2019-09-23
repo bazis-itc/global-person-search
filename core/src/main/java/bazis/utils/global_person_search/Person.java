@@ -7,7 +7,7 @@ public interface Person {
 
     String fio();
 
-    Date birthdate();
+    Date birthdate() throws BazisException;
 
     String address();
 

@@ -31,7 +31,7 @@ public final class RequestedPerson implements Person {
     }
 
     @Override
-    public Date birthdate() {
+    public Date birthdate() throws BazisException {
         return this.origin.birthdate();
     }
 
@@ -62,7 +62,7 @@ public final class RequestedPerson implements Person {
             this.origin.appoints(),
             new Func<Appoint, Boolean>() {
                 @Override
-                public Boolean apply(Appoint appoint) {
+                public Boolean apply(Appoint appoint) throws BazisException {
                     return (list.isEmpty() || list.contains(appoint.type()))
                         && !new MonthYearBean(RequestedPerson.this.startDate)
                             .afterInDay(

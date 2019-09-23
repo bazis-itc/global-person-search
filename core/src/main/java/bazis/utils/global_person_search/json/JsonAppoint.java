@@ -1,6 +1,7 @@
 package bazis.utils.global_person_search.json;
 
 import bazis.cactoos3.Opt;
+import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.opt.EmptyOpt;
 import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.Appoint;
@@ -57,17 +58,17 @@ final class JsonAppoint implements Appoint, Jsonable {
     }
 
     @Override
-    public Opt<Date> startDate() {
+    public Opt<Date> startDate() throws BazisException {
         return this.origin.startDate();
     }
 
     @Override
-    public Opt<Date> endDate() {
+    public Opt<Date> endDate() throws BazisException {
         return this.origin.endDate();
     }
 
     @Override
-    public JsonElement asJson() {
+    public JsonElement asJson() throws BazisException {
         final JsonObject json = new JsonObject();
         json.addProperty(JsonAppoint.TYPE, this.type());
         json.addProperty(JsonAppoint.MSP, this.msp());
@@ -121,16 +122,16 @@ final class JsonAppoint implements Appoint, Jsonable {
         }
 
         @Override
-        public Opt<Date> startDate() {
+        public Opt<Date> startDate() throws BazisException {
             return this.dateFrom(JsonAppoint.START_DATE);
         }
 
         @Override
-        public Opt<Date> endDate() {
+        public Opt<Date> endDate() throws BazisException {
             return this.dateFrom(JsonAppoint.END_DATE);
         }
 
-        private Opt<Date> dateFrom(String property) {
+        private Opt<Date> dateFrom(String property) throws BazisException {
             try {
                 final JsonElement element = this.json.get(property);
                 return element == null
@@ -139,7 +140,7 @@ final class JsonAppoint implements Appoint, Jsonable {
                         JsonAppoint.DATE_FORMAT.parse(element.getAsString())
                     );
             } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
+                throw new BazisException(ex);
             }
         }
 

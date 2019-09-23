@@ -39,7 +39,7 @@ final class JsonPerson implements Person, Jsonable {
     }
 
     @Override
-    public Date birthdate() {
+    public Date birthdate() throws BazisException {
         return this.origin.birthdate();
     }
 
@@ -101,13 +101,13 @@ final class JsonPerson implements Person, Jsonable {
         }
 
         @Override
-        public Date birthdate() {
+        public Date birthdate() throws BazisException {
             try {
                 return JsonPerson.DATE_FORMAT.parse(
                     this.json.get(JsonPerson.BIRTHDATE).getAsString()
                 );
             } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
+                throw new BazisException(ex);
             }
         }
 
