@@ -17,9 +17,28 @@
         <module>assembly</module>
     </modules>
 
-    <properties>
-        <sitex.version>vrn</sitex.version>
+    <profiles>
+        <profile>
+            <id>Воронеж</id>
+            <properties>
+                <sitex.version>vrn</sitex.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>Рязань</id>
+            <properties>
+                <sitex.version>rzn</sitex.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>Тамбов</id>
+            <properties>
+                <sitex.version>tmb</sitex.version>
+            </properties>
+        </profile>
+    </profiles>
 
+    <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
