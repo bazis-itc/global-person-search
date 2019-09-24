@@ -39,7 +39,9 @@
                         <configuration>
                             <filesets>
                                 <fileset>
-                                    <directory>target/WEB-INF</directory>
+                                    <directory>
+                                        target/${programmer.name}/WEB-INF
+                                    </directory>
                                 </fileset>
                             </filesets>
                         </configuration>
@@ -58,7 +60,7 @@
                         </goals>
                         <configuration>
                             <outputFile>
-                                target/WEB-INF/lib/bazis-global-person-search.jar
+                                target/${programmer.name}/WEB-INF/lib/bazis-global-person-search.jar
                             </outputFile>
                         </configuration>
                     </execution>
@@ -75,7 +77,9 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>target/WEB-INF</outputDirectory>
+                            <outputDirectory>
+                                target/${programmer.name}/WEB-INF
+                            </outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>
