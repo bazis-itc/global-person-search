@@ -6,17 +6,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="assembly" />
-        <module name="core" />
         <module name="global-person-search-assembly" />
         <module name="global-person-search-core" />
         <module name="global-person-search-rzn" />
         <module name="global-person-search-tmb" />
         <module name="global-person-search-vrn" />
-        <module name="rzn" />
-        <module name="tmb" />
-        <module name="vrn" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="global-person-search" target="1.7" />
+      <module name="global-person-search-assembly" target="1.7" />
+      <module name="global-person-search-core" target="1.7" />
+      <module name="global-person-search-rzn" target="1.7" />
+      <module name="global-person-search-tmb" target="1.7" />
+      <module name="global-person-search-vrn" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: bazis:uson:vrn">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/bazis/uson/vrn/uson-vrn.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/bazis/uson/vrn/uson-vrn-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/bazis/uson/vrn/uson-vrn-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

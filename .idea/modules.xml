@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/global-person-search.iml" filepath="$PROJECT_DIR$/global-person-search.iml" />
+      <module fileurl="file://$PROJECT_DIR$/assembly/global-person-search-assembly.iml" filepath="$PROJECT_DIR$/assembly/global-person-search-assembly.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/global-person-search-core.iml" filepath="$PROJECT_DIR$/core/global-person-search-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rzn/global-person-search-rzn.iml" filepath="$PROJECT_DIR$/rzn/global-person-search-rzn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tmb/global-person-search-tmb.iml" filepath="$PROJECT_DIR$/tmb/global-person-search-tmb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vrn/global-person-search-vrn.iml" filepath="$PROJECT_DIR$/vrn/global-person-search-vrn.iml" />
+    </modules>
+  </component>
+</project>

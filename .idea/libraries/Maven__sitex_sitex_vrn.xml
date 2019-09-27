@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: sitex:sitex:vrn">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/sitex/sitex/vrn/sitex-vrn.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/sitex/sitex/vrn/sitex-vrn-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/sitex/sitex/vrn/sitex-vrn-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
