@@ -4,36 +4,18 @@ import bazis.cactoos3.Scalar;
 import bazis.cactoos3.Text;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.scalar.CheckedScalar;
-import bazis.cactoos3.scalar.ScalarOf;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import bazis.cactoos3.text.CheckedText;
 import java.util.Date;
 
 abstract class DateEnvelope implements Scalar<Date>, Text {
 
-    private final String format;
-
     private final Scalar<Date> date;
 
-    DateEnvelope(final String format, final Date date) {
-        this(format, new ScalarOf<>(date));
-    }
+    private final Text text;
 
-    DateEnvelope(final String format, final String date) {
-        this(
-            format,
-            new Scalar<Date>() {
-                @Override
-                public Date value() throws ParseException {
-                    return new SimpleDateFormat(format).parse(date);
-                }
-            }
-        );
-    }
-
-    private DateEnvelope(String format, Scalar<Date> date) {
-        this.format = format;
+    public DateEnvelope(Scalar<Date> date, Text text) {
         this.date = date;
+        this.text = text;
     }
 
     @Override
@@ -43,7 +25,7 @@ abstract class DateEnvelope implements Scalar<Date>, Text {
 
     @Override
     public final String asString() throws BazisException {
-        return new SimpleDateFormat(this.format).format(this.value());
+        return new CheckedText(this.text).asString();
     }
 
 }

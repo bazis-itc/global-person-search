@@ -7,11 +7,15 @@ public final class HumanDate extends DateEnvelope {
     private static final String FORMAT = "dd.MM.yyyy";
 
     public HumanDate(Date date) {
-        super(HumanDate.FORMAT, date);
+        this(new FormattedDate(HumanDate.FORMAT, date));
     }
 
     public HumanDate(String date) {
-        super(HumanDate.FORMAT, date);
+        this(new FormattedDate(HumanDate.FORMAT, date));
+    }
+
+    private HumanDate(FormattedDate date) {
+        super(date, date);
     }
 
 }
