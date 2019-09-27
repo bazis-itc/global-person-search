@@ -4,13 +4,17 @@ import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.opt.EmptyOpt;
 import bazis.cactoos3.opt.OptOf;
-import bazis.utils.global_person_search.DefaultDateFormat;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public final class JsonRequest implements Jsonable {
+
+    private static final DateFormat DATE_FORMAT =
+        new SimpleDateFormat("yyyy-MM-dd");
 
     private static final String
         FIO = "fio", BIRTHDATE = "birthdate", SNILS = "snils";
@@ -31,7 +35,7 @@ public final class JsonRequest implements Jsonable {
 
     public JsonRequest withBirthdate(Date date) throws BazisException {
         return this.with(
-            JsonRequest.BIRTHDATE, new DefaultDateFormat().format(date)
+            JsonRequest.BIRTHDATE, JsonRequest.DATE_FORMAT.format(date)
         );
     }
 
@@ -40,7 +44,7 @@ public final class JsonRequest implements Jsonable {
         try {
             return value.isEmpty()
                 ? new EmptyOpt<Date>()
-                : new OptOf<>(new DefaultDateFormat().parse(value));
+                : new OptOf<>(JsonRequest.DATE_FORMAT.parse(value));
         } catch (final ParseException ex) {
             throw new BazisException(ex);
         }

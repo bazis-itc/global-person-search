@@ -21,6 +21,7 @@ import bazis.utils.global_person_search.sx.SxPerson;
 import bazis.utils.global_person_search.sx.SxReport;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -33,6 +34,9 @@ import sx.common.DateUtils;
 import sx.datastore.SXId;
 
 public abstract class BaseSearchUtil extends AdmAction {
+
+    private static final DateFormat DATE_FORMAT =
+        new SimpleDateFormat("yyyy-MM-dd");
 
     private final String url;
 
@@ -114,7 +118,7 @@ public abstract class BaseSearchUtil extends AdmAction {
                 )
             );
             final Date
-                start = new DefaultDateFormat().parse(
+                start = BaseSearchUtil.DATE_FORMAT.parse(
                     String.format(
                         "%s-%s-01",
                         request.getParam("yearOfStart"),
@@ -122,7 +126,7 @@ public abstract class BaseSearchUtil extends AdmAction {
                     )
                 ),
                 end = DateUtils.getMonthYearEndDate(
-                    new DefaultDateFormat().parse(
+                    BaseSearchUtil.DATE_FORMAT.parse(
                         String.format(
                             "%s-%s-01",
                             request.getParam("yearOfEnd"),

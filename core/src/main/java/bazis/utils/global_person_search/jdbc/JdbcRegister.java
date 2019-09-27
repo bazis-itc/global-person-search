@@ -6,11 +6,11 @@ import bazis.cactoos3.Text;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.text.UncheckedText;
 import bazis.utils.global_person_search.Borough;
-import bazis.utils.global_person_search.DefaultDateFormat;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Register;
 import bazis.utils.global_person_search.ext.Lines;
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import org.jooq.Record;
@@ -82,7 +82,9 @@ public final class JdbcRegister implements Register {
                 new UncheckedText(query).asString(),
                 fio.isEmpty() ? null : fio,
                 birthdate.has()
-                    ? new DefaultDateFormat().format(birthdate.get()) : null,
+                    ? new SimpleDateFormat("yyyy-MM-dd")
+                        .format(birthdate.get())
+                    : null,
                 snils.isEmpty() ? null : snils
             ),
             new Func<Record, Person>() {
