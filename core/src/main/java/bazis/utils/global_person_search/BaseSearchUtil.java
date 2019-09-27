@@ -21,6 +21,7 @@ import bazis.utils.global_person_search.sx.SxPerson;
 import bazis.utils.global_person_search.sx.SxReport;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -151,6 +152,12 @@ public abstract class BaseSearchUtil extends AdmAction {
                 new DownloadUrl(
                     report.create(
                         new ReportData.Immutable()
+                            .withString(
+                                "currentDate",
+                                new SimpleDateFormat(
+                                    "dd.MM.yyyy HH:mm:ss"
+                                ).format(new Date())
+                            )
                             .withDate("startDate", start)
                             .withDate("endDate", end)
                             .withString(
