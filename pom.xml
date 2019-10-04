@@ -14,6 +14,7 @@
         <module>tmb</module>
         <module>rzn</module>
         <module>vrn</module>
+        <module>uln</module>
         <module>assembly</module>
     </modules>
 
@@ -34,6 +35,12 @@
             <id>Тамбов</id>
             <properties>
                 <sitex.version>tmb</sitex.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>Ульяновск</id>
+            <properties>
+                <sitex.version>uln</sitex.version>
             </properties>
         </profile>
     </profiles>
