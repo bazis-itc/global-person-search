@@ -29,6 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import sx.admin.AdmRequest;
+import sx.common.DateUtils;
 import sx.datastore.SXId;
 
 public final class ResultAction implements SitexAction {
@@ -98,9 +99,11 @@ public final class ResultAction implements SitexAction {
                 request.getParam("yearOfStart"),
                 request.getParam("monthOfStart")
             ),
-            end = this.dateFrom(
-                request.getParam("yearOfEnd"),
-                request.getParam("monthOfEnd")
+            end = DateUtils.getMonthYearEndDate(
+                this.dateFrom(
+                    request.getParam("yearOfEnd"),
+                    request.getParam("monthOfEnd")
+                )
             );
         final Map<String, String> msp =
             "on".equals(request.getParam("isAllMsp"))
