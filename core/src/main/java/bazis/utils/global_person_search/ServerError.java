@@ -17,7 +17,7 @@ public final class ServerError implements Scalar<Exception>, Text {
 
     private final Scalar<Exception> scalar;
 
-    public ServerError(final Text serialized) {
+    public ServerError(Text serialized) {
         this(new ServerError.Parsed(serialized));
     }
 
@@ -40,9 +40,7 @@ public final class ServerError implements Scalar<Exception>, Text {
             final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             final ObjectOutput output = new ObjectOutputStream(bytes)
         ) {
-            output.writeObject(
-                new CheckedScalar<>(this.scalar).value()
-            );
+            output.writeObject(this.value());
             return DatatypeConverter.printBase64Binary(bytes.toByteArray());
         } catch (final IOException ex) {
             throw new BazisException(ex);
