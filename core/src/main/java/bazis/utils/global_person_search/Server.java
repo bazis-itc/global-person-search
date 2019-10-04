@@ -3,6 +3,8 @@ package bazis.utils.global_person_search;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +22,7 @@ public final class Server {
         this.log = log;
     }
 
-    public String send(String request) throws Exception {
+    public String send(String request) throws BazisException {
         final ClientConnectServlet connection = new ClientConnectServlet();
         try {
             connection.setInputObject(new EncryptedText(request).asBytes());
@@ -47,11 +49,17 @@ public final class Server {
             return new EncryptedText(
                 connection.getOutputObject().getInputStream()
             ).asString();
+        } catch (final FileNotFoundException ex) {
+            throw new BazisException(ex);
         } catch (final ConnectServletException ex) {
             this.log.add(String.format("Сервер недоступен: %s", this.url));
             return "[]";
         } finally {
-            connection.destroy();
+            try {
+                connection.destroy();
+            } catch (final IOException ex) {
+                throw new BazisException(ex);
+            }
         }
     }
 

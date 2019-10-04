@@ -25,7 +25,7 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
 
     @Override
     public HashMap<String, String> exec(HashMap<String, String> inputMap,
-        String requestId, HttpSession session) throws Exception {
+        String requestId, HttpSession session) {
         try (final Connection conn = SXDsFactory.getDs().getConnection()) {
             final List<String> log = new LinkedList<>();
             final JsonRequest request = new JsonRequest(
