@@ -1,6 +1,7 @@
 package bazis.utils.global_person_search;
 
 import bazis.cactoos3.Text;
+import bazis.utils.global_person_search.ext.TextOf;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.security.DigestInputStream;
@@ -17,15 +18,7 @@ public final class EncryptedText implements Text {
     private final Text origin;
 
     public EncryptedText(final String str) {
-        this(
-            //todo import TextOf
-            new Text() {
-                @Override
-                public String asString() {
-                    return str;
-                }
-            }
-        );
+        this(new TextOf(str));
     }
 
     public EncryptedText(final InputStream stream) {
