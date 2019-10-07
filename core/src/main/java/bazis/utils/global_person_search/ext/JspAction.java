@@ -1,6 +1,7 @@
 package bazis.utils.global_person_search.ext;
 
 import bazis.cactoos3.exception.BazisException;
+import java.lang.reflect.Method;
 import sx.admin.AdmAction;
 import sx.admin.AdmRequest;
 
@@ -23,9 +24,11 @@ public final class JspAction implements SitexAction {
     public void execute(AdmRequest request) throws BazisException {
         this.origin.execute(request);
         try {
-            AdmAction.class.getDeclaredMethod(
+            final Method method = AdmAction.class.getDeclaredMethod(
                 "includeTemplate", String.class, AdmRequest.class
-            ).invoke(request.getAction(), this.jsp, request);
+            );
+            method.setAccessible(true);
+            method.invoke(request.getAction(), this.jsp, request);
         } catch (final ReflectiveOperationException ex) {
             throw new BazisException(ex);
         }
