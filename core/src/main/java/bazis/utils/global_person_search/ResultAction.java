@@ -93,7 +93,6 @@ public final class ResultAction implements SitexAction {
                 new RtfProtocol(report, 2)
             )
         );
-
         final Date
             start = this.dateFrom(
                 request.getParam("yearOfStart"),
@@ -111,16 +110,16 @@ public final class ResultAction implements SitexAction {
                 : new MspMap(request.getParam("data(mspList)"));
         for (
             final Person prs : new MappedIterable<>(
-            persons,
-            new Func<Person, Person>() {
-                @Override
-                public Person apply(Person origin) {
-                    return new RequestedPerson(
-                        origin, msp.keySet(), start, end
-                    );
+                persons,
+                new Func<Person, Person>() {
+                    @Override
+                    public Person apply(Person origin) {
+                        return new RequestedPerson(
+                            origin, msp.keySet(), start, end
+                        );
+                    }
                 }
-            }
-        )
+            )
         ) protocol.write(prs);
         request.set(
             "protocol",
@@ -129,17 +128,14 @@ public final class ResultAction implements SitexAction {
                     new ReportData.Immutable()
                         .withString(
                             "currentDate",
-                            new SimpleDateFormat(
-                                "dd.MM.yyyy HH:mm:ss"
-                            ).format(new Date())
+                            new SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
+                                .format(new Date())
                         )
                         .withDate("startDate", start)
                         .withDate("endDate", end)
                         .withString(
                             "mspList",
-                            new JoinedText(
-                                ", ", msp.values()
-                            )
+                            new JoinedText(", ", msp.values())
                         )
                 )
             ).asString()
