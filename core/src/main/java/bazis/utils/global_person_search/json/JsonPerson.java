@@ -137,8 +137,8 @@ final class JsonPerson implements Person, Jsonable {
                 this.json.get(JsonPerson.APPOINTS).getAsJsonArray(),
                 new Func<JsonElement, Appoint>() {
                     @Override
-                    public Appoint apply(JsonElement json) {
-                        return new JsonAppoint(json.getAsJsonObject());
+                    public Appoint apply(JsonElement item) {
+                        return new JsonAppoint(item.getAsJsonObject());
                     }
                 }
             );

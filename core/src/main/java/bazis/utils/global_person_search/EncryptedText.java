@@ -29,7 +29,8 @@ public final class EncryptedText implements Text {
         this(
             new Text() {
                 @Override
-                public String asString() throws Exception {
+                public String asString()
+                    throws IOException, NoSuchAlgorithmException {
                     return IOUtils.toString(
                         new DigestInputStream(
                             stream,

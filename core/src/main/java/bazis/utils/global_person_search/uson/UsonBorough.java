@@ -15,7 +15,7 @@ final class UsonBorough implements Borough {
 
     private final Collection<String> log;
 
-    public UsonBorough(Record record, Collection<String> log) {
+    UsonBorough(Record record, Collection<String> log) {
         this.record = record;
         this.log = log;
     }
