@@ -7,13 +7,13 @@ import bazis.cactoos3.scalar.CheckedScalar;
 import bazis.cactoos3.text.CheckedText;
 import java.util.Date;
 
-abstract class DateEnvelope implements Scalar<Date>, Text {
+abstract class TextualDate implements Scalar<Date>, Text {
 
     private final Scalar<Date> date;
 
     private final Text text;
 
-    public DateEnvelope(Scalar<Date> date, Text text) {
+    public TextualDate(Scalar<Date> date, Text text) {
         this.date = date;
         this.text = text;
     }

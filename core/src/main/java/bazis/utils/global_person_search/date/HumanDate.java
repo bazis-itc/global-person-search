@@ -2,7 +2,7 @@ package bazis.utils.global_person_search.date;
 
 import java.util.Date;
 
-public final class HumanDate extends DateEnvelope {
+public final class HumanDate extends TextualDate {
 
     private static final String FORMAT = "dd.MM.yyyy";
 
