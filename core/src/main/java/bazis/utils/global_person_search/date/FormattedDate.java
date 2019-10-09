@@ -9,7 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public final class FormattedDate implements Scalar<Date>, Text {
+public class FormattedDate implements Scalar<Date>, Text {
 
     private final String format;
 
@@ -37,12 +37,12 @@ public final class FormattedDate implements Scalar<Date>, Text {
     }
 
     @Override
-    public Date value() throws BazisException {
+    public final Date value() throws BazisException {
         return new CheckedScalar<>(this.date).value();
     }
 
     @Override
-    public String asString() throws BazisException {
+    public final String asString() throws BazisException {
         return new SimpleDateFormat(this.format).format(this.value());
     }
 
