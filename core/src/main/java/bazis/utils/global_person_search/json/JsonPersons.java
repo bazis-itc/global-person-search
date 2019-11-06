@@ -12,7 +12,7 @@ public final class JsonPersons implements Iterable<Person>, Jsonable {
 
     private final Iterable<Person> origin;
 
-    public JsonPersons(JsonArray json) {
+    public JsonPersons(JsonElement json) {
         this(new JsonPersons.Parsed(json));
     }
 
@@ -35,16 +35,16 @@ public final class JsonPersons implements Iterable<Person>, Jsonable {
 
     private static final class Parsed implements Iterable<Person> {
 
-        private final JsonArray json;
+        private final JsonElement json;
 
-        private Parsed(JsonArray json) {
+        private Parsed(JsonElement json) {
             this.json = json;
         }
 
         @Override
         public Iterator<Person> iterator() {
             return new MappedIterable<>(
-                this.json,
+                this.json.getAsJsonArray(),
                 new Func<JsonElement, Person>() {
                     @Override
                     public Person apply(JsonElement person) {

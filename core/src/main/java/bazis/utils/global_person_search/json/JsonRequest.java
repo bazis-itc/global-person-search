@@ -21,9 +21,9 @@ public final class JsonRequest implements Jsonable {
     private static final String
         FIO = "fio", BIRTHDATE = "birthdate", SNILS = "snils";
 
-    private final JsonObject json;
+    private final JsonElement json;
 
-    public JsonRequest(JsonObject json) {
+    public JsonRequest(JsonElement json) {
         this.json = json;
     }
 
@@ -67,15 +67,17 @@ public final class JsonRequest implements Jsonable {
 
     private JsonRequest with(String property, String value)
         throws BazisException {
-        if (this.json.has(property)) throw new BazisException(
+        final JsonObject object = this.json.getAsJsonObject();
+        if (object.has(property)) throw new BazisException(
             String.format("Property '%s' already defined", property)
         );
-        this.json.addProperty(property, value);
+        object.addProperty(property, value);
         return this;
     }
 
     private String property(String name) {
-        return this.json.has(name) ? this.json.get(name).getAsString() : "";
+        final JsonObject object = this.json.getAsJsonObject();
+        return object.has(name) ? object.get(name).getAsString() : "";
     }
 
 }

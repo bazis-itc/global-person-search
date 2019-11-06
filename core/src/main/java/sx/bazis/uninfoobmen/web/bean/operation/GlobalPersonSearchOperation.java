@@ -36,7 +36,7 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
                             .inMap.get(requestId)
                             .getInputStream()
                     )
-                ).asJson().getAsJsonObject()
+                ).asJson()
             );
             StoreFactory.getInstance().outMap.put(
                 requestId,

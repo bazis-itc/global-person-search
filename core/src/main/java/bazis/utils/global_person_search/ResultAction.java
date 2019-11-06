@@ -61,7 +61,7 @@ public final class ResultAction implements SitexAction {
                             new CheckedFunc<>(this.requests).apply(person)
                         ).asString()
                     )
-                ).asJson().getAsJsonArray()
+                ).asJson()
             );
         if (new IsEmpty(persons).value()) errors.add(
             "Нет информации о данном гражданине на других базах"

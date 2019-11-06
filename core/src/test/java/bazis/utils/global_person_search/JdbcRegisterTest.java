@@ -51,7 +51,7 @@ public final class JdbcRegisterTest {
                 )
             ).asString();
             final Iterable<Person> persons = new JsonPersons(
-                new JsonText(json).asJson().getAsJsonArray()
+                new JsonText(json).asJson()
             );
             for (final Person person : persons) {
                 System.out.println(person.fio());
