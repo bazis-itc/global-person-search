@@ -12,12 +12,10 @@
 
 	<body>
 		<h3 align="center"></h3>
-		<br>
-		<c:if test="${empty requestScope.error}">			
+		<br>			
 			<a tabindex="-1" href="<c:out value='${requestScope.protocol}'/>">
 				Скачать протокол
 			</a><br>
-		</c:if>	
 		<br>
 		
 		<c:if test="${not empty requestScope.error}">			

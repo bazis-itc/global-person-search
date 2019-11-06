@@ -33,6 +33,9 @@ import sx.datastore.SXId;
 @SuppressWarnings("OverlyCoupledClass")
 public final class ResultAction implements SitexAction {
 
+    private static final String NO_RESULT =
+        "Нет информации о данном гражданине на других базах";
+
     @SuppressWarnings("SpellCheckingInspection")
     private static final DateFormat DATE_FORMAT =
         new SimpleDateFormat("yyyy-MM-dd");
@@ -63,9 +66,7 @@ public final class ResultAction implements SitexAction {
                     )
                 ).asJson()
             );
-        if (new IsEmpty(persons).value()) errors.add(
-            "Нет информации о данном гражданине на других базах"
-        );
+        if (new IsEmpty(persons).value()) errors.add(ResultAction.NO_RESULT);
         if (!errors.isEmpty()) request.set("error", errors.get(0));
         final Report report =
             new SxReport("globalPersonSearchProtocol");
@@ -110,6 +111,11 @@ public final class ResultAction implements SitexAction {
                             "mspList",
                             new JoinedText(", ", msp.values())
                         )
+                    .withString(
+                        "message",
+                        new IsEmpty(persons).value()
+                            ? ResultAction.NO_RESULT : ""
+                    )
                 )
             ).asString()
         );
