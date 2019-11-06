@@ -9,6 +9,7 @@ public final class Lines implements Text {
     private final Text text;
 
     public Lines(String... strings) {
+        //noinspection HardcodedLineSeparator
         this.text = new JoinedText("\n", new IterableOf<>(strings));
     }
 

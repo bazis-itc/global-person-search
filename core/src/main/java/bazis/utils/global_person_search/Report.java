@@ -6,6 +6,7 @@ import java.util.Map;
 
 public interface Report {
 
+    @SuppressWarnings("UnusedReturnValue")
     Report append(Number group, Map<String, Object> row);
 
     File create(Map<String, Object> params) throws BazisException;

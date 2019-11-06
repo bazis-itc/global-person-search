@@ -21,6 +21,9 @@ final class UsonBorough implements Borough {
     }
 
     @Override
+    @SuppressWarnings({
+        "OverlyBroadCatchBlock", "MethodWithMultipleReturnPoints"
+    })
     public Opt<ResultSet> select(final String query) {
         try {
             return new OptOf<ResultSet>(
@@ -29,7 +32,7 @@ final class UsonBorough implements Borough {
                     this.record.getValue("url", String.class)
                 )
             );
-        } catch (final Exception ex) {
+        } catch (final Exception ignored) {
             this.log.add(
                 String.format(
                     "Сервер не опрошен: %s",

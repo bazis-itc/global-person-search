@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("OverloadedMethodsWithSameNumberOfParameters")
 public interface ReportData extends Map<String, Object> {
 
     ReportData withString(String param, String str) throws BazisException;

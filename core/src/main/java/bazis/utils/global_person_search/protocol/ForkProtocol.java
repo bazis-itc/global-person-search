@@ -12,6 +12,7 @@ import java.util.Date;
 
 public final class ForkProtocol implements Protocol {
 
+    @SuppressWarnings("SpellCheckingInspection")
     private static final DateFormat DATE_FORMAT =
         new SimpleDateFormat("yyyy-MM-dd");
 

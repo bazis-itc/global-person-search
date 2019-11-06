@@ -57,12 +57,15 @@ public final class RequestedPerson implements Person {
 
     @Override
     public Iterable<Appoint> appoints() throws BazisException {
+        //noinspection MismatchedQueryAndUpdateOfCollection
         final Collection<String> list = new SetOf<>(this.msp);
+        //noinspection OverlyComplexAnonymousInnerClass
         return new FilteredIterable<>(
             this.origin.appoints(),
             new Func<Appoint, Boolean>() {
                 @Override
                 public Boolean apply(Appoint appoint) throws BazisException {
+                    //noinspection OverlyComplexBooleanExpression
                     return (list.isEmpty() || list.contains(appoint.type()))
                         && !new MonthYearBean(RequestedPerson.this.startDate)
                             .afterInDay(

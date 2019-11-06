@@ -22,6 +22,7 @@ public final class JspProtocol implements Protocol {
     public void write(Person person) {
         if (this.request.get(this.param) == null)
             this.request.set(this.param, new LinkedList<JspPerson>());
+        //noinspection unchecked
         final Collection<JspPerson> list =
             (Collection<JspPerson>) this.request.get(this.param);
         list.add(new JspPerson(person));

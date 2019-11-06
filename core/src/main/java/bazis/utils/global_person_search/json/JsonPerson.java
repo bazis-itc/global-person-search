@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@SuppressWarnings({"CyclicClassDependency", "ClassWithTooManyMethods"})
 final class JsonPerson implements Person, Jsonable {
 
     private static final String
@@ -20,6 +21,7 @@ final class JsonPerson implements Person, Jsonable {
         SNILS = "snils", BOROUGH = "borough", APPOINTS = "appoints",
         PASSPORT = "passport";
 
+    @SuppressWarnings("SpellCheckingInspection")
     private static final DateFormat DATE_FORMAT =
         new SimpleDateFormat("yyyy-MM-dd");
 

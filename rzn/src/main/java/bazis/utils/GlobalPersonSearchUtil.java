@@ -8,6 +8,9 @@ import bazis.utils.global_person_search.json.JsonRequest;
 import bazis.utils.global_person_search.json.Jsonable;
 import com.google.gson.JsonObject;
 
+@SuppressWarnings({
+    "WeakerAccess", "ClassIndependentOfModule", "ClassOnlyUsedInOneModule"
+})
 public final class GlobalPersonSearchUtil extends BaseSearchUtil {
 
     public GlobalPersonSearchUtil() {

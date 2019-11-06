@@ -9,6 +9,7 @@ import java.util.Date;
 
 public final class JspAppoint {
 
+    @SuppressWarnings("SpellCheckingInspection")
     private static final DateFormat DATE_FORMAT =
         new SimpleDateFormat("dd.MM.yyyy");
 

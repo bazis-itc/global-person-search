@@ -29,6 +29,7 @@ public final class EncryptedText implements Text {
         this(
             new Text() {
                 @Override
+                @SuppressWarnings("MethodWithTooExceptionsDeclared")
                 public String asString()
                     throws IOException, NoSuchAlgorithmException {
                     return IOUtils.toString(
@@ -54,6 +55,7 @@ public final class EncryptedText implements Text {
 
     public DataObject asBytes() throws BazisException {
         try {
+            //noinspection resource
             final ByteArrayOutputStream output = new ByteArrayOutputStream();
             final MessageDigest crypto =
                 MessageDigest.getInstance(EncryptedText.ALGORITHM);

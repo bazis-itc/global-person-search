@@ -82,7 +82,9 @@ final class JdbcPerson implements Person {
     }
 
     @Override
+    @SuppressWarnings("LongLine")
     public Iterable<Appoint> appoints() throws BazisException {
+        @SuppressWarnings("SpellCheckingInspection")
         final Text query = new Lines(
             "",
             "SELECT",
@@ -114,6 +116,7 @@ final class JdbcPerson implements Person {
             this.record.getValue("boroughId", Integer.class)
         );
         if (borough == null) throw new BazisException("Borough not found");
+        @SuppressWarnings("DynamicRegexReplaceableByCompiledPattern")
         final Opt<ResultSet> result = borough.select(
             new CheckedText(query).asString().replace(
                 "#id#",

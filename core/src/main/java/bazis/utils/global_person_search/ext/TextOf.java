@@ -10,6 +10,7 @@ public final class TextOf implements Text {
         this.str = str;
     }
 
+    @SuppressWarnings("RedundantThrows")
     @Override
     public String asString() throws Exception {
         return this.str;

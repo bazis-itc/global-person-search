@@ -11,8 +11,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@SuppressWarnings({"MethodReturnOfConcreteClass", "ClassWithTooManyMethods"})
 public final class JsonRequest implements Jsonable {
 
+    @SuppressWarnings("SpellCheckingInspection")
     private static final DateFormat DATE_FORMAT =
         new SimpleDateFormat("yyyy-MM-dd");
 

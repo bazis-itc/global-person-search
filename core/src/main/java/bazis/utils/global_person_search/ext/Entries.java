@@ -10,13 +10,14 @@ import bazis.cactoos3.scalar.ScalarOf;
 import java.util.Iterator;
 import java.util.Map;
 
+@SuppressWarnings("ClassIndependentOfModule")
 public final class Entries<K, V> extends IterableEnvelope<Map.Entry<K, V>> {
 
     public Entries(final Map<K, V> map, final Map.Entry<K, V>... entries) {
         this(map, new IterableOf<>(entries));
     }
 
-    @Deprecated
+    @SuppressWarnings("WeakerAccess")
     public Entries(final Map<K, V> map,
                    final Iterable<Map.Entry<K, V>> entries) {
         this(new JoinedIterable<>(new Entries<>(map), entries));

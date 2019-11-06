@@ -75,6 +75,7 @@
         <dependency>
             <groupId>bazis</groupId>
             <artifactId>uson</artifactId>
+            <!--suppress MavenModelInspection -->
             <version>${sitex.version}</version>
             <scope>provided</scope>
         </dependency>

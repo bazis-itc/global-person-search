@@ -24,6 +24,7 @@ public final class FakePerson implements Person {
         this(fio, new IterableOf<>(appoints));
     }
 
+    @SuppressWarnings("WeakerAccess")
     public FakePerson(String fio, Iterable<Appoint> appoints) {
         this.fio = fio;
         this.appoints = appoints;

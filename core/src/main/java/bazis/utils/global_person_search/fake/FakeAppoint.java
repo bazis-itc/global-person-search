@@ -10,13 +10,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@SuppressWarnings("ClassWithTooManyMethods")
 public final class FakeAppoint implements Appoint {
 
+    @SuppressWarnings("SpellCheckingInspection")
     private static final DateFormat DATE_FORMAT =
         new SimpleDateFormat("yyyy-MM-dd");
 
     private final String type, msp, startDate, endDate;
 
+    @SuppressWarnings("StringConcatenation")
     public FakeAppoint() {
         this.type = "37145780-704c-48a2-9272-1f99afddaa9f";
         this.msp =
@@ -53,6 +56,7 @@ public final class FakeAppoint implements Appoint {
     }
 
     @Override
+    @SuppressWarnings("StringConcatenation")
     public String category() {
         return "Супруга (супруг), состоящая (состоящий) " +
             "на день гибели (смерти) военнослужащего, гражданина, " +

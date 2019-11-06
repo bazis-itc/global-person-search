@@ -18,7 +18,9 @@ public final class FakeBorough implements Borough {
 
     @Override
     public Opt<ResultSet> select(String query) throws BazisException {
+        //noinspection LongLine
         try {
+            //noinspection resource,JDBCResourceOpenedButNotSafelyClosed,JDBCExecuteWithNonConstantString
             return new OptOf<>(
                 this.connection.createStatement().executeQuery(query)
             );

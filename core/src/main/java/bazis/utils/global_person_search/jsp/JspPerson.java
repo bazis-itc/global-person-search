@@ -21,6 +21,7 @@ public final class JspPerson {
     }
 
     public String getBirthdate() throws BazisException {
+        //noinspection SpellCheckingInspection
         return new SimpleDateFormat("dd.MM.yyyy")
             .format(this.person.birthdate());
     }
@@ -41,6 +42,7 @@ public final class JspPerson {
         return this.person.passport();
     }
 
+    @SuppressWarnings("MethodReturnOfConcreteClass")
     public JspAppoint[] getAppoints() throws BazisException {
         return new ListOf<>(
             new MappedIterable<>(

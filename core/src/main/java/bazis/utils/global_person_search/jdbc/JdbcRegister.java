@@ -30,6 +30,7 @@ public final class JdbcRegister implements Register {
     @Override
     public Iterable<Person> persons(
         String fio, Opt<Date> birthdate, String snils) {
+        @SuppressWarnings("SpellCheckingInspection")
         final Text query = new Lines(
             "",
             "DECLARE",
@@ -77,6 +78,7 @@ public final class JdbcRegister implements Register {
             "  AND DATEDIFF(DAY, person.BIRTHDATE, @birthdate) = 0",
             "  OR REPLACE(REPLACE(person.A_SNILS, ' ', ''), '-', '') = @snils"
         );
+        //noinspection SpellCheckingInspection
         return new MappedIterable<>(
             DSL.using(this.connection).fetch(
                 new UncheckedText(query).asString(),

@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@SuppressWarnings({"CyclicClassDependency", "ClassWithTooManyMethods"})
 final class JsonAppoint implements Appoint, Jsonable {
 
     private static final String
@@ -19,6 +20,7 @@ final class JsonAppoint implements Appoint, Jsonable {
         CHILD = "child", STATUS = "status",
         START_DATE = "startDate", END_DATE = "endDate";
 
+    @SuppressWarnings("SpellCheckingInspection")
     private static final DateFormat DATE_FORMAT =
         new SimpleDateFormat("yyyy-MM-dd");
 
@@ -84,7 +86,9 @@ final class JsonAppoint implements Appoint, Jsonable {
         return json;
     }
 
+    @SuppressWarnings("MethodMayBeStatic")
     private String dateAsText(Opt<Date> date) {
+        //noinspection ReturnOfNull
         return date.has() ? JsonAppoint.DATE_FORMAT.format(date.get()) : null;
     }
 

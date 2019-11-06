@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="EntryPointsManager">
+    <pattern value="sx.bazis.uninfoobmen.web.bean.operation.GlobalPersonSearchOperation" />
+    <pattern value="bazis.utils.GlobalPersonSearchUtil" />
+    <pattern value="bazis.utils.GlobalPersonSearchUtil" method="GlobalPersonSearchUtil" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>

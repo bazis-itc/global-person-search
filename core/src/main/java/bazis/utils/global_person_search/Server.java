@@ -22,6 +22,7 @@ public final class Server {
         this.log = log;
     }
 
+    @SuppressWarnings("MethodWithMultipleReturnPoints")
     public String send(String request) throws BazisException {
         final ClientConnectServlet connection = new ClientConnectServlet();
         try {
@@ -51,13 +52,14 @@ public final class Server {
             ).asString();
         } catch (final FileNotFoundException ex) {
             throw new BazisException(ex);
-        } catch (final ConnectServletException ex) {
+        } catch (final ConnectServletException ignored) {
             this.log.add(String.format("Сервер недоступен: %s", this.url));
             return "[]";
         } finally {
             try {
                 connection.destroy();
             } catch (final IOException ex) {
+                //noinspection ThrowFromFinallyBlock
                 throw new BazisException(ex);
             }
         }

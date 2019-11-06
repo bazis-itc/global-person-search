@@ -22,6 +22,7 @@ public final class UsonBoroughs extends MapEnvelope<Integer, Borough> {
             new Scalar<Map<Integer, Borough>>() {
                 @Override
                 public Map<Integer, Borough> value() throws Exception {
+                    //noinspection SpellCheckingInspection
                     return new MapOf<>(
                         new Entries<>(
                             DSL.using(connection).fetch(

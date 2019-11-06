@@ -32,8 +32,10 @@ import sx.admin.AdmRequest;
 import sx.common.DateUtils;
 import sx.datastore.SXId;
 
+@SuppressWarnings("OverlyCoupledClass")
 public final class ResultAction implements SitexAction {
 
+    @SuppressWarnings("SpellCheckingInspection")
     private static final DateFormat DATE_FORMAT =
         new SimpleDateFormat("yyyy-MM-dd");
 
@@ -47,25 +49,12 @@ public final class ResultAction implements SitexAction {
     }
 
     @Override
+    @SuppressWarnings("OverlyCoupledMethod")
     public void execute(AdmRequest request) throws BazisException {
         final Person person = new SxPerson(
             new SXId(request.getAction().getObjId())
         );
         final List<String> errors = new LinkedList<>();
-//            final Iterable<Person> persons =
-//                new IterableOf<Person>(
-//                    new FakePerson(
-//                        "Иванов Владислав Александрович",
-//                        new FakeAppoint(
-//                            "Первое назначение",
-//                            "2019-01-01", "2019-12-31"
-//                        ),
-//                        new FakeAppoint(
-//                            "Второе назначение",
-//                            "2020-01-01", "2020-12-31"
-//                        )
-//                    )
-//                );
         final Iterable<Person> persons =
             new JsonPersons(
                 new JsonParser().parse(
@@ -121,6 +110,7 @@ public final class ResultAction implements SitexAction {
                 }
             )
         ) protocol.write(prs);
+        //noinspection SpellCheckingInspection
         request.set(
             "protocol",
             new DownloadUrl(
@@ -142,6 +132,7 @@ public final class ResultAction implements SitexAction {
         );
     }
 
+    @SuppressWarnings("MethodMayBeStatic")
     private Date dateFrom(String year, String month) throws BazisException {
         try {
             return ResultAction.DATE_FORMAT.parse(

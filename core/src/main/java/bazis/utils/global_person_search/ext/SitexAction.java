@@ -7,6 +7,7 @@ public interface SitexAction {
 
     void execute(AdmRequest request) throws BazisException;
 
+    @SuppressWarnings("ConstantDeclaredInInterface")
     SitexAction NONE = new SitexAction() {
         @Override
         public void execute(AdmRequest request) {

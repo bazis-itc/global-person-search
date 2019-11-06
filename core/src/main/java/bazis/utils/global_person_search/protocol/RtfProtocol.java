@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class RtfProtocol implements Protocol {
 
+    @SuppressWarnings("SpellCheckingInspection")
     private static final DateFormat DATE_FORMAT =
         new SimpleDateFormat("dd.MM.yyyy");
 
@@ -78,7 +79,9 @@ public final class RtfProtocol implements Protocol {
             );
     }
 
+    @SuppressWarnings("MethodMayBeStatic")
     private String dateAsString(String prefix, Opt<Date> date) {
+        //noinspection StringConcatenation,StringConcatenationMissingWhitespace
         return date.has()
             ? prefix + RtfProtocol.DATE_FORMAT.format(date.get()) : "";
     }

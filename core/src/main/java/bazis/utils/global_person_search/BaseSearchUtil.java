@@ -31,6 +31,7 @@ public abstract class BaseSearchUtil extends AdmAction {
         );
     }
 
+    @SuppressWarnings("HardcodedFileSeparator")
     protected BaseSearchUtil(String url, Func<Person, Jsonable> requests) {
         this(
             new DispatchAction(
@@ -58,6 +59,7 @@ public abstract class BaseSearchUtil extends AdmAction {
     }
 
     @Override
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     public final void execute(AdmRequest request, AdmApplication app)
         throws BazisException {
         this.action.execute(request);

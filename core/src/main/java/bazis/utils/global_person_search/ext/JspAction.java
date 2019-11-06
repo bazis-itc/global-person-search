@@ -23,6 +23,7 @@ public final class JspAction implements SitexAction {
     @Override
     public void execute(AdmRequest request) throws BazisException {
         this.origin.execute(request);
+        //noinspection OverlyBroadCatchBlock
         try {
             final Method method = AdmAction.class.getDeclaredMethod(
                 "includeTemplate", String.class, AdmRequest.class

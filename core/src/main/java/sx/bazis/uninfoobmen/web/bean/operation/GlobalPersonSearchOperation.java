@@ -24,8 +24,10 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
     }
 
     @Override
+    @SuppressWarnings("MethodWithMultipleReturnPoints")
     public HashMap<String, String> exec(HashMap<String, String> inputMap,
         String requestId, HttpSession session) {
+        //noinspection OverlyBroadCatchBlock
         try (final Connection conn = SXDsFactory.getDs().getConnection()) {
             final List<String> log = new LinkedList<>();
             final JsonRequest request = new JsonRequest(
