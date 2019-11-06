@@ -2,7 +2,6 @@ package bazis.utils.global_person_search;
 
 import bazis.cactoos3.Func;
 import bazis.cactoos3.exception.BazisException;
-import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.map.EmptyMap;
 import bazis.cactoos3.scalar.IsEmpty;
 import bazis.cactoos3.text.JoinedText;
@@ -43,7 +42,7 @@ public final class ResultAction implements SitexAction {
 
     private final Func<Person, Jsonable> requests;
 
-    public ResultAction(String url, Func<Person, Jsonable> requests) {
+    ResultAction(String url, Func<Person, Jsonable> requests) {
         this.url = url;
         this.requests = requests;
     }
@@ -83,32 +82,17 @@ public final class ResultAction implements SitexAction {
             )
         );
         final Date
-            start = this.dateFrom(
-                request.getParam("yearOfStart"),
-                request.getParam("monthOfStart")
-            ),
+            start = this.dateFrom(request, "yearOfStart", "monthOfStart"),
             end = DateUtils.getMonthYearEndDate(
-                this.dateFrom(
-                    request.getParam("yearOfEnd"),
-                    request.getParam("monthOfEnd")
-                )
+                this.dateFrom(request, "yearOfEnd", "monthOfEnd")
             );
         final Map<String, String> msp =
             "on".equals(request.getParam("isAllMsp"))
                 ? new EmptyMap<String, String>()
                 : new MspMap(request.getParam("data(mspList)"));
         for (
-            final Person prs : new MappedIterable<>(
-                persons,
-                new Func<Person, Person>() {
-                    @Override
-                    public Person apply(Person origin) {
-                        return new RequestedPerson(
-                            origin, msp.keySet(), start, end
-                        );
-                    }
-                }
-            )
+            final Person prs :
+                new RequestedPersons(persons, msp.keySet(), start, end)
         ) protocol.write(prs);
         //noinspection SpellCheckingInspection
         request.set(
@@ -133,10 +117,13 @@ public final class ResultAction implements SitexAction {
     }
 
     @SuppressWarnings("MethodMayBeStatic")
-    private Date dateFrom(String year, String month) throws BazisException {
+    private Date dateFrom(AdmRequest request,
+        String year, String month) throws BazisException {
         try {
             return ResultAction.DATE_FORMAT.parse(
-                String.format("%s-%s-01", year, month)
+                String.format(
+                    "%s-%s-01", request.getParam(year), request.getParam(month)
+                )
             );
         } catch (final ParseException ex) {
             throw new BazisException(ex);

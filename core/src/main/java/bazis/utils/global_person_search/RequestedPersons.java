@@ -3,13 +3,39 @@ package bazis.utils.global_person_search;
 import bazis.cactoos3.Func;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.FilteredIterable;
+import bazis.cactoos3.iterable.IterableEnvelope;
+import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.opt.OptOrDefault;
+import bazis.cactoos3.scalar.ScalarOf;
 import bazis.utils.global_person_search.ext.SetOf;
 import java.util.Collection;
 import java.util.Date;
 import sx.common.MonthYearBean;
 
-public final class RequestedPerson implements Person {
+final class RequestedPersons extends IterableEnvelope<Person> {
+
+    RequestedPersons(final Iterable<Person> origin,
+        final Iterable<String> msp, final Date startDate, final Date endDate) {
+        super(
+            new ScalarOf<>(
+                new MappedIterable<>(
+                    origin,
+                    new Func<Person, Person>() {
+                        @Override
+                        public Person apply(Person person) {
+                            return new RequestedPerson(
+                                person, msp, startDate, endDate
+                            );
+                        }
+                    }
+                )
+            )
+        );
+    }
+
+}
+
+final class RequestedPerson implements Person {
 
     private final Person origin;
 
@@ -17,8 +43,8 @@ public final class RequestedPerson implements Person {
 
     private final Date startDate, endDate;
 
-    public RequestedPerson(
-        Person origin, Iterable<String> msp, Date startDate, Date endDate) {
+    RequestedPerson(Person origin,
+        Iterable<String> msp, Date startDate, Date endDate) {
         this.origin = origin;
         this.msp = msp;
         this.startDate = startDate;
