@@ -7,6 +7,7 @@ import bazis.cactoos3.iterable.MappedIterable;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Person;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 
 public final class JspPerson {
 
@@ -43,7 +44,7 @@ public final class JspPerson {
     }
 
     @SuppressWarnings("MethodReturnOfConcreteClass")
-    public JspAppoint[] getAppoints() throws BazisException {
+    public Collection<JspAppoint> getAppoints() throws BazisException {
         return new ListOf<>(
             new MappedIterable<>(
                 this.person.appoints(),
@@ -54,7 +55,7 @@ public final class JspPerson {
                     }
                 }
             )
-        ).toArray(new JspAppoint[0]);
+        );
     }
 
 }
