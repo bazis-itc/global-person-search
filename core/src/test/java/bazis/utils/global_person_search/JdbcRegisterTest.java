@@ -5,9 +5,8 @@ import bazis.cactoos3.map.MapOf;
 import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.fake.FakeBorough;
 import bazis.utils.global_person_search.jdbc.JdbcRegister;
-import bazis.utils.global_person_search.json.JsonAsText;
 import bazis.utils.global_person_search.json.JsonPersons;
-import com.google.gson.JsonParser;
+import bazis.utils.global_person_search.json.JsonText;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import sx.common.MonthYearBean;
@@ -28,7 +27,7 @@ public final class JdbcRegisterTest {
                     "user=sa;password=S1tex2016"
             )
         ) {
-            final String json = new JsonAsText(
+            final String json = new JsonText(
                 new JsonPersons(
                     new JdbcRegister(
                         central,
@@ -52,7 +51,7 @@ public final class JdbcRegisterTest {
                 )
             ).asString();
             final Iterable<Person> persons = new JsonPersons(
-                new JsonParser().parse(json).getAsJsonArray()
+                new JsonText(json).asJson().getAsJsonArray()
             );
             for (final Person person : persons) {
                 System.out.println(person.fio());

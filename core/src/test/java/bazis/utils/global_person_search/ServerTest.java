@@ -1,7 +1,7 @@
 package bazis.utils.global_person_search;
 
-import bazis.utils.global_person_search.json.JsonAsText;
 import bazis.utils.global_person_search.json.JsonRequest;
+import bazis.utils.global_person_search.json.JsonText;
 import com.google.gson.JsonObject;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -15,7 +15,7 @@ public final class ServerTest {
         final String response = new Server(
             "http://192.168.120.108:8080/central_test/", log
         ).send(
-            new JsonAsText(
+            new JsonText(
                 new JsonRequest(new JsonObject())
                     .withFio("Абанин Николай Григорьевич")
                     .withBirthdate(

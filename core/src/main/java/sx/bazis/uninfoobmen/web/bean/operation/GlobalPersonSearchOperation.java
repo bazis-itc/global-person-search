@@ -2,11 +2,10 @@ package sx.bazis.uninfoobmen.web.bean.operation;
 
 import bazis.utils.global_person_search.EncryptedText;
 import bazis.utils.global_person_search.jdbc.JdbcRegister;
-import bazis.utils.global_person_search.json.JsonAsText;
 import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.json.JsonRequest;
+import bazis.utils.global_person_search.json.JsonText;
 import bazis.utils.global_person_search.uson.UsonBoroughs;
-import com.google.gson.JsonParser;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,18 +30,18 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
         try (final Connection conn = SXDsFactory.getDs().getConnection()) {
             final List<String> log = new LinkedList<>();
             final JsonRequest request = new JsonRequest(
-                new JsonParser().parse(
+                new JsonText(
                     new EncryptedText(
                         StoreFactory.getInstance()
                             .inMap.get(requestId)
                             .getInputStream()
-                    ).asString()
-                ).getAsJsonObject()
+                    )
+                ).asJson().getAsJsonObject()
             );
             StoreFactory.getInstance().outMap.put(
                 requestId,
                 new EncryptedText(
-                    new JsonAsText(
+                    new JsonText(
                         new JsonPersons(
                             new JdbcRegister(
                                 conn, new UsonBoroughs(conn, log)

@@ -8,8 +8,8 @@ import bazis.cactoos3.text.JoinedText;
 import bazis.utils.global_person_search.ext.CheckedFunc;
 import bazis.utils.global_person_search.ext.ReportData;
 import bazis.utils.global_person_search.ext.SitexAction;
-import bazis.utils.global_person_search.json.JsonAsText;
 import bazis.utils.global_person_search.json.JsonPersons;
+import bazis.utils.global_person_search.json.JsonText;
 import bazis.utils.global_person_search.json.Jsonable;
 import bazis.utils.global_person_search.protocol.CompositeProtocol;
 import bazis.utils.global_person_search.protocol.ForkProtocol;
@@ -19,7 +19,6 @@ import bazis.utils.global_person_search.sx.DownloadUrl;
 import bazis.utils.global_person_search.sx.MspMap;
 import bazis.utils.global_person_search.sx.SxPerson;
 import bazis.utils.global_person_search.sx.SxReport;
-import com.google.gson.JsonParser;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,13 +55,13 @@ public final class ResultAction implements SitexAction {
         final List<String> errors = new LinkedList<>();
         final Iterable<Person> persons =
             new JsonPersons(
-                new JsonParser().parse(
+                new JsonText(
                     new Server(this.url, errors).send(
-                        new JsonAsText(
+                        new JsonText(
                             new CheckedFunc<>(this.requests).apply(person)
                         ).asString()
                     )
-                ).getAsJsonArray()
+                ).asJson().getAsJsonArray()
             );
         if (new IsEmpty(persons).value()) errors.add(
             "Нет информации о данном гражданине на других базах"
