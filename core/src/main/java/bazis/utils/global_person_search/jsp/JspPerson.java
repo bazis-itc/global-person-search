@@ -13,7 +13,7 @@ public final class JspPerson {
 
     private final Person person;
 
-    public JspPerson(Person person) {
+    JspPerson(Person person) {
         this.person = person;
     }
 

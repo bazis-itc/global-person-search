@@ -1,8 +1,7 @@
-package bazis.utils.global_person_search.protocol;
+package bazis.utils.global_person_search.jsp;
 
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
-import bazis.utils.global_person_search.jsp.JspPerson;
 import java.util.Collection;
 import java.util.LinkedList;
 import sx.common.SXRequest;
