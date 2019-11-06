@@ -4,6 +4,7 @@ import bazis.cactoos3.Func;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
+import bazis.utils.global_person_search.ext.ActionWithFallback;
 import bazis.utils.global_person_search.ext.DispatchAction;
 import bazis.utils.global_person_search.ext.JspAction;
 import bazis.utils.global_person_search.ext.SitexAction;
@@ -34,21 +35,24 @@ public abstract class BaseSearchUtil extends AdmAction {
     @SuppressWarnings("HardcodedFileSeparator")
     protected BaseSearchUtil(String url, Func<Person, Jsonable> requests) {
         this(
-            new DispatchAction(
-                new JspAction("global_person_search/openwindow"),
-                new MapOf<>(
-                    new Entry<String, SitexAction>(
-                        "openWindowCmd",
-                        new JspAction("global_person_search/params")
-                    ),
-                    new Entry<String, SitexAction>(
-                        "paramsCmd",
-                        new JspAction(
-                            new ResultAction(url, requests),
-                            "global_person_search/result"
+            new ActionWithFallback(
+                new DispatchAction(
+                    new JspAction("global_person_search/openwindow"),
+                    new MapOf<>(
+                        new Entry<String, SitexAction>(
+                            "openWindowCmd",
+                            new JspAction("global_person_search/params")
+                        ),
+                        new Entry<String, SitexAction>(
+                            "paramsCmd",
+                            new JspAction(
+                                new ResultAction(url, requests),
+                                "global_person_search/result"
+                            )
                         )
                     )
-                )
+                ),
+                "global_person_search/error"
             )
         );
     }
