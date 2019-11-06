@@ -5,17 +5,17 @@ import java.util.Date;
 
 public interface Person {
 
-    String fio();
+    String fio() throws BazisException;
 
     Date birthdate() throws BazisException;
 
-    String address();
+    String address() throws BazisException;
 
-    String snils();
+    String snils() throws BazisException;
 
-    String borough();
+    String borough() throws BazisException;
 
-    String passport();
+    String passport() throws BazisException;
 
     Iterable<Appoint> appoints() throws BazisException;
 

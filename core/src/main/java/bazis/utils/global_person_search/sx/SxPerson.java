@@ -4,7 +4,7 @@ import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.scalar.CachedScalar;
-import bazis.cactoos3.scalar.UncheckedScalar;
+import bazis.cactoos3.scalar.CheckedScalar;
 import bazis.cactoos3.text.JoinedText;
 import bazis.cactoos3.text.UncheckedText;
 import bazis.utils.global_person_search.Appoint;
@@ -21,7 +21,7 @@ public final class SxPerson implements Person {
         SURNAME = "Surname", NAME = "Name", PATRONYMIC = "SecondName",
         BIRTHDATE = "BirthDate", SNILS = "snils";
 
-    private final UncheckedScalar<SXObj> person;
+    private final CheckedScalar<SXObj> person;
 
     public SxPerson(final SXId id) {
         this(
@@ -49,11 +49,11 @@ public final class SxPerson implements Person {
     }
 
     private SxPerson(Scalar<SXObj> scalar) {
-        this.person = new UncheckedScalar<>(new CachedScalar<>(scalar));
+        this.person = new CheckedScalar<>(new CachedScalar<>(scalar));
     }
 
     @Override
-    public String fio() {
+    public String fio() throws BazisException {
         final String patronymic =
             this.person.value().getTitle(SxPerson.PATRONYMIC);
         return new UncheckedText(
@@ -69,29 +69,32 @@ public final class SxPerson implements Person {
     }
 
     @Override
-    public Date birthdate() {
-        return this.person.value().getDateAttr(SxPerson.BIRTHDATE);
+    public Date birthdate() throws BazisException {
+        final Date date = this.person.value().getDateAttr(SxPerson.BIRTHDATE);
+        if (date == null)
+            throw new BazisException("Person birthdate not defined");
+        return date;
     }
 
     @Override
-    public String snils() {
+    public String snils() throws BazisException {
         final String value = this.person.value().getStringAttr(SxPerson.SNILS);
         return value == null ? "" : value;
     }
 
     @Override
-    public String address() {
-        throw new UnsupportedOperationException("Method not implemented");
+    public String address() throws BazisException {
+        throw new BazisException("Method not implemented");
     }
 
     @Override
-    public String borough() {
-        throw new UnsupportedOperationException("Method not implemented");
+    public String borough() throws BazisException {
+        throw new BazisException("Method not implemented");
     }
 
     @Override
-    public String passport() {
-        throw new UnsupportedOperationException("Method not implemented");
+    public String passport() throws BazisException {
+        throw new BazisException("Method not implemented");
     }
 
     @Override

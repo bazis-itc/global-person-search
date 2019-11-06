@@ -52,7 +52,7 @@ final class RequestedPerson implements Person {
     }
 
     @Override
-    public String fio() {
+    public String fio() throws BazisException {
         return this.origin.fio();
     }
 
@@ -62,22 +62,22 @@ final class RequestedPerson implements Person {
     }
 
     @Override
-    public String address() {
+    public String address() throws BazisException {
         return this.origin.address();
     }
 
     @Override
-    public String snils() {
+    public String snils() throws BazisException {
         return this.origin.snils();
     }
 
     @Override
-    public String borough() {
+    public String borough() throws BazisException {
         return this.origin.borough();
     }
 
     @Override
-    public String passport() {
+    public String passport() throws BazisException {
         return this.origin.passport();
     }
 

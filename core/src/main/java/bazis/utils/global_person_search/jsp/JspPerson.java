@@ -17,7 +17,7 @@ public final class JspPerson {
         this.person = person;
     }
 
-    public String getFio() {
+    public String getFio() throws BazisException {
         return this.person.fio();
     }
 
@@ -27,19 +27,19 @@ public final class JspPerson {
             .format(this.person.birthdate());
     }
 
-    public String getAddress() {
+    public String getAddress() throws BazisException {
         return this.person.address();
     }
 
-    public String getSnils() {
+    public String getSnils() throws BazisException {
         return this.person.snils();
     }
 
-    public String getBorough() {
+    public String getBorough() throws BazisException {
         return this.person.borough();
     }
 
-    public String getPassport() {
+    public String getPassport() throws BazisException {
         return this.person.passport();
     }
 
