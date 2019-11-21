@@ -17,12 +17,11 @@ public final class JsonRequestTest {
             snils = "123-456-789-00";
         final Date birthdate = DateUtils.getBeginDate(new Date());
         final JsonRequest request = new JsonRequest(
-            new JsonText(
-                new JsonRequest(new JsonObject())
-                    .withFio(fio)
-                    .withBirthdate(birthdate)
-                    .withSnils(snils)
-            ).asJson()
+            new JsonRequest(new JsonObject())
+                .withFio(fio)
+                .withBirthdate(birthdate)
+                .withSnils(snils)
+                .asJson()
         );
         MatcherAssert.assertThat("fio", request.fio(), Matchers.equalTo(fio));
         MatcherAssert.assertThat(

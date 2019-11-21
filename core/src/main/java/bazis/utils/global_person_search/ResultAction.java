@@ -111,11 +111,11 @@ public final class ResultAction implements SitexAction {
                             "mspList",
                             new JoinedText(", ", msp.values())
                         )
-                    .withString(
-                        "message",
-                        new IsEmpty(persons).value()
-                            ? ResultAction.NO_RESULT : ""
-                    )
+                        .withString(
+                            "message",
+                            new IsEmpty(persons).value()
+                                ? ResultAction.NO_RESULT : ""
+                        )
                 )
             ).asString()
         );
