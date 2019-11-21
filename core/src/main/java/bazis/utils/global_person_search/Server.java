@@ -5,25 +5,20 @@ import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import sx.bazis.uninfoobmen.web.ClientConnectServlet;
 import sx.bazis.uninfoobmen.web.ConnectServletException;
 
-public final class Server {
+final class Server {
 
     private final String url;
 
-    private final Collection<String> log;
-
-    public Server(String url, Collection<String> log) {
+    Server(String url) {
         this.url = url;
-        this.log = log;
     }
 
-    @SuppressWarnings("MethodWithMultipleReturnPoints")
-    public String send(String request) throws BazisException {
+    String send(String request) throws BazisException {
         final ClientConnectServlet connection = new ClientConnectServlet();
         try {
             connection.setInputObject(new EncryptedText(request).asBytes());
@@ -45,16 +40,17 @@ public final class Server {
             if (!"COMPLETE".equals(result)) throw new BazisException(
                 String.format("Unknown response type '%s'", result)
             );
-            final String warning = response.get("COMPLETE_TITLE");
-            if (!warning.isEmpty()) this.log.add(warning);
+            final String error = response.get("COMPLETE_TITLE");
+            if (!error.isEmpty()) throw new BazisException(error);
             return new EncryptedText(
                 connection.getOutputObject().getInputStream()
             ).asString();
         } catch (final FileNotFoundException ex) {
             throw new BazisException(ex);
-        } catch (final ConnectServletException ignored) {
-            this.log.add(String.format("Сервер недоступен: %s", this.url));
-            return "[]";
+        } catch (final ConnectServletException ex) {
+            throw new BazisException(
+                String.format("Сервер недоступен: %s", this.url), ex
+            );
         } finally {
             try {
                 connection.destroy();

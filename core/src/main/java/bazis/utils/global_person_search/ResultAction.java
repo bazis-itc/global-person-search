@@ -23,8 +23,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import sx.admin.AdmRequest;
 import sx.common.DateUtils;
@@ -55,19 +53,18 @@ public final class ResultAction implements SitexAction {
         final Person person = new SxPerson(
             new SXId(request.getAction().getObjId())
         );
-        final List<String> errors = new LinkedList<>();
         final Iterable<Person> persons =
             new JsonPersons(
                 new JsonText(
-                    new Server(this.url, errors).send(
+                    new Server(this.url).send(
                         new JsonText(
                             new CheckedFunc<>(this.requests).apply(person)
                         ).asString()
                     )
                 ).asJson()
             );
-        if (new IsEmpty(persons).value()) errors.add(ResultAction.NO_RESULT);
-        if (!errors.isEmpty()) request.set("error", errors.get(0));
+        if (new IsEmpty(persons).value())
+            request.set("error", ResultAction.NO_RESULT);
         final Report report =
             new SxReport("globalPersonSearchProtocol");
         final Protocol protocol = new ForkProtocol(
