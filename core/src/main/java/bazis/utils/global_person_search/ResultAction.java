@@ -12,10 +12,9 @@ import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.json.JsonText;
 import bazis.utils.global_person_search.json.Jsonable;
 import bazis.utils.global_person_search.jsp.JspProtocol;
-import bazis.utils.global_person_search.protocol.CompositeProtocol;
-import bazis.utils.global_person_search.protocol.ForkProtocol;
+import bazis.utils.global_person_search.protocol.CompoundProtocol;
 import bazis.utils.global_person_search.protocol.RtfProtocol;
-import bazis.utils.global_person_search.sx.DownloadUrl;
+import bazis.utils.global_person_search.protocol.SplitProtocol;
 import bazis.utils.global_person_search.sx.MspMap;
 import bazis.utils.global_person_search.sx.SxPerson;
 import bazis.utils.global_person_search.sx.SxReport;
@@ -28,7 +27,6 @@ import sx.admin.AdmRequest;
 import sx.common.DateUtils;
 import sx.datastore.SXId;
 
-@SuppressWarnings("OverlyCoupledClass")
 public final class ResultAction implements SitexAction {
 
     private static final String NO_RESULT =
@@ -65,19 +63,6 @@ public final class ResultAction implements SitexAction {
             );
         if (new IsEmpty(persons).value())
             request.set("error", ResultAction.NO_RESULT);
-        final Report report =
-            new SxReport("globalPersonSearchProtocol");
-        final Protocol protocol = new ForkProtocol(
-            person.fio(), person.birthdate(),
-            new CompositeProtocol(
-                new JspProtocol(request, "completely"),
-                new RtfProtocol(report, 1)
-            ),
-            new CompositeProtocol(
-                new JspProtocol(request, "partially"),
-                new RtfProtocol(report, 2)
-            )
-        );
         final Date
             start = this.dateFrom(request, "yearOfStart", "monthOfStart"),
             end = DateUtils.getMonthYearEndDate(
@@ -87,35 +72,34 @@ public final class ResultAction implements SitexAction {
             "on".equals(request.getParam("isAllMsp"))
                 ? new EmptyMap<String, String>()
                 : new MspMap(request.getParam("data(mspList)"));
-        for (
-            final Person prs :
-                new RequestedPersons(persons, msp.keySet(), start, end)
-        ) protocol.write(prs);
-        //noinspection SpellCheckingInspection
-        request.set(
-            "protocol",
-            new DownloadUrl(
-                report.create(
-                    new ReportData.Immutable()
-                        .withString(
-                            "currentDate",
-                            new SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
-                                .format(new Date())
-                        )
-                        .withDate("startDate", start)
-                        .withDate("endDate", end)
-                        .withString(
-                            "mspList",
-                            new JoinedText(", ", msp.values())
-                        )
-                        .withString(
-                            "message",
-                            new IsEmpty(persons).value()
-                                ? ResultAction.NO_RESULT : ""
-                        )
-                )
-            ).asString()
-        );
+        new SplitProtocol(
+            new CompoundProtocol(
+                new JspProtocol(),
+                new RtfProtocol(new SxReport("globalPersonSearchProtocol"))
+            ),
+            person
+        )
+            .append(new RequestedPersons(persons, msp.keySet(), start, end))
+            .outputTo(
+                request,
+                new ReportData.Immutable()
+                    .withString(
+                        "currentDate",
+                        new SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
+                            .format(new Date())
+                    )
+                    .withDate("startDate", start)
+                    .withDate("endDate", end)
+                    .withString(
+                        "mspList",
+                        new JoinedText(", ", msp.values())
+                    )
+                    .withString(
+                        "message",
+                        new IsEmpty(persons).value()
+                            ? ResultAction.NO_RESULT : ""
+                    )
+            );
     }
 
     @SuppressWarnings("MethodMayBeStatic")

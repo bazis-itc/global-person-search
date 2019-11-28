@@ -1,30 +1,46 @@
 package bazis.utils.global_person_search.jsp;
 
+import bazis.cactoos3.collection.ListOf;
+import bazis.cactoos3.iterable.EmptyIterable;
+import bazis.cactoos3.iterable.IterableOf;
+import bazis.cactoos3.iterable.JoinedIterable;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
-import java.util.Collection;
-import java.util.LinkedList;
-import sx.common.SXRequest;
+import java.util.Map;
+import sx.admin.AdmRequest;
 
 public final class JspProtocol implements Protocol {
 
-    private final SXRequest request;
+    private final String title;
 
-    private final String param;
+    private final Iterable<JspPersonList> lists;
 
-    public JspProtocol(SXRequest request, String param) {
-        this.request = request;
-        this.param = param;
+    public JspProtocol() {
+        this("", new EmptyIterable<JspPersonList>());
+    }
+
+    private JspProtocol(String title, Iterable<JspPersonList> lists) {
+        this.title = title;
+        this.lists = lists;
     }
 
     @Override
-    public void write(Person person) {
-        if (this.request.get(this.param) == null)
-            this.request.set(this.param, new LinkedList<JspPerson>());
-        //noinspection unchecked
-        final Collection<JspPerson> list =
-            (Collection<JspPerson>) this.request.get(this.param);
-        list.add(new JspPerson(person));
+    public Protocol append(Iterable<Person> persons) {
+        return new JspProtocol(
+            this.title.isEmpty() ? "Найдено совпадение только по СНИЛС" : "",
+            new JoinedIterable<>(
+                this.lists,
+                new IterableOf<>(
+                    new JspPersonList(this.title, persons)
+                )
+            )
+        );
+    }
+
+    @Override
+    public void outputTo(AdmRequest request, Map<String, Object> params) {
+        request.set("completely", new ListOf<>(this.lists).get(0).getPersons());
+        request.set("partially", new ListOf<>(this.lists).get(1).getPersons());
     }
 
 }

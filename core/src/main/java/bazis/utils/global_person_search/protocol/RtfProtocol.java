@@ -12,10 +12,12 @@ import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.Report;
 import bazis.utils.global_person_search.ext.Lines;
 import bazis.utils.global_person_search.ext.ReportData;
+import bazis.utils.global_person_search.sx.DownloadUrl;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Map;
+import sx.admin.AdmRequest;
 
 public final class RtfProtocol implements Protocol {
 
@@ -27,18 +29,36 @@ public final class RtfProtocol implements Protocol {
 
     private final Number group;
 
-    private final AtomicInteger counter;
+    public RtfProtocol(Report report) {
+        this(report, 1);
+    }
 
-    public RtfProtocol(Report report, Number group) {
+    private RtfProtocol(Report report, Number group) {
         this.report = report;
         this.group = group;
-        this.counter = new AtomicInteger(0);
     }
 
     @Override
-    public void write(Person person) throws BazisException {
+    public Protocol append(Iterable<Person> persons) throws BazisException {
+        int counter = 1;
+        for (final Person person : persons)
+            //noinspection ValueOfIncrementOrDecrementUsed
+            this.write(counter++, person);
+        return new RtfProtocol(this.report, this.group.intValue() + 1);
+    }
+
+    @Override
+    public void outputTo(AdmRequest request,
+        Map<String, Object> params) throws BazisException {
+        request.set(
+            "protocol",
+            new DownloadUrl(this.report.create(params)).asString()
+        );
+    }
+
+    private void write(Number id, Person person) throws BazisException {
         final ReportData row = new ReportData.Immutable()
-            .withInt("personId", this.counter.incrementAndGet())
+            .withInt("personId", id)
             .withString("borough", person.borough())
             .withString(
                 "person",
