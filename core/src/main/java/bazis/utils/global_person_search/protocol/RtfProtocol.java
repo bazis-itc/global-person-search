@@ -76,6 +76,7 @@ public final class RtfProtocol implements Protocol {
                         )
                     )
                     .withString("status", appoint.status())
+                    .withString("payments", appoint.payments())
             );
     }
 
