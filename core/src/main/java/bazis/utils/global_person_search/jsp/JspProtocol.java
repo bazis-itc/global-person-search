@@ -39,8 +39,7 @@ public final class JspProtocol implements Protocol {
 
     @Override
     public void outputTo(AdmRequest request, Map<String, Object> params) {
-        request.set("completely", new ListOf<>(this.lists).get(0).getPersons());
-        request.set("partially", new ListOf<>(this.lists).get(1).getPersons());
+        request.set("lists", new ListOf<>(this.lists));
     }
 
 }
