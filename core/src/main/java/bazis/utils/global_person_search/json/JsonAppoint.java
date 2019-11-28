@@ -18,7 +18,8 @@ final class JsonAppoint implements Appoint, Jsonable {
     private static final String
         TYPE = "type", MSP = "msp", CATEGORY = "category",
         CHILD = "child", STATUS = "status",
-        START_DATE = "startDate", END_DATE = "endDate";
+        START_DATE = "startDate", END_DATE = "endDate",
+        PAYMENTS = "payments";
 
     @SuppressWarnings("SpellCheckingInspection")
     private static final DateFormat DATE_FORMAT =
@@ -70,6 +71,11 @@ final class JsonAppoint implements Appoint, Jsonable {
     }
 
     @Override
+    public String payments() {
+        return this.origin.payments();
+    }
+
+    @Override
     public JsonElement asJson() throws BazisException {
         final JsonObject json = new JsonObject();
         json.addProperty(JsonAppoint.TYPE, this.type());
@@ -83,6 +89,7 @@ final class JsonAppoint implements Appoint, Jsonable {
         json.addProperty(
             JsonAppoint.END_DATE, this.dateAsText(this.endDate())
         );
+        json.addProperty(JsonAppoint.PAYMENTS, this.payments());
         return json;
     }
 
@@ -133,6 +140,11 @@ final class JsonAppoint implements Appoint, Jsonable {
         @Override
         public Opt<Date> endDate() throws BazisException {
             return this.dateFrom(JsonAppoint.END_DATE);
+        }
+
+        @Override
+        public String payments() {
+            return this.json.get(JsonAppoint.PAYMENTS).getAsString();
         }
 
         private Opt<Date> dateFrom(String property) throws BazisException {

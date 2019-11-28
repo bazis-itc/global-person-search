@@ -10,6 +10,7 @@ import bazis.utils.global_person_search.Appoint;
 import java.util.Date;
 import org.jooq.Record;
 
+@SuppressWarnings("ClassWithTooManyMethods")
 final class JdbcAppoint implements Appoint {
 
     private final Record record;
@@ -67,6 +68,11 @@ final class JdbcAppoint implements Appoint {
     @Override
     public Opt<Date> endDate() {
         return new SmartRecord(this.record).date("endDate");
+    }
+
+    @Override
+    public String payments() {
+        return new SmartRecord(this.record).string("payments").trim();
     }
 
 }

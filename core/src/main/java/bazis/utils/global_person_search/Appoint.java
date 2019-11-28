@@ -4,6 +4,7 @@ import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
 import java.util.Date;
 
+@SuppressWarnings("ClassWithTooManyMethods")
 public interface Appoint {
 
     String type();
@@ -19,5 +20,7 @@ public interface Appoint {
     Opt<Date> startDate() throws BazisException;
 
     Opt<Date> endDate() throws BazisException;
+
+    String payments();
 
 }
