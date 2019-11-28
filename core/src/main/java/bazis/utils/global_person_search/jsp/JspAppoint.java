@@ -45,4 +45,8 @@ public final class JspAppoint {
         return date.has() ? JspAppoint.DATE_FORMAT.format(date.get()) : "";
     }
 
+    public String getPayments() {
+        return this.appoint.payments();
+    }
+
 }

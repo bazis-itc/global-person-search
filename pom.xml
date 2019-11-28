@@ -23,6 +23,7 @@
             <id>Воронеж</id>
             <properties>
                 <sitex.version>vrn</sitex.version>
+                <displayPayments>true</displayPayments>
             </properties>
         </profile>
         <profile>
@@ -47,6 +48,7 @@
 
     <properties>
         <programmer.name>IvanovVA</programmer.name>
+        <displayPayments>false</displayPayments>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>

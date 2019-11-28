@@ -44,6 +44,9 @@
 						<td><b>Лицо, на основании данных ЛД которого сделано назначение</b></td>
 						<td><b>Период предостав-ления МСП</b></td>
 						<td><b>Статус назначения</b></td>
+						<c:if test="${requestScope.displayPayments}">
+							<td><b>Выплаты</b></td>
+						</c:if>	
 					</tr>					
 					<c:forEach var="appoint" items="${person.appoints}">
 						<tr>
@@ -52,6 +55,9 @@
 							<td><c:out value="${appoint.child}"/></td>
 							<td>с <c:out value="${appoint.startDate}"/><br>по <c:out value="${appoint.endDate}"/></td>
 							<td><c:out value="${appoint.status}"/></td>
+							<c:if test="${requestScope.displayPayments}">
+								<td><c:out value="${appoint.payments}"/></td>
+							</c:if>	
 						</tr>			
 					</c:forEach>
 				</table>
