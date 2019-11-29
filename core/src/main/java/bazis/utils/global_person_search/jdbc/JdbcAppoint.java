@@ -72,7 +72,7 @@ final class JdbcAppoint implements Appoint {
 
     @Override
     public String payments() {
-        return new SmartRecord(this.record).string("payments").trim();
+        return new SmartRecord(this.record).string("payments");
     }
 
 }

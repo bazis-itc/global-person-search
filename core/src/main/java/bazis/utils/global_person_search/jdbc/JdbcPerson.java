@@ -101,7 +101,7 @@ final class JdbcPerson implements Person {
             "      +  ' ' + CAST(pay.AMOUNT AS VARCHAR) ",
             "      +  ' ' + payMonth.A_NAME ",
             "      +  ' ' + CAST(pay.A_YEAR AS VARCHAR)",
-            "      +  CHAR(10)",
+            "      +  ', '",
             "    FROM WM_PAY_CALC accrual",
             "      JOIN WM_PAIDAMOUNTS pay ON pay.A_PAYCALC = accrual.OUID",
             "        AND ISNULL(pay.A_STATUS, 10) = 10",

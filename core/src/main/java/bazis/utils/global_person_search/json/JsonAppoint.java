@@ -143,8 +143,12 @@ final class JsonAppoint implements Appoint, Jsonable {
         }
 
         @Override
+        @SuppressWarnings({
+            "HardcodedLineSeparator", "DynamicRegexReplaceableByCompiledPattern"
+        })
         public String payments() {
-            return this.json.get(JsonAppoint.PAYMENTS).getAsString();
+            return this.json.get(JsonAppoint.PAYMENTS).getAsString()
+                .replace(", ", "\n").trim();
         }
 
         private Opt<Date> dateFrom(String property) throws BazisException {
