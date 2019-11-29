@@ -6,9 +6,8 @@ import bazis.cactoos3.scalar.And;
 import bazis.cactoos3.scalar.ObjectEquality;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
+import bazis.utils.global_person_search.dates.IsoDate;
 import bazis.utils.global_person_search.ext.CheckedFunc;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -16,10 +15,6 @@ import java.util.Map;
 import sx.admin.AdmRequest;
 
 public final class SplitProtocol implements Protocol {
-
-    @SuppressWarnings("SpellCheckingInspection")
-    private static final DateFormat DATE_FORMAT =
-        new SimpleDateFormat("yyyy-MM-dd");
 
     private final Protocol origin;
 
@@ -30,15 +25,12 @@ public final class SplitProtocol implements Protocol {
             origin,
             new Func<Person, Boolean>() {
                 @Override
-                @SuppressWarnings({
-                    "UnqualifiedStaticUsage", "AccessToNonThreadSafeStaticField"
-                })
                 public Boolean apply(Person compared) throws Exception {
                     return new And(
                         new ObjectEquality<>(compared.fio(), person.fio()),
                         new ObjectEquality<>(
-                            DATE_FORMAT.format(compared.birthdate()),
-                            DATE_FORMAT.format(person.birthdate())
+                            new IsoDate(compared.birthdate()).asString(),
+                            new IsoDate(person.birthdate()).asString()
                         )
                     ).value();
                 }
