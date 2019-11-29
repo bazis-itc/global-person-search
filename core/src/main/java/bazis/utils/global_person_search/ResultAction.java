@@ -5,6 +5,8 @@ import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.map.EmptyMap;
 import bazis.cactoos3.scalar.IsEmpty;
 import bazis.cactoos3.text.JoinedText;
+import bazis.utils.global_person_search.dates.FormattedDate;
+import bazis.utils.global_person_search.dates.IsoDate;
 import bazis.utils.global_person_search.ext.CheckedFunc;
 import bazis.utils.global_person_search.ext.ReportData;
 import bazis.utils.global_person_search.ext.SitexAction;
@@ -18,23 +20,17 @@ import bazis.utils.global_person_search.protocol.SplitProtocol;
 import bazis.utils.global_person_search.sx.MspMap;
 import bazis.utils.global_person_search.sx.SxPerson;
 import bazis.utils.global_person_search.sx.SxReport;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import sx.admin.AdmRequest;
 import sx.common.DateUtils;
 import sx.datastore.SXId;
 
+@SuppressWarnings("OverlyCoupledClass")
 public final class ResultAction implements SitexAction {
 
     private static final String NO_RESULT =
         "Нет информации о данном гражданине на других базах";
-
-    @SuppressWarnings("SpellCheckingInspection")
-    private static final DateFormat DATE_FORMAT =
-        new SimpleDateFormat("yyyy-MM-dd");
 
     private final String url;
 
@@ -85,8 +81,7 @@ public final class ResultAction implements SitexAction {
                 new ReportData.Immutable()
                     .withString(
                         "currentDate",
-                        new SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
-                            .format(new Date())
+                        new FormattedDate("dd.MM.yyyy HH:mm:ss", new Date())
                     )
                     .withDate("startDate", start)
                     .withDate("endDate", end)
@@ -103,17 +98,13 @@ public final class ResultAction implements SitexAction {
     }
 
     @SuppressWarnings("MethodMayBeStatic")
-    private Date dateFrom(AdmRequest request,
-        String year, String month) throws BazisException {
-        try {
-            return ResultAction.DATE_FORMAT.parse(
-                String.format(
-                    "%s-%s-01", request.getParam(year), request.getParam(month)
-                )
-            );
-        } catch (final ParseException ex) {
-            throw new BazisException(ex);
-        }
+    private Date dateFrom(AdmRequest request, String year, String month)
+        throws BazisException {
+        return new IsoDate(
+            String.format(
+                "%s-%s-01", request.getParam(year), request.getParam(month)
+            )
+        ).value();
     }
 
 }

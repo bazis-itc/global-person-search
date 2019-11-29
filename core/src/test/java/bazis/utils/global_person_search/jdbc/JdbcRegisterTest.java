@@ -1,10 +1,11 @@
-package bazis.utils.global_person_search;
+package bazis.utils.global_person_search.jdbc;
 
 import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
 import bazis.cactoos3.opt.OptOf;
+import bazis.utils.global_person_search.Borough;
+import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.fake.FakeBorough;
-import bazis.utils.global_person_search.jdbc.JdbcRegister;
 import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.json.JsonText;
 import java.sql.Connection;
@@ -46,7 +47,7 @@ public final class JdbcRegisterTest {
                                 1947, 10, 20
                             ).getDate()
                         ),
-                        "04859235392"
+                        ""
                     )
                 )
             ).asString();

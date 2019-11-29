@@ -3,14 +3,15 @@ package bazis.utils.global_person_search.jdbc;
 import bazis.cactoos3.Func;
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.Text;
+import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.text.UncheckedText;
 import bazis.utils.global_person_search.Borough;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Register;
+import bazis.utils.global_person_search.dates.IsoDate;
 import bazis.utils.global_person_search.ext.Lines;
 import java.sql.Connection;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import org.jooq.Record;
@@ -29,7 +30,7 @@ public final class JdbcRegister implements Register {
 
     @Override
     public Iterable<Person> persons(
-        String fio, Opt<Date> birthdate, String snils) {
+        String fio, Opt<Date> birthdate, String snils) throws BazisException {
         @SuppressWarnings("SpellCheckingInspection")
         final Text query = new Lines(
             "",
@@ -78,15 +79,12 @@ public final class JdbcRegister implements Register {
             "  AND DATEDIFF(DAY, person.BIRTHDATE, @birthdate) = 0",
             "  OR REPLACE(REPLACE(person.A_SNILS, ' ', ''), '-', '') = @snils"
         );
-        //noinspection SpellCheckingInspection
         return new MappedIterable<>(
             DSL.using(this.connection).fetch(
                 new UncheckedText(query).asString(),
                 fio.isEmpty() ? null : fio,
                 birthdate.has()
-                    ? new SimpleDateFormat("yyyy-MM-dd")
-                        .format(birthdate.get())
-                    : null,
+                    ? new IsoDate(birthdate.get()).asString() : null,
                 snils.isEmpty() ? null : snils
             ),
             new Func<Record, Person>() {

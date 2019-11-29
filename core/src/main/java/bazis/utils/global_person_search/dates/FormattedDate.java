@@ -15,7 +15,7 @@ public class FormattedDate implements Scalar<Date>, Text {
 
     private final Scalar<Date> date;
 
-    FormattedDate(final String format, final Date date) {
+    public FormattedDate(final String format, final Date date) {
         this(format, new ScalarOf<>(date));
     }
 
