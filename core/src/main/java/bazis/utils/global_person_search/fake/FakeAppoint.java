@@ -6,7 +6,7 @@ import bazis.cactoos3.opt.EmptyOpt;
 import bazis.cactoos3.opt.OptOf;
 import bazis.cactoos3.text.UncheckedText;
 import bazis.utils.global_person_search.Appoint;
-import bazis.utils.global_person_search.ext.Lines;
+import bazis.utils.global_person_search.ext.ConcatedText;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -91,10 +91,10 @@ public final class FakeAppoint implements Appoint {
     @Override
     public String payments() {
         return new UncheckedText(
-            new Lines(
-                "13.07.2016 9877.52 Декабрь 2015",
-                "21.04.2016 3572.67 Январь 2016",
-                "21.04.2016 3572.67 Февраль 2016"
+            new ConcatedText(
+                "13.07.2016 9877.52 Декабрь 2015, ",
+                "21.04.2016 3572.67 Январь 2016, ",
+                "21.04.2016 3572.67 Февраль 2016, "
             )
         ).asString();
     }
