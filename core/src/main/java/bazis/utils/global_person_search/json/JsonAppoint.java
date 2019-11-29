@@ -27,7 +27,7 @@ final class JsonAppoint implements Appoint, Jsonable {
 
     private final Appoint origin;
 
-    JsonAppoint(JsonObject json) {
+    JsonAppoint(JsonElement json) {
         this(new JsonAppoint.Parsed(json));
     }
 
@@ -101,45 +101,45 @@ final class JsonAppoint implements Appoint, Jsonable {
 
     private static final class Parsed implements Appoint {
 
-        private final JsonObject json;
+        private final JsonElement json;
 
-        private Parsed(JsonObject json) {
+        private Parsed(JsonElement json) {
             this.json = json;
         }
 
         @Override
         public String type() {
-            return this.json.get(JsonAppoint.TYPE).getAsString();
+            return this.string(JsonAppoint.TYPE);
         }
 
         @Override
         public String msp() {
-            return this.json.get(JsonAppoint.MSP).getAsString();
+            return this.string(JsonAppoint.MSP);
         }
 
         @Override
         public String category() {
-            return this.json.get(JsonAppoint.CATEGORY).getAsString();
+            return this.string(JsonAppoint.CATEGORY);
         }
 
         @Override
         public String child() {
-            return this.json.get(JsonAppoint.CHILD).getAsString();
+            return this.string(JsonAppoint.CHILD);
         }
 
         @Override
         public String status() {
-            return this.json.get(JsonAppoint.STATUS).getAsString();
+            return this.string(JsonAppoint.STATUS);
         }
 
         @Override
         public Opt<Date> startDate() throws BazisException {
-            return this.dateFrom(JsonAppoint.START_DATE);
+            return this.date(JsonAppoint.START_DATE);
         }
 
         @Override
         public Opt<Date> endDate() throws BazisException {
-            return this.dateFrom(JsonAppoint.END_DATE);
+            return this.date(JsonAppoint.END_DATE);
         }
 
         @Override
@@ -147,13 +147,18 @@ final class JsonAppoint implements Appoint, Jsonable {
             "HardcodedLineSeparator", "DynamicRegexReplaceableByCompiledPattern"
         })
         public String payments() {
-            return this.json.get(JsonAppoint.PAYMENTS).getAsString()
+            return this.string(JsonAppoint.PAYMENTS)
                 .replace(", ", "\n").trim();
         }
 
-        private Opt<Date> dateFrom(String property) throws BazisException {
+        private String string(String property) {
+            return this.json.getAsJsonObject().get(property).getAsString();
+        }
+
+        private Opt<Date> date(String property) throws BazisException {
             try {
-                final JsonElement element = this.json.get(property);
+                final JsonElement element =
+                    this.json.getAsJsonObject().get(property);
                 return element == null
                     ? new EmptyOpt<Date>()
                     : new OptOf<>(

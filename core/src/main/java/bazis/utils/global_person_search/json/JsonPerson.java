@@ -27,7 +27,7 @@ final class JsonPerson implements Person, Jsonable {
 
     private final Person origin;
 
-    JsonPerson(JsonObject json) {
+    JsonPerson(JsonElement json) {
         this(new JsonPerson.Parsed(json));
     }
 
@@ -91,22 +91,22 @@ final class JsonPerson implements Person, Jsonable {
 
     private static final class Parsed implements Person {
 
-        private final JsonObject json;
+        private final JsonElement json;
 
-        private Parsed(JsonObject json) {
+        private Parsed(JsonElement json) {
             this.json = json;
         }
 
         @Override
         public String fio() {
-            return this.json.get(JsonPerson.FIO).getAsString();
+            return this.string(JsonPerson.FIO);
         }
 
         @Override
         public Date birthdate() throws BazisException {
             try {
                 return JsonPerson.DATE_FORMAT.parse(
-                    this.json.get(JsonPerson.BIRTHDATE).getAsString()
+                    this.string(JsonPerson.BIRTHDATE)
                 );
             } catch (final ParseException ex) {
                 throw new BazisException(ex);
@@ -115,35 +115,42 @@ final class JsonPerson implements Person, Jsonable {
 
         @Override
         public String address() {
-            return this.json.get(JsonPerson.ADDRESS).getAsString();
+            return this.string(JsonPerson.ADDRESS);
         }
 
         @Override
         public String snils() {
-            return this.json.get(JsonPerson.SNILS).getAsString();
+            return this.string(JsonPerson.SNILS);
         }
 
         @Override
         public String borough() {
-            return this.json.get(JsonPerson.BOROUGH).getAsString();
+            return this.string(JsonPerson.BOROUGH);
         }
 
         @Override
         public String passport() {
-            return this.json.get(JsonPerson.PASSPORT).getAsString();
+            return this.string(JsonPerson.PASSPORT);
         }
 
         @Override
         public Iterable<Appoint> appoints() {
             return new MappedIterable<>(
-                this.json.get(JsonPerson.APPOINTS).getAsJsonArray(),
+                this.json
+                    .getAsJsonObject()
+                    .get(JsonPerson.APPOINTS)
+                    .getAsJsonArray(),
                 new Func<JsonElement, Appoint>() {
                     @Override
                     public Appoint apply(JsonElement item) {
-                        return new JsonAppoint(item.getAsJsonObject());
+                        return new JsonAppoint(item);
                     }
                 }
             );
+        }
+
+        private String string(String property) {
+            return this.json.getAsJsonObject().get(property).getAsString();
         }
 
     }
