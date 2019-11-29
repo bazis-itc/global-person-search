@@ -5,11 +5,9 @@ import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.opt.EmptyOpt;
 import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.Appoint;
+import bazis.utils.global_person_search.dates.IsoDate;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @SuppressWarnings({"CyclicClassDependency", "ClassWithTooManyMethods"})
@@ -20,10 +18,6 @@ final class JsonAppoint implements Appoint, Jsonable {
         CHILD = "child", STATUS = "status",
         START_DATE = "startDate", END_DATE = "endDate",
         PAYMENTS = "payments";
-
-    @SuppressWarnings("SpellCheckingInspection")
-    private static final DateFormat DATE_FORMAT =
-        new SimpleDateFormat("yyyy-MM-dd");
 
     private final Appoint origin;
 
@@ -94,9 +88,9 @@ final class JsonAppoint implements Appoint, Jsonable {
     }
 
     @SuppressWarnings("MethodMayBeStatic")
-    private String dateAsText(Opt<Date> date) {
+    private String dateAsText(Opt<Date> date) throws BazisException {
         //noinspection ReturnOfNull
-        return date.has() ? JsonAppoint.DATE_FORMAT.format(date.get()) : null;
+        return date.has() ? new IsoDate(date.get()).asString() : null;
     }
 
     private static final class Parsed implements Appoint {
@@ -156,17 +150,11 @@ final class JsonAppoint implements Appoint, Jsonable {
         }
 
         private Opt<Date> date(String property) throws BazisException {
-            try {
-                final JsonElement element =
-                    this.json.getAsJsonObject().get(property);
-                return element == null
-                    ? new EmptyOpt<Date>()
-                    : new OptOf<>(
-                        JsonAppoint.DATE_FORMAT.parse(element.getAsString())
-                    );
-            } catch (final ParseException ex) {
-                throw new BazisException(ex);
-            }
+            final JsonElement element =
+                this.json.getAsJsonObject().get(property);
+            return element == null
+                ? new EmptyOpt<Date>()
+                : new OptOf<>(new IsoDate(element.getAsString()).value());
         }
 
     }

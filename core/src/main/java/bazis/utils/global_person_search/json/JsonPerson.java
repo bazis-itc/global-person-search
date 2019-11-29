@@ -5,12 +5,10 @@ import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.dates.IsoDate;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @SuppressWarnings({"CyclicClassDependency", "ClassWithTooManyMethods"})
@@ -20,10 +18,6 @@ final class JsonPerson implements Person, Jsonable {
         FIO = "fio", BIRTHDATE = "birthdate", ADDRESS = "address",
         SNILS = "snils", BOROUGH = "borough", APPOINTS = "appoints",
         PASSPORT = "passport";
-
-    @SuppressWarnings("SpellCheckingInspection")
-    private static final DateFormat DATE_FORMAT =
-        new SimpleDateFormat("yyyy-MM-dd");
 
     private final Person origin;
 
@@ -75,8 +69,7 @@ final class JsonPerson implements Person, Jsonable {
         final JsonObject json = new JsonObject();
         json.addProperty(JsonPerson.FIO, this.fio());
         json.addProperty(
-            JsonPerson.BIRTHDATE,
-            JsonPerson.DATE_FORMAT.format(this.birthdate())
+            JsonPerson.BIRTHDATE, new IsoDate(this.birthdate()).asString()
         );
         json.addProperty(JsonPerson.ADDRESS, this.address());
         json.addProperty(JsonPerson.SNILS, this.snils());
@@ -104,13 +97,7 @@ final class JsonPerson implements Person, Jsonable {
 
         @Override
         public Date birthdate() throws BazisException {
-            try {
-                return JsonPerson.DATE_FORMAT.parse(
-                    this.string(JsonPerson.BIRTHDATE)
-                );
-            } catch (final ParseException ex) {
-                throw new BazisException(ex);
-            }
+            return new IsoDate(this.string(JsonPerson.BIRTHDATE)).value();
         }
 
         @Override

@@ -6,18 +6,12 @@ import bazis.cactoos3.opt.EmptyOpt;
 import bazis.cactoos3.opt.OptOf;
 import bazis.cactoos3.text.UncheckedText;
 import bazis.utils.global_person_search.Appoint;
+import bazis.utils.global_person_search.dates.IsoDate;
 import bazis.utils.global_person_search.ext.ConcatedText;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @SuppressWarnings("ClassWithTooManyMethods")
 public final class FakeAppoint implements Appoint {
-
-    @SuppressWarnings("SpellCheckingInspection")
-    private static final DateFormat DATE_FORMAT =
-        new SimpleDateFormat("yyyy-MM-dd");
 
     private final String type, msp, startDate, endDate;
 
@@ -100,13 +94,9 @@ public final class FakeAppoint implements Appoint {
     }
 
     private static Opt<Date> dateFrom(String date) throws BazisException {
-        try {
-            return date.isEmpty()
-                ? new EmptyOpt<Date>()
-                : new OptOf<>(FakeAppoint.DATE_FORMAT.parse(date));
-        } catch (final ParseException ex) {
-            throw new BazisException(ex);
-        }
+        return date.isEmpty()
+            ? new EmptyOpt<Date>()
+            : new OptOf<>(new IsoDate(date).value());
     }
 
 }

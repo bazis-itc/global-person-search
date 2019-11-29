@@ -1,8 +1,10 @@
 package bazis.utils.global_person_search.fake;
 
+import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.IterableOf;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.dates.IsoDate;
 import java.util.Date;
 
 public final class FakePerson implements Person {
@@ -36,8 +38,8 @@ public final class FakePerson implements Person {
     }
 
     @Override
-    public Date birthdate() {
-        return new Date();
+    public Date birthdate() throws BazisException {
+        return new IsoDate("1990-09-27").value();
     }
 
     @Override

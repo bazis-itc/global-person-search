@@ -6,7 +6,7 @@ import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Person;
-import java.text.SimpleDateFormat;
+import bazis.utils.global_person_search.dates.HumanDate;
 import java.util.Collection;
 
 public final class JspPerson {
@@ -22,9 +22,7 @@ public final class JspPerson {
     }
 
     public String getBirthdate() throws BazisException {
-        //noinspection SpellCheckingInspection
-        return new SimpleDateFormat("dd.MM.yyyy")
-            .format(this.person.birthdate());
+        return new HumanDate(this.person.birthdate()).asString();
     }
 
     public String getAddress() throws BazisException {

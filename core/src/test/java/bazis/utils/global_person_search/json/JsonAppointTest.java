@@ -3,20 +3,15 @@ package bazis.utils.global_person_search.json;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.text.FormattedText;
 import bazis.utils.global_person_search.Appoint;
+import bazis.utils.global_person_search.dates.IsoDate;
 import bazis.utils.global_person_search.ext.ConcatedText;
 import bazis.utils.global_person_search.ext.Lines;
 import bazis.utils.global_person_search.fake.FakeAppoint;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 public final class JsonAppointTest {
-
-    @SuppressWarnings("SpellCheckingInspection")
-    private static final DateFormat DATE_FORMAT =
-        new SimpleDateFormat("yyyy-MM-dd");
 
     @Test
     public void canPrintAndParse() throws BazisException {
@@ -49,16 +44,16 @@ public final class JsonAppointTest {
         );
         MatcherAssert.assertThat(
             "test startDate",
-            JsonAppointTest.DATE_FORMAT.format(converted.startDate().get()),
+            new IsoDate(converted.startDate().get()).asString(),
             Matchers.equalTo(
-                JsonAppointTest.DATE_FORMAT.format(origin.startDate().get())
+                new IsoDate(origin.startDate().get()).asString()
             )
         );
         MatcherAssert.assertThat(
             "test endDate",
-            JsonAppointTest.DATE_FORMAT.format(converted.endDate().get()),
+            new IsoDate(converted.endDate().get()).asString(),
             Matchers.equalTo(
-                JsonAppointTest.DATE_FORMAT.format(origin.endDate().get())
+                new IsoDate(origin.endDate().get()).asString()
             )
         );
     }
