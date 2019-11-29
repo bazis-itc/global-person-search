@@ -10,20 +10,15 @@ import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.Report;
+import bazis.utils.global_person_search.dates.HumanDate;
 import bazis.utils.global_person_search.ext.Lines;
 import bazis.utils.global_person_search.ext.ReportData;
 import bazis.utils.global_person_search.sx.DownloadUrl;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import sx.admin.AdmRequest;
 
 public final class RtfProtocol implements Protocol {
-
-    @SuppressWarnings("SpellCheckingInspection")
-    private static final DateFormat DATE_FORMAT =
-        new SimpleDateFormat("dd.MM.yyyy");
 
     private final Report report;
 
@@ -66,9 +61,7 @@ public final class RtfProtocol implements Protocol {
                     ", ",
                     new IterableOf<>(
                         person.fio(),
-                        RtfProtocol.DATE_FORMAT.format(
-                            person.birthdate()
-                        ),
+                        new HumanDate(person.birthdate()).asString(),
                         person.address()
                     )
                 )
@@ -91,8 +84,8 @@ public final class RtfProtocol implements Protocol {
                     .withString(
                         "period",
                         new Lines(
-                            this.dateAsString("с ", appoint.startDate()),
-                            this.dateAsString("по ", appoint.endDate())
+                            this.dateAsString("с", appoint.startDate()),
+                            this.dateAsString("по", appoint.endDate())
                         )
                     )
                     .withString("status", appoint.status())
@@ -101,10 +94,13 @@ public final class RtfProtocol implements Protocol {
     }
 
     @SuppressWarnings("MethodMayBeStatic")
-    private String dateAsString(String prefix, Opt<Date> date) {
-        //noinspection StringConcatenation,StringConcatenationMissingWhitespace
+    private String dateAsString(String prefix, Opt<Date> date)
+        throws BazisException {
         return date.has()
-            ? prefix + RtfProtocol.DATE_FORMAT.format(date.get()) : "";
+            ? String.format(
+                "%s %s", prefix, new HumanDate(date.get()).asString()
+            )
+            : "";
     }
 
 }
