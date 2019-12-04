@@ -8,11 +8,13 @@ import bazis.cactoos3.scalar.ScalarOf;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import javax.xml.bind.DatatypeConverter;
 
+@SuppressWarnings("LambdaUnfriendlyMethodOverload")
 public final class ServerError implements Scalar<Exception>, Text {
 
     private final Scalar<Exception> scalar;
@@ -21,8 +23,8 @@ public final class ServerError implements Scalar<Exception>, Text {
         this(new ServerError.Parsed(serialized));
     }
 
-    public ServerError(Exception scalar) {
-        this(new ScalarOf<>(scalar));
+    public ServerError(Exception exception) {
+        this(new ScalarOf<>(exception));
     }
 
     private ServerError(Scalar<Exception> scalar) {
@@ -58,7 +60,7 @@ public final class ServerError implements Scalar<Exception>, Text {
         @Override
         public Exception value() throws Exception {
             try (
-                final ObjectInputStream input = new ObjectInputStream(
+                final ObjectInput input = new ObjectInputStream(
                     new ByteArrayInputStream(
                         DatatypeConverter.parseBase64Binary(
                             this.serialized.asString()
