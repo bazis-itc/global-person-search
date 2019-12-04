@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+@SuppressWarnings({"ClassWithTooManyMethods", "MethodReturnOfConcreteClass"})
 public final class FakeAppoint implements Appoint {
 
     private static final String
@@ -78,6 +79,7 @@ public final class FakeAppoint implements Appoint {
 
     @Override
     public String category() {
+        //noinspection StringConcatenation
         return "Супруга (супруг), состоящая (состоящий) " +
             "на день гибели (смерти) военнослужащего, гражданина, " +
             "призванного на военные сборы, умерших вследствие военной травмы " +
@@ -104,6 +106,11 @@ public final class FakeAppoint implements Appoint {
     @Override
     public Opt<Date> endDate() throws BazisException {
         return this.date(FakeAppoint.END_DATE);
+    }
+
+    @Override
+    public String payments() {
+        throw new UnsupportedOperationException("Method not implemented");
     }
 
     private Opt<Date> date(String key) throws BazisException {
