@@ -1,4 +1,4 @@
-package bazis.utils.global_person_search.date;
+package bazis.utils.global_person_search.dates;
 
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.Text;
