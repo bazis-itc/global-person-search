@@ -11,11 +11,21 @@ import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.json.JsonText;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import org.junit.Ignore;
+import org.junit.Test;
 import sx.common.MonthYearBean;
 
-public final class JdbcRegisterTest {
+@SuppressWarnings("IgnoredJUnitTest")
+@Ignore
+public final class JdbcRegisterITCase {
 
-    public static void main(String... args) throws Exception {
+    @Test
+    @SuppressWarnings({
+        "JUnitTestMethodWithNoAssertions",
+        "CallToDriverManagerGetConnection",
+        "UseOfSystemOutOrSystemErr"
+    })
+    public void test() throws Exception {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         try (
             final Connection central = DriverManager.getConnection(
@@ -61,7 +71,7 @@ public final class JdbcRegisterTest {
             );
             for (final Person person : persons) {
                 System.out.println(person.fio());
-//                System.out.println(person.birthdate());
+                System.out.println(person.birthdate());
 //                System.out.println(person.address());
 //                System.out.println(person.snils());
 //                System.out.println(person.borough());

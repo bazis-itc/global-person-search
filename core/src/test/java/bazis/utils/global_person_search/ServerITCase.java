@@ -4,11 +4,19 @@ import bazis.cactoos3.exception.BazisException;
 import bazis.utils.global_person_search.json.JsonRequest;
 import bazis.utils.global_person_search.json.JsonText;
 import com.google.gson.JsonObject;
+import org.junit.Ignore;
+import org.junit.Test;
 import sx.common.MonthYearBean;
 
-public final class ServerTest {
+@SuppressWarnings("IgnoredJUnitTest")
+@Ignore
+public final class ServerITCase {
 
-    public static void main(String... args) throws BazisException {
+    @Test
+    @SuppressWarnings({
+        "JUnitTestMethodWithNoAssertions", "UseOfSystemOutOrSystemErr"
+    })
+    public void test() throws BazisException {
         final String response = new Server(
             "http://192.168.120.108:8080/central_test/"
         ).send(
