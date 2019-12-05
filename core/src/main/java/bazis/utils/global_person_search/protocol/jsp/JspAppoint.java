@@ -1,4 +1,4 @@
-package bazis.utils.global_person_search.jsp;
+package bazis.utils.global_person_search.protocol.jsp;
 
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
