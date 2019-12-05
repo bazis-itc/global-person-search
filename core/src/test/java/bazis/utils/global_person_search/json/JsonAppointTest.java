@@ -100,7 +100,7 @@ public final class JsonAppointTest {
     @Test
     public void emptyDates() throws BazisException {
         final Appoint
-            origin = new FakeAppoint("some msp", "", ""),
+            origin = new FakeAppoint().withDates("", ""),
             converted = new JsonAppoint(
                 new JsonText(
                     new JsonText(new JsonAppoint(origin)).asString()

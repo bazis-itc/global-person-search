@@ -24,7 +24,7 @@ public final class JspAppointTest {
     @Test
     public void canGetEmptyDates() throws BazisException {
         final JspAppoint appoint = new JspAppoint(
-            new FakeAppoint("", "", "")
+            new FakeAppoint().withDates("", "")
         );
         MatcherAssert.assertThat(
             "can't get empty start date",

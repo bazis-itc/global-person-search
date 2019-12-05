@@ -2,58 +2,81 @@ package bazis.utils.global_person_search.fake;
 
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
+import bazis.cactoos3.map.Entry;
+import bazis.cactoos3.map.MapOf;
 import bazis.cactoos3.opt.EmptyOpt;
 import bazis.cactoos3.opt.OptOf;
 import bazis.cactoos3.text.UncheckedText;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.dates.IsoDate;
 import bazis.utils.global_person_search.ext.ConcatedText;
+import bazis.utils.global_person_search.ext.Entries;
 import java.util.Date;
+import java.util.Map;
 
-@SuppressWarnings("ClassWithTooManyMethods")
+@SuppressWarnings({"ClassWithTooManyMethods", "MethodReturnOfConcreteClass"})
 public final class FakeAppoint implements Appoint {
 
-    private final String type, msp, startDate, endDate;
+    private static final String
+        TYPE = "type", MSP = "msp",
+        START_DATE = "startDate", END_DATE = "endDate";
 
-    @SuppressWarnings("StringConcatenation")
+    private final Map<String, String> map;
+
     public FakeAppoint() {
-        this.type = "37145780-704c-48a2-9272-1f99afddaa9f";
-        this.msp =
-            "Ежемесячная денежная компенсация военнослужащим, гражданам, " +
-            "призванным на военные сборы, пенсионное обеспечение которых " +
-            "осуществляется Пенсионным фондом Российской Федерации, и " +
-            "членам их семей";
-        this.startDate = "2019-01-01";
-        this.endDate = "2019-12-31";
+        this(
+            new MapOf<>(
+                new Entry<>(FakeAppoint.TYPE,
+                    "37145780-704c-48a2-9272-1f99afddaa9f"),
+                new Entry<>(FakeAppoint.MSP,
+                    "Ежемесячная денежная компенсация военнослужащим"),
+                new Entry<>(FakeAppoint.START_DATE, "2019-01-01"),
+                new Entry<>(FakeAppoint.END_DATE, "2019-12-31")
+            )
+        );
     }
 
-    public FakeAppoint(String type, String msp) {
-        this.type = type;
-        this.msp = msp;
-        this.startDate = "2019-01-01";
-        this.endDate = "2019-12-31";
+    private FakeAppoint(Map<String, String> map) {
+        this.map = map;
     }
 
-    public FakeAppoint(String msp, String startDate, String endDate) {
-        this.type = "37145780-704c-48a2-9272-1f99afddaa9f";
-        this.msp = msp;
-        this.startDate = startDate;
-        this.endDate = endDate;
+    public FakeAppoint withType(String type) {
+        return this.with(FakeAppoint.TYPE, type);
+    }
+
+    public FakeAppoint withMsp(String msp) {
+        return this.with(FakeAppoint.MSP, msp);
+    }
+
+    public FakeAppoint withDates(String start, String end) {
+        return this
+            .with(FakeAppoint.START_DATE, start)
+            .with(FakeAppoint.END_DATE, end);
+    }
+
+    private FakeAppoint with(String attr, String value) {
+        return new FakeAppoint(
+            new MapOf<>(
+                new Entries<>(
+                    this.map, new Entry<>(attr, value)
+                )
+            )
+        );
     }
 
     @Override
     public String type() {
-        return this.type;
+        return this.map.get(FakeAppoint.TYPE);
     }
 
     @Override
     public String msp() {
-        return this.msp;
+        return this.map.get(FakeAppoint.MSP);
     }
 
     @Override
-    @SuppressWarnings("StringConcatenation")
     public String category() {
+        //noinspection StringConcatenation
         return "Супруга (супруг), состоящая (состоящий) " +
             "на день гибели (смерти) военнослужащего, гражданина, " +
             "призванного на военные сборы, умерших вследствие военной травмы " +
@@ -74,12 +97,12 @@ public final class FakeAppoint implements Appoint {
 
     @Override
     public Opt<Date> startDate() throws BazisException {
-        return FakeAppoint.dateFrom(this.startDate);
+        return FakeAppoint.dateFrom(FakeAppoint.START_DATE);
     }
 
     @Override
     public Opt<Date> endDate() throws BazisException {
-        return FakeAppoint.dateFrom(this.endDate);
+        return FakeAppoint.dateFrom(FakeAppoint.END_DATE);
     }
 
     @Override
