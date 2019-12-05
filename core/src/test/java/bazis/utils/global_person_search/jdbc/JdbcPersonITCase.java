@@ -13,6 +13,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.eq;
+
 @SuppressWarnings("IgnoredJUnitTest")
 @Ignore
 public final class JdbcPersonITCase {
@@ -22,25 +25,16 @@ public final class JdbcPersonITCase {
         "JUnitTestMethodWithNoAssertions",
         "UseOfSystemOutOrSystemErr",
         "CallToDriverManagerGetConnection",
-        "StaticMethodReferencedViaSubclass",
         "MethodWithMultipleLoops"
     })
     public void test() throws Exception {
         final Integer boroughId = 123;
         final Record record = Mockito.mock(Record.class);
         Mockito
-            .when(
-                record.getValue(
-                    Mockito.eq("boroughId"), Mockito.any(Class.class)
-                )
-            )
+            .when(record.getValue(eq("boroughId"), any(Class.class)))
             .thenReturn(boroughId);
         Mockito
-            .when(
-                record.getValue(
-                    Mockito.eq("localId"), Mockito.any(Class.class)
-                )
-            )
+            .when(record.getValue(eq("localId"), any(Class.class)))
             .thenReturn("20758");
         try (
             final Connection borough = DriverManager.getConnection(

@@ -21,7 +21,7 @@ final class JsonAppoint implements Appoint, Jsonable {
         TYPE = "type", MSP = "msp", CATEGORY = "category",
         CHILD = "child", STATUS = "status",
         START_DATE = "startDate", END_DATE = "endDate",
-        PAYMENTS = "payments", PAYOUTS = "payouts";
+        PAYOUTS = "payouts";
 
     private final Appoint origin;
 
