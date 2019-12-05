@@ -35,6 +35,7 @@ public final class JsonPersonsTest {
         MatcherAssert.assertThat(
             "size", persons, Matchers.hasSize(surnames.size())
         );
+        //noinspection ForLoopReplaceableByWhile
         for (int idx = 0; idx < surnames.size(); idx++)
             MatcherAssert.assertThat(
                 "item",

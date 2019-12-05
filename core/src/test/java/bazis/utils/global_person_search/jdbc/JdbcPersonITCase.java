@@ -2,6 +2,7 @@ package bazis.utils.global_person_search.jdbc;
 
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Borough;
+import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.ext.ConcatedText;
 import bazis.utils.global_person_search.fake.FakeBorough;
 import java.sql.Connection;
@@ -21,7 +22,8 @@ public final class JdbcPersonITCase {
         "JUnitTestMethodWithNoAssertions",
         "UseOfSystemOutOrSystemErr",
         "CallToDriverManagerGetConnection",
-        "StaticMethodReferencedViaSubclass"
+        "StaticMethodReferencedViaSubclass",
+        "MethodWithMultipleLoops"
     })
     public void test() throws Exception {
         final Integer boroughId = 123;
@@ -57,7 +59,11 @@ public final class JdbcPersonITCase {
                             boroughId, new FakeBorough(borough)
                         )
                     ).appoints()
-            ) System.out.println(appoint.payments());
+            ) {
+                for (final Payout payout : appoint.payouts())
+                    System.out.println(new Payout.AsText(payout).asString());
+                System.out.println();
+            }
         }
     }
 

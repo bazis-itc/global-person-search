@@ -19,7 +19,11 @@ public final class JsonPersonTest {
                 "Путин Владимир Владимирович",
                 new FakeAppoint(), new FakeAppoint(), new FakeAppoint()
             ),
-            converted = new JsonPerson(new JsonPerson(origin).asJson());
+            converted = new JsonPerson(
+                new JsonText(
+                    new JsonText(new JsonPerson(origin)).asString()
+                ).asJson()
+            );
         MatcherAssert.assertThat(
             "test fio",
             converted.fio(), Matchers.equalTo(origin.fio())

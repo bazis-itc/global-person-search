@@ -7,6 +7,7 @@ import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.text.JoinedText;
 import bazis.cactoos3.text.UncheckedText;
 import bazis.utils.global_person_search.Appoint;
+import bazis.utils.global_person_search.Payout;
 import java.util.Date;
 import org.jooq.Record;
 
@@ -71,8 +72,10 @@ final class JdbcAppoint implements Appoint {
     }
 
     @Override
-    public String payments() {
-        return new SmartRecord(this.record).string("payments");
+    public Iterable<Payout> payouts() {
+        return new JdbcPayouts(
+            new SmartRecord(this.record).string("payments")
+        );
     }
 
 }

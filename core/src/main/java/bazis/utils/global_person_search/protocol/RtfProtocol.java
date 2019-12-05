@@ -1,12 +1,15 @@
 package bazis.utils.global_person_search.protocol;
 
+import bazis.cactoos3.Func;
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.IterableOf;
+import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.scalar.IsEmpty;
 import bazis.cactoos3.text.FormattedText;
 import bazis.cactoos3.text.JoinedText;
 import bazis.utils.global_person_search.Appoint;
+import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.Report;
@@ -75,6 +78,7 @@ public final class RtfProtocol implements Protocol {
         if (new IsEmpty(person.appoints()).value())
             this.report.append(this.group, row);
         else for (final Appoint appoint : person.appoints())
+            //noinspection HardcodedLineSeparator
             this.report.append(
                 this.group,
                 row
@@ -89,7 +93,23 @@ public final class RtfProtocol implements Protocol {
                         )
                     )
                     .withString("status", appoint.status())
-                    .withString("payments", appoint.payments())
+                    .withString(
+                        "payments",
+                        new JoinedText(
+                            "\n",
+                            new MappedIterable<>(
+                                appoint.payouts(),
+                                new Func<Payout, String>() {
+                                    @Override
+                                    public String apply(Payout payout)
+                                        throws BazisException {
+                                        return new Payout.AsText(payout)
+                                            .asString();
+                                    }
+                                }
+                            )
+                        )
+                    )
             );
     }
 

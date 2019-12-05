@@ -1,6 +1,7 @@
 package bazis.utils.global_person_search;
 
 import bazis.cactoos3.Func;
+import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.FilteredIterable;
 import bazis.cactoos3.iterable.IterableEnvelope;
@@ -87,7 +88,19 @@ final class RequestedPerson implements Person {
         final Collection<String> list = new SetOf<>(this.msp);
         //noinspection OverlyComplexAnonymousInnerClass
         return new FilteredIterable<>(
-            this.origin.appoints(),
+            new MappedIterable<>(
+                this.origin.appoints(),
+                new Func<Appoint, Appoint>() {
+                    @Override
+                    public Appoint apply(Appoint appoint) {
+                        return new RequestedAppoint(
+                            appoint,
+                            RequestedPerson.this.startDate,
+                            RequestedPerson.this.endDate
+                        );
+                    }
+                }
+            ),
             new Func<Appoint, Boolean>() {
                 @Override
                 public Boolean apply(Appoint appoint) throws BazisException {
@@ -111,6 +124,78 @@ final class RequestedPerson implements Person {
                                     ).value()
                                 )
                             );
+                }
+            }
+        );
+    }
+
+}
+
+@SuppressWarnings("ClassWithTooManyMethods")
+final class RequestedAppoint implements Appoint {
+
+    private final Appoint origin;
+
+    private final Date startDate, endDate;
+
+    RequestedAppoint(Appoint origin, Date startDate, Date endDate) {
+        this.origin = origin;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    @Override
+    public String type() {
+        return this.origin.type();
+    }
+
+    @Override
+    public String msp() {
+        return this.origin.msp();
+    }
+
+    @Override
+    public String category() {
+        return this.origin.category();
+    }
+
+    @Override
+    public String child() {
+        return this.origin.child();
+    }
+
+    @Override
+    public String status() {
+        return this.origin.status();
+    }
+
+    @Override
+    public Opt<Date> startDate() throws BazisException {
+        return this.origin.startDate();
+    }
+
+    @Override
+    public Opt<Date> endDate() throws BazisException {
+        return this.origin.endDate();
+    }
+
+    @Override
+    public Iterable<Payout> payouts() {
+        return new FilteredIterable<>(
+            this.origin.payouts(),
+            new Func<Payout, Boolean>() {
+                @Override
+                public Boolean apply(Payout payout) {
+                    final MonthYearBean date = new MonthYearBean(
+                        payout.year().intValue(),
+                        payout.month().intValue(),
+                        1
+                    );
+                    return
+                        !new MonthYearBean(RequestedAppoint.this.startDate)
+                            .afterInDay(date)
+                        && !new MonthYearBean(RequestedAppoint.this.endDate)
+                            .beforeInDay(date);
                 }
             }
         );

@@ -1,11 +1,15 @@
 package bazis.utils.global_person_search.json;
 
+import bazis.cactoos3.Func;
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
+import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.opt.EmptyOpt;
 import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.Appoint;
+import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.dates.IsoDate;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.Date;
@@ -17,7 +21,7 @@ final class JsonAppoint implements Appoint, Jsonable {
         TYPE = "type", MSP = "msp", CATEGORY = "category",
         CHILD = "child", STATUS = "status",
         START_DATE = "startDate", END_DATE = "endDate",
-        PAYMENTS = "payments";
+        PAYMENTS = "payments", PAYOUTS = "payouts";
 
     private final Appoint origin;
 
@@ -65,8 +69,8 @@ final class JsonAppoint implements Appoint, Jsonable {
     }
 
     @Override
-    public String payments() {
-        return this.origin.payments();
+    public Iterable<Payout> payouts() {
+        return this.origin.payouts();
     }
 
     @Override
@@ -83,7 +87,10 @@ final class JsonAppoint implements Appoint, Jsonable {
         json.addProperty(
             JsonAppoint.END_DATE, this.dateAsText(this.endDate())
         );
-        json.addProperty(JsonAppoint.PAYMENTS, this.payments());
+        final JsonArray payouts = new JsonArray();
+        for (final Payout payout : this.payouts())
+            payouts.add(new JsonPayout(payout).asJson());
+        json.add(JsonAppoint.PAYOUTS, payouts);
         return json;
     }
 
@@ -137,12 +144,19 @@ final class JsonAppoint implements Appoint, Jsonable {
         }
 
         @Override
-        @SuppressWarnings({
-            "HardcodedLineSeparator", "DynamicRegexReplaceableByCompiledPattern"
-        })
-        public String payments() {
-            return this.string(JsonAppoint.PAYMENTS)
-                .replace("|", "\n").trim();
+        public Iterable<Payout> payouts() {
+            return new MappedIterable<>(
+                this.json
+                    .getAsJsonObject()
+                    .get(JsonAppoint.PAYOUTS)
+                    .getAsJsonArray(),
+                new Func<JsonElement, Payout>() {
+                    @Override
+                    public Payout apply(JsonElement item) {
+                        return new JsonPayout(item);
+                    }
+                }
+            );
         }
 
         private String string(String property) {

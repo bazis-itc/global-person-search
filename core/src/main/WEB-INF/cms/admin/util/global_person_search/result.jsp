@@ -56,7 +56,11 @@
 							<td>с <c:out value="${appoint.startDate}"/><br>по <c:out value="${appoint.endDate}"/></td>
 							<td><c:out value="${appoint.status}"/></td>
 							<c:if test="${requestScope.displayPayments}">
-								<td><pre style="font-size:12px"><c:out value="${appoint.payments}"/></pre></td>
+								<td>
+								    <c:forEach var="payout" items="${appoint.payouts}">
+								        <c:out value="${payout}"/><br>
+                                    </c:forEach>
+                                </td>
 							</c:if>	
 						</tr>			
 					</c:forEach>

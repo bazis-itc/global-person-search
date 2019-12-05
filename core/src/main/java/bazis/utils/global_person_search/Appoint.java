@@ -21,6 +21,6 @@ public interface Appoint {
 
     Opt<Date> endDate() throws BazisException;
 
-    String payments();
+    Iterable<Payout> payouts();
 
 }

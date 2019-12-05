@@ -3,12 +3,14 @@ package bazis.utils.global_person_search.fake;
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.Text;
 import bazis.cactoos3.exception.BazisException;
+import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
 import bazis.cactoos3.opt.EmptyOpt;
 import bazis.cactoos3.opt.OptOf;
 import bazis.cactoos3.text.UncheckedText;
 import bazis.utils.global_person_search.Appoint;
+import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.dates.IsoDate;
 import bazis.utils.global_person_search.ext.ConcatedText;
 import bazis.utils.global_person_search.ext.Entries;
@@ -109,14 +111,10 @@ public final class FakeAppoint implements Appoint {
     }
 
     @Override
-    public String payments() {
-        return new UncheckedText(
-            new ConcatedText(
-                "13.07.2016 9877.52 Декабрь 2015, ",
-                "21.04.2016 3572.67 Январь 2016, ",
-                "21.04.2016 3572.67 Февраль 2016, "
-            )
-        ).asString();
+    public Iterable<Payout> payouts() {
+        return new IterableOf<Payout>(
+            new FakePayout(), new FakePayout(), new FakePayout()
+        );
     }
 
     private Opt<Date> date(String key) throws BazisException {

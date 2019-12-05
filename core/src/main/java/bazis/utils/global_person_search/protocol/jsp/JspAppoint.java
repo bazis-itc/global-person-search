@@ -1,9 +1,14 @@
 package bazis.utils.global_person_search.protocol.jsp;
 
+import bazis.cactoos3.Func;
 import bazis.cactoos3.Opt;
+import bazis.cactoos3.collection.ListOf;
 import bazis.cactoos3.exception.BazisException;
+import bazis.cactoos3.iterable.MappedIterable;
 import bazis.utils.global_person_search.Appoint;
+import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.dates.HumanDate;
+import java.util.Collection;
 import java.util.Date;
 
 public final class JspAppoint {
@@ -40,8 +45,18 @@ public final class JspAppoint {
         return date.has() ? new HumanDate(date.get()).asString() : "";
     }
 
-    public String getPayments() {
-        return this.appoint.payments();
+    public Collection<String> getPayouts() {
+        return new ListOf<>(
+            new MappedIterable<>(
+                this.appoint.payouts(),
+                new Func<Payout, String>() {
+                    @Override
+                    public String apply(Payout payout) throws BazisException {
+                        return new Payout.AsText(payout).asString();
+                    }
+                }
+            )
+        );
     }
 
 }
