@@ -100,12 +100,12 @@ public final class FakeAppoint implements Appoint {
 
     @Override
     public Opt<Date> startDate() throws BazisException {
-        return FakeAppoint.dateFrom(FakeAppoint.START_DATE);
+        return this.date(FakeAppoint.START_DATE);
     }
 
     @Override
     public Opt<Date> endDate() throws BazisException {
-        return FakeAppoint.dateFrom(FakeAppoint.END_DATE);
+        return this.date(FakeAppoint.END_DATE);
     }
 
     @Override
@@ -119,7 +119,8 @@ public final class FakeAppoint implements Appoint {
         ).asString();
     }
 
-    private static Opt<Date> dateFrom(String date) throws BazisException {
+    private Opt<Date> date(String key) throws BazisException {
+        final String date = this.map.get(key);
         return date.isEmpty()
             ? new EmptyOpt<Date>()
             : new OptOf<>(new IsoDate(date).value());
