@@ -142,7 +142,7 @@ final class JsonAppoint implements Appoint, Jsonable {
         })
         public String payments() {
             return this.string(JsonAppoint.PAYMENTS)
-                .replace(", ", "\n").trim();
+                .replace("|", "\n").trim();
         }
 
         private String string(String property) {
