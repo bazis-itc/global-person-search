@@ -5,6 +5,7 @@ import bazis.cactoos3.map.MapOf;
 import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.Borough;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.ext.ConcatedText;
 import bazis.utils.global_person_search.fake.FakeBorough;
 import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.json.JsonText;
@@ -18,14 +19,18 @@ public final class JdbcRegisterTest {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         try (
             final Connection central = DriverManager.getConnection(
-                "jdbc:sqlserver://10.65.12.5;" +
-                    "databaseName=update_test_central;" +
+                new ConcatedText(
+                "jdbc:sqlserver://10.65.12.5;",
+                    "databaseName=update_test_central;",
                     "user=sa;password=S1tex2016"
+                ).asString()
             );
             final Connection borough = DriverManager.getConnection(
-                "jdbc:sqlserver://10.65.12.5;" +
-                    "databaseName=R15;" +
+                new ConcatedText(
+                "jdbc:sqlserver://10.65.12.5;",
+                    "databaseName=R15;",
                     "user=sa;password=S1tex2016"
+                ).asString()
             )
         ) {
             final String json = new JsonText(

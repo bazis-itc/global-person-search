@@ -1,6 +1,7 @@
 package bazis.utils.global_person_search.fake;
 
 import bazis.cactoos3.Opt;
+import bazis.cactoos3.Text;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
@@ -76,13 +77,15 @@ public final class FakeAppoint implements Appoint {
 
     @Override
     public String category() {
-        //noinspection StringConcatenation
-        return "Супруга (супруг), состоящая (состоящий) " +
-            "на день гибели (смерти) военнослужащего, гражданина, " +
-            "призванного на военные сборы, умерших вследствие военной травмы " +
-            "в зарегистрированном браке с ним, не вступившая (не вступивший) " +
-            "в повторный брак, достигшая возраста 50 лет " +
-            "(достигший возраста 55 лет)";
+        final Text text = new ConcatedText(
+            "Супруга (супруг), состоящая (состоящий) ",
+            "на день гибели (смерти) военнослужащего, гражданина, ",
+            "призванного на военные сборы, умерших вследствие военной травмы ",
+            "в зарегистрированном браке с ним, не вступившая (не вступивший) ",
+            "в повторный брак, достигшая возраста 50 лет ",
+            "(достигший возраста 55 лет)"
+        );
+        return new UncheckedText(text).asString();
     }
 
     @Override
