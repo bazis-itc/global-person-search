@@ -42,7 +42,7 @@
 						<td><b>МСП</b></td>
 						<td><b>ЛК</b></td>
 						<td><b>Лицо, на основании данных ЛД которого сделано назначение</b></td>
-						<td><b>Период предостав-ления МСП</b></td>
+						<td><b>Период предоставления МСП</b></td>
 						<td><b>Статус назначения</b></td>
 						<c:if test="${requestScope.displayPayments}">
 							<td><b>Выплаты</b></td>
@@ -58,7 +58,7 @@
 							<c:if test="${requestScope.displayPayments}">
 								<td>
 								    <c:forEach var="payout" items="${appoint.payouts}">
-								        <c:out value="${payout}"/><br>
+								        <nobr><c:out value="${payout}"/></nobr><br>
                                     </c:forEach>
                                 </td>
 							</c:if>	
