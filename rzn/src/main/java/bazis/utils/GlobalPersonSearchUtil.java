@@ -9,13 +9,13 @@ import bazis.utils.global_person_search.json.Jsonable;
 import com.google.gson.JsonObject;
 
 @SuppressWarnings({
-    "WeakerAccess", "ClassIndependentOfModule", "ClassOnlyUsedInOneModule"
+    "ClassIndependentOfModule", "ClassOnlyUsedInOneModule"
 })
 public final class GlobalPersonSearchUtil extends BaseSearchUtil {
 
     public GlobalPersonSearchUtil() {
         super(
-            "http://192.168.120.108:8080/central_test/",
+            "http://192.168.120.108:8080/central/",
             new Func<Person, Jsonable>() {
                 @Override
                 public Jsonable apply(Person person) throws BazisException {
