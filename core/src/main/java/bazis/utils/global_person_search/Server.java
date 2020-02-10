@@ -10,6 +10,7 @@ import java.util.Map;
 import sx.bazis.uninfoobmen.web.ClientConnectServlet;
 import sx.bazis.uninfoobmen.web.ConnectServletException;
 
+@SuppressWarnings("deprecation")
 final class Server {
 
     private final String url;
@@ -34,14 +35,11 @@ final class Server {
                 )
             );
             final String result = response.get("RESULT");
-            if ("ERROR".equals(result)) throw new BazisException(
-                String.format("Server error: '%s'", response.get("ERROR_TITLE"))
-            );
+            if ("ERROR".equals(result))
+                throw new BazisException(response.get("ERROR_TITLE"));
             if (!"COMPLETE".equals(result)) throw new BazisException(
                 String.format("Unknown response type '%s'", result)
             );
-            final String error = response.get("COMPLETE_TITLE");
-            if (!error.isEmpty()) throw new BazisException(error);
             return new EncryptedText(
                 connection.getOutputObject().getInputStream()
             ).asString();

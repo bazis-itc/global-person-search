@@ -1,11 +1,10 @@
 package bazis.utils.global_person_search.uson;
 
 import bazis.cactoos3.Opt;
-import bazis.cactoos3.opt.EmptyOpt;
+import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.Borough;
 import java.sql.ResultSet;
-import java.util.Collection;
 import org.jooq.Record;
 import sx.bazis.uninfoobmen.sys.sql.ExecSelectRayon;
 
@@ -13,18 +12,13 @@ final class UsonBorough implements Borough {
 
     private final Record record;
 
-    private final Collection<String> log;
-
-    UsonBorough(Record record, Collection<String> log) {
+    UsonBorough(Record record) {
         this.record = record;
-        this.log = log;
     }
 
     @Override
-    @SuppressWarnings({
-        "OverlyBroadCatchBlock", "MethodWithMultipleReturnPoints"
-    })
-    public Opt<ResultSet> select(final String query) {
+    @SuppressWarnings("OverlyBroadCatchBlock")
+    public Opt<ResultSet> select(final String query) throws BazisException {
         try {
             return new OptOf<ResultSet>(
                 ExecSelectRayon.exec(
@@ -32,14 +26,14 @@ final class UsonBorough implements Borough {
                     this.record.getValue("url", String.class)
                 )
             );
-        } catch (final Exception ignored) {
-            this.log.add(
+        } catch (final Exception ex) {
+            throw new BazisException(
                 String.format(
                     "Сервер не опрошен: %s",
                     this.record.getValue("name", String.class)
-                )
+                ),
+                ex
             );
-            return new EmptyOpt<>();
         }
     }
 }
