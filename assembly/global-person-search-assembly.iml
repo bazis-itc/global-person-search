@@ -8,12 +8,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: bazis:interaction-platform:vrn" level="project" />
     <orderEntry type="module" module-name="global-person-search-core" />
     <orderEntry type="module" module-name="global-person-search-vrn" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: sitex:sitex:vrn" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: sitex:sx-jdbc:vrn" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: bazis:uson:vrn" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: bazis:interaction-platform:vrn" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: commons-io:commons-io:2.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.xml.bind:jaxb-api:2.2.1" level="project" />

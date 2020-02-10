@@ -69,14 +69,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>sitex</groupId>
-            <artifactId>sx-jdbc</artifactId>
-            <version>${sitex.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>bazis</groupId>
-            <artifactId>uson</artifactId>
+            <artifactId>interaction-platform</artifactId>
             <!--suppress MavenModelInspection -->
             <version>${sitex.version}</version>
             <scope>provided</scope>
