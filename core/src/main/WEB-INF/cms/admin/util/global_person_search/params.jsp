@@ -144,7 +144,7 @@
 						<option value="4">Апрель</option>
 						<option value="5">Май</option>
 						<option value="6">Июнь</option>
-						<option value="7">Июнь</option>
+						<option value="7">Июль</option>
 						<option value="8">Август</option>
 						<option value="9">Сентябрь</option>
 						<option value="10">Октябрь</option>
