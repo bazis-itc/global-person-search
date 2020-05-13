@@ -3,12 +3,10 @@ package bazis.utils.global_person_search;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import sx.bazis.uninfoobmen.web.ClientConnectServlet;
 import sx.bazis.uninfoobmen.web.ConnectServletException;
+import sx.bazis.uninfoobmen.web.HttpMultipurposeClient;
 
 @SuppressWarnings("deprecation")
 final class Server {
@@ -20,7 +18,7 @@ final class Server {
     }
 
     String send(String request) throws BazisException {
-        final ClientConnectServlet connection = new ClientConnectServlet();
+        final HttpMultipurposeClient connection = new HttpMultipurposeClient();
         try {
             connection.setInputObject(new EncryptedText(request).asBytes());
             final Map<String, String> response = connection.invoc(
@@ -43,19 +41,12 @@ final class Server {
             return new EncryptedText(
                 connection.getOutputObject().getInputStream()
             ).asString();
-        } catch (final FileNotFoundException ex) {
-            throw new BazisException(ex);
         } catch (final ConnectServletException ex) {
             throw new BazisException(
                 String.format("Сервер недоступен: %s", this.url), ex
             );
         } finally {
-            try {
-                connection.destroy();
-            } catch (final IOException ex) {
-                //noinspection ThrowFromFinallyBlock
-                throw new BazisException(ex);
-            }
+            connection.destroy();
         }
     }
 

@@ -70,10 +70,17 @@
         </dependency>
         <dependency>
             <groupId>bazis</groupId>
-            <artifactId>interaction-platform</artifactId>
+            <artifactId>bazis.interaction-platform</artifactId>
             <!--suppress MavenModelInspection -->
-            <version>${sitex.version}</version>
+            <version>4.1</version>
+            <classifier>${sitex.version}</classifier>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>sitex</groupId>
+                    <artifactId>sitex</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

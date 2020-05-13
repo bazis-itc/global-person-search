@@ -9,7 +9,8 @@ import bazis.utils.global_person_search.uson.UsonBoroughs;
 import java.sql.Connection;
 import java.util.HashMap;
 import javax.servlet.http.HttpSession;
-import sx.bazis.uninfoobmen.sys.store.StoreFactory;
+import sx.bazis.uninfoobmen.sys.store.DataObject;
+import sx.bazis.uninfoobmen.sys.store.ReturnDataObject;
 import sx.datastore.SXDsFactory;
 
 public final class GlobalPersonSearchOperation extends UIOperationBase {
@@ -22,22 +23,17 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
     }
 
     @Override
-    @SuppressWarnings("MethodWithMultipleReturnPoints")
-    public HashMap<String, String> exec(HashMap<String, String> inputMap,
-        String requestId, HttpSession session) {
+    public ReturnDataObject exec(HashMap<String, String> hashMap,
+        DataObject dataObject, HttpSession httpSession) {
         //noinspection OverlyBroadCatchBlock
         try (final Connection conn = SXDsFactory.getDs().getConnection()) {
             final JsonRequest request = new JsonRequest(
                 new JsonText(
-                    new EncryptedText(
-                        StoreFactory.getInstance()
-                            .inMap.get(requestId)
-                            .getInputStream()
-                    )
+                    new EncryptedText(dataObject.getInputStream())
                 ).asJson()
             );
-            StoreFactory.getInstance().outMap.put(
-                requestId,
+            return super.getReturnMessage(
+                "COMPLETE", "", null,
                 new EncryptedText(
                     new JsonText(
                         new JsonPersons(
@@ -51,14 +47,11 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
                     )
                 ).asBytes()
             );
-            return super.getRetMessage(
-                "COMPLETE", "", null, requestId
-            );
         } catch (final Exception ex) {
-            return super.getRetMessage(
+            return super.getReturnMessage(
                 "ERROR",
                 ex.getMessage() == null ? ex.toString() : ex.getMessage(),
-                ex, requestId
+                ex
             );
         }
     }
