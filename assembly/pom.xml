@@ -28,7 +28,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>2.5</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>auto-clean</id>
@@ -83,15 +83,30 @@
                             <resources>
                                 <resource>
                                     <directory>
-                                        ../${sitex.version}/src/main/WEB-INF
-                                    </directory>
-                                </resource>
-                                <resource>
-                                    <directory>
                                         ../core/src/main/WEB-INF
                                     </directory>
                                 </resource>
                             </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <copy
+                                    file="../core/src/main/templates/${sitex.version}.rtf"
+                                    tofile="target/${programmer.name}/WEB-INF/rep_templates/globalPersonSearchProtocol.rtf"
+                                />
+                            </tasks>
                         </configuration>
                     </execution>
                 </executions>
