@@ -1,6 +1,7 @@
 package bazis.utils.global_person_search;
 
 import bazis.cactoos3.Func;
+import bazis.cactoos3.Text;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
@@ -14,14 +15,14 @@ import com.google.gson.JsonObject;
 import sx.admin.AdmAction;
 import sx.admin.AdmApplication;
 import sx.admin.AdmRequest;
+import sx.bazis.uninfoobmen.sys.function.Function;
 
 public abstract class BaseSearchUtil extends AdmAction {
 
     private final SitexAction action;
 
-    protected BaseSearchUtil(String url) {
+    protected BaseSearchUtil() {
         this(
-            url,
             new Func<Person, Jsonable>() {
                 @Override
                 public Jsonable apply(Person person) throws BazisException {
@@ -33,7 +34,7 @@ public abstract class BaseSearchUtil extends AdmAction {
     }
 
     @SuppressWarnings("HardcodedFileSeparator")
-    protected BaseSearchUtil(String url, Func<Person, Jsonable> requests) {
+    protected BaseSearchUtil(Func<Person, Jsonable> requests) {
         this(
             new ActionWithFallback(
                 new DispatchAction(
@@ -46,7 +47,15 @@ public abstract class BaseSearchUtil extends AdmAction {
                         new Entry<String, SitexAction>(
                             "paramsCmd",
                             new JspAction(
-                                new ResultAction(url, requests),
+                                new ResultAction(
+                                    new Text() {
+                                        @Override
+                                        public String asString() {
+                                            return Function.getCentUrl();
+                                        }
+                                    },
+                                    requests
+                                ),
                                 "global_person_search/result"
                             )
                         )
