@@ -26,6 +26,8 @@ public final class FakeAppoint implements Appoint {
 
     private final Map<String, String> map;
 
+    private final Iterable<Payout> payouts;
+
     public FakeAppoint() {
         this(
             new MapOf<>(
@@ -35,12 +37,16 @@ public final class FakeAppoint implements Appoint {
                     "Ежемесячная денежная компенсация военнослужащим"),
                 new Entry<>(FakeAppoint.START_DATE, "2019-01-01"),
                 new Entry<>(FakeAppoint.END_DATE, "2019-12-31")
+            ),
+            new IterableOf<Payout>(
+                new FakePayout(), new FakePayout(), new FakePayout()
             )
         );
     }
 
-    private FakeAppoint(Map<String, String> map) {
+    private FakeAppoint(Map<String, String> map, Iterable<Payout> payouts) {
         this.map = map;
+        this.payouts = payouts;
     }
 
     public FakeAppoint withType(String type) {
@@ -57,13 +63,18 @@ public final class FakeAppoint implements Appoint {
             .with(FakeAppoint.END_DATE, end);
     }
 
+    public FakeAppoint withPayouts(Iterable<Payout> pays) {
+        return new FakeAppoint(this.map, pays);
+    }
+
     private FakeAppoint with(String attr, String value) {
         return new FakeAppoint(
             new MapOf<>(
                 new Entries<>(
                     this.map, new Entry<>(attr, value)
                 )
-            )
+            ),
+            this.payouts
         );
     }
 
@@ -112,9 +123,7 @@ public final class FakeAppoint implements Appoint {
 
     @Override
     public Iterable<Payout> payouts() {
-        return new IterableOf<Payout>(
-            new FakePayout(), new FakePayout(), new FakePayout()
-        );
+        return this.payouts;
     }
 
     private Opt<Date> date(String key) throws BazisException {

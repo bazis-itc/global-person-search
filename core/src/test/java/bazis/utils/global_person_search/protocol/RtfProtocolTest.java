@@ -1,15 +1,23 @@
 package bazis.utils.global_person_search.protocol;
 
+import bazis.cactoos3.exception.BazisException;
+import bazis.cactoos3.iterable.EmptyIterable;
 import bazis.cactoos3.iterable.IterableOf;
+import bazis.cactoos3.map.EmptyMap;
+import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.Report;
 import bazis.utils.global_person_search.ext.ConcatedText;
+import bazis.utils.global_person_search.ext.HtmlReport;
 import bazis.utils.global_person_search.fake.FakeAppoint;
 import bazis.utils.global_person_search.fake.FakePerson;
 import bazis.utils.global_person_search.fake.FakeReport;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public final class RtfProtocolTest {
@@ -38,6 +46,22 @@ public final class RtfProtocolTest {
                 )
             )
         );
+    }
+
+    @Ignore @Test
+    public void test2() throws BazisException {
+        final Report report =
+            new HtmlReport(new File("D:\\Exchange\\report.html"));
+        new RtfProtocol(report).append(
+            new IterableOf<Person>(
+                new FakePerson(),
+                new FakePerson(
+                    "Пустой Иван Иванович",
+                    new FakeAppoint().withPayouts(new EmptyIterable<Payout>())
+                )
+            )
+        );
+        report.create(new EmptyMap<String, Object>());
     }
 
 }

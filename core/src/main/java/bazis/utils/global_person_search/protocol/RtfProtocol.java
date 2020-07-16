@@ -4,6 +4,7 @@ import bazis.cactoos3.Func;
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.IterableOf;
+import bazis.cactoos3.iterable.JoinedIterable;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.scalar.IsEmpty;
 import bazis.cactoos3.text.FormattedText;
@@ -16,6 +17,7 @@ import bazis.utils.global_person_search.Report;
 import bazis.utils.global_person_search.dates.HumanDate;
 import bazis.utils.global_person_search.ext.Lines;
 import bazis.utils.global_person_search.ext.ReportData;
+import bazis.utils.global_person_search.ext.Sum;
 import bazis.utils.global_person_search.sx.DownloadUrl;
 import java.util.Date;
 import java.util.Map;
@@ -55,6 +57,12 @@ public final class RtfProtocol implements Protocol {
     }
 
     private void write(Number id, Person person) throws BazisException {
+        final Func<Payout, Number> sums = new Func<Payout, Number>() {
+            @Override
+            public Number apply(Payout payout) {
+                return payout.sum();
+            }
+        };
         final ReportData row = new ReportData.Immutable()
             .withInt("personId", id)
             .withString("borough", person.borough())
@@ -73,6 +81,29 @@ public final class RtfProtocol implements Protocol {
                 "passport",
                 new FormattedText(
                     "%s, %s", person.snils(), person.passport()
+                )
+            )
+            .withString(
+                "sum",
+                new FormattedText(
+                    "%.02f",
+                    new Sum(
+                        new MappedIterable<>(
+                            new JoinedIterable<>(
+                                new MappedIterable<>(
+                                    person.appoints(),
+                                    new Func<Appoint, Iterable<Payout>>() {
+                                        @Override
+                                        public Iterable<Payout> apply(
+                                            Appoint appoint) {
+                                            return appoint.payouts();
+                                        }
+                                    }
+                                )
+                            ),
+                            sums
+                        )
+                    ).doubleValue()
                 )
             );
         if (new IsEmpty(person.appoints()).value())
@@ -97,16 +128,29 @@ public final class RtfProtocol implements Protocol {
                         "payments",
                         new JoinedText(
                             "\n",
-                            new MappedIterable<>(
-                                appoint.payouts(),
-                                new Func<Payout, String>() {
-                                    @Override
-                                    public String apply(Payout payout)
-                                        throws BazisException {
-                                        return new Payout.AsText(payout)
-                                            .asString();
+                            new JoinedIterable<>(
+                                new MappedIterable<>(
+                                    appoint.payouts(),
+                                    new Func<Payout, String>() {
+                                        @Override
+                                        public String apply(Payout payout)
+                                            throws BazisException {
+                                            return new Payout.AsText(payout)
+                                                .asString();
+                                        }
                                     }
-                                }
+                                ),
+                                new IterableOf<>(
+                                    new IsEmpty(appoint.payouts()).value() ? ""
+                                        : String.format(
+                                        "Итого: %.02f",
+                                        new Sum(
+                                            new MappedIterable<>(
+                                                appoint.payouts(), sums
+                                            )
+                                        ).doubleValue()
+                                    )
+                                )
                             )
                         )
                     )
