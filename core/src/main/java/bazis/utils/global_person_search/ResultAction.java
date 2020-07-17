@@ -1,11 +1,9 @@
 package bazis.utils.global_person_search;
 
 import bazis.cactoos3.Func;
-import bazis.cactoos3.Text;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.map.EmptyMap;
 import bazis.cactoos3.scalar.IsEmpty;
-import bazis.cactoos3.text.CheckedText;
 import bazis.cactoos3.text.JoinedText;
 import bazis.utils.global_person_search.dates.FormattedDate;
 import bazis.utils.global_person_search.dates.IsoDate;
@@ -34,11 +32,11 @@ public final class ResultAction implements SitexAction {
     private static final String NO_RESULT =
         "Нет информации о данном гражданине на других базах";
 
-    private final Text url;
+    private final String url;
 
     private final Func<Person, Jsonable> requests;
 
-    ResultAction(Text url, Func<Person, Jsonable> requests) {
+    ResultAction(String url, Func<Person, Jsonable> requests) {
         this.url = url;
         this.requests = requests;
     }
@@ -52,7 +50,7 @@ public final class ResultAction implements SitexAction {
         final Iterable<Person> persons =
             new JsonPersons(
                 new JsonText(
-                    new Server(new CheckedText(this.url).asString()).send(
+                    new Server(this.url).send(
                         new JsonText(
                             new CheckedFunc<>(this.requests).apply(person)
                         ).asString()

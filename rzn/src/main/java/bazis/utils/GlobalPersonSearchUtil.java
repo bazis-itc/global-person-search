@@ -15,6 +15,7 @@ public final class GlobalPersonSearchUtil extends BaseSearchUtil {
 
     public GlobalPersonSearchUtil() {
         super(
+            "http://192.168.120.108:8080/central/",
             new Func<Person, Jsonable>() {
                 @Override
                 public Jsonable apply(Person person) throws BazisException {
