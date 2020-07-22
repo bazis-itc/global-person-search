@@ -44,9 +44,7 @@ public final class ResultAction implements SitexAction {
     @Override
     @SuppressWarnings("OverlyCoupledMethod")
     public void execute(AdmRequest request) throws BazisException {
-        final Person person = new SxPerson(
-            new SXId(request.getAction().getObjId())
-        );
+        final Person person = new SxPerson(ResultAction.parseId(request));
         final Iterable<Person> persons =
             new JsonPersons(
                 new JsonText(
@@ -95,6 +93,14 @@ public final class ResultAction implements SitexAction {
                             ? ResultAction.NO_RESULT : ""
                     )
             );
+    }
+
+    private static SXId parseId(AdmRequest request) throws BazisException {
+        try {
+            return new SXId(request.getAction().getObjId(request));
+        } catch (final Exception ex) {
+            throw new BazisException(ex);
+        }
     }
 
     @SuppressWarnings("MethodMayBeStatic")

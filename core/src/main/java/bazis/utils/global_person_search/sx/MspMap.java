@@ -35,7 +35,7 @@ public final class MspMap extends MapEnvelope<String, String> {
                             new Entries<>(
                                 list == null
                                     ? new EmptyIterable<SXObj>()
-                                    : list.getSXObjList(),
+                                    : (Iterable<SXObj>) list,
                                 new Func<SXObj, String>() {
                                     @Override
                                     public String apply(SXObj msp) {

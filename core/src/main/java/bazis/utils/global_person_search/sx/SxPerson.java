@@ -28,6 +28,7 @@ public final class SxPerson implements Person {
             new Scalar<SXObj>() {
                 @Override
                 public SXObj value() throws Exception {
+                    final String titleAttr = "name";
                     return new SXObjListParams(id)
                         .setDefaultAttrCollection(SXClass.NONE_ATTRS)
                         .addSelectedAttr(
@@ -37,11 +38,9 @@ public final class SxPerson implements Person {
                             SxPerson.BIRTHDATE,
                             SxPerson.SNILS
                         )
-                        .addSelectedAttr(SxPerson.SURNAME, SXClass.TITLE_ATTRS)
-                        .addSelectedAttr(SxPerson.NAME, SXClass.TITLE_ATTRS)
-                        .addSelectedAttr(
-                            SxPerson.PATRONYMIC, SXClass.TITLE_ATTRS
-                        )
+                        .addSelectedAttr(SxPerson.SURNAME, titleAttr)
+                        .addSelectedAttr(SxPerson.NAME, titleAttr)
+                        .addSelectedAttr(SxPerson.PATRONYMIC, titleAttr)
                         .getObj();
                 }
             }
