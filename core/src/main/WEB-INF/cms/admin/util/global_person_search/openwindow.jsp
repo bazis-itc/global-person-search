@@ -13,7 +13,7 @@
   <script type="text/javascript">
     window.open("<%=admRequest.getBaseUrl()%><c:out value="${data.actionCode}"/>.sx?cmd=openWindowCmd"
 		+ "&designCode=<c:out value='${data.designCode}'/>" 
-		+ "&objId=<c:out value="${data.objId}"/>"
+		+ "&objId=<%=admRequest.getObjIdList().get(0).toString()%>"
 		,"_blank"
 		,"status=yes,toolbar=no,scrollbars=yes,menubar=no,location=no,resizable=no,channelmode=no");
   </script>

@@ -121,7 +121,7 @@
 <body>
     <form name="formMain" id="formMain" enctype="multipart/form-data" action="<%=admRequest.getBaseUrl()%><c:out value="${data.actionCode}"/>.sx" method="post" onSubmit="checkValues(this); return false;">
 		<input type="hidden" name="cmd" value="paramsCmd">
-		<input type="hidden" name="objId" value="<c:out value="${data.objId}"/>">
+		<input type="hidden" name="objId" value="<%=admRequest.getObjIdList().get(0).toString()%>">
 
 		<input type="hidden" name="data(mspList)" id="id_mspList" value="" ischanged="false">
 		<input type="hidden" name="delobj(mspList)" id="del_id_mspList" value="">
