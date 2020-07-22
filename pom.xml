@@ -16,6 +16,7 @@
         <module>vrn</module>
         <module>uln</module>
         <module>assembly</module>
+        <module>mrd</module>
     </modules>
 
     <profiles>
@@ -42,6 +43,13 @@
             <id>Ульяновск</id>
             <properties>
                 <sitex.version>uln</sitex.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>Мордовия</id>
+            <properties>
+                <sitex.version>mrd</sitex.version>
+                <displayPayments>true</displayPayments>
             </properties>
         </profile>
     </profiles>

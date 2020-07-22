@@ -7,11 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="global-person-search-assembly" />
-        <module name="global-person-search-core" />
-        <module name="global-person-search-rzn" />
         <module name="global-person-search-tmb" />
-        <module name="global-person-search-uln" />
         <module name="global-person-search-vrn" />
+        <module name="mrd" />
+        <module name="global-person-search-core" />
+        <module name="global-person-search-uln" />
+        <module name="global-person-search-rzn" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -22,6 +23,7 @@
       <module name="global-person-search-tmb" target="1.7" />
       <module name="global-person-search-uln" target="1.7" />
       <module name="global-person-search-vrn" target="1.7" />
+      <module name="mrd" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

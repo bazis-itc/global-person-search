@@ -11,8 +11,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="global-person-search-core" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: sitex:sitex:vrn" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: bazis:bazis.interaction-platform:vrn:4.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: sitex:sitex:mrd" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: bazis:bazis.interaction-platform:mrd:4.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.metaparadigm:json-rpc:1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.poi:poi:3.14" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: commons-codec:commons-codec:1.10" level="project" />
