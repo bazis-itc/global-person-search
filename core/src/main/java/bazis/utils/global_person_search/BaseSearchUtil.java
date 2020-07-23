@@ -1,6 +1,7 @@
 package bazis.utils.global_person_search;
 
 import bazis.cactoos3.Func;
+import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
@@ -10,10 +11,15 @@ import bazis.utils.global_person_search.ext.JspAction;
 import bazis.utils.global_person_search.ext.SitexAction;
 import bazis.utils.global_person_search.json.JsonRequest;
 import bazis.utils.global_person_search.json.Jsonable;
+import bazis.utils.global_person_search.sx.SxEsrn;
 import com.google.gson.JsonObject;
+import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
 import sx.admin.AdmAction;
 import sx.admin.AdmApplication;
 import sx.admin.AdmRequest;
+import sx.datastore.SXDsFactory;
 
 public abstract class BaseSearchUtil extends AdmAction {
 
@@ -46,8 +52,28 @@ public abstract class BaseSearchUtil extends AdmAction {
                         new Entry<String, SitexAction>(
                             "paramsCmd",
                             new JspAction(
-                                new ResultAction(url, requests),
+                                new ResultAction(url, requests, new SxEsrn()),
                                 "global_person_search/result"
+                            )
+                        ),
+                        new Entry<String, SitexAction>(
+                            "resultCmd",
+                            new JspAction(
+                                new CreateDoc(
+                                    new Scalar<DSLContext>() {
+                                        @Override
+                                        public DSLContext value()
+                                            throws Exception {
+                                            return DSL.using(
+                                                SXDsFactory.getDs()
+                                                    .getDb().getDataSource(),
+                                                SQLDialect.DEFAULT
+                                            );
+                                        }
+                                    },
+                                    new SxEsrn()
+                                ),
+                                "global_person_search/message"
                             )
                         )
                     )

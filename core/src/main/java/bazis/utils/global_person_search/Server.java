@@ -13,6 +13,8 @@ final class Server {
 
     private final String url;
 
+    private String fails = "";
+
     Server(String url) {
         this.url = url;
     }
@@ -38,6 +40,7 @@ final class Server {
             if (!"COMPLETE".equals(result)) throw new BazisException(
                 String.format("Unknown response type '%s'", result)
             );
+            this.fails = response.get("COMPLETE_TITLE");
             return new EncryptedText(
                 connection.getOutputObject().getInputStream()
             ).asString();
@@ -48,6 +51,10 @@ final class Server {
         } finally {
             connection.destroy();
         }
+    }
+
+    String fails() {
+        return this.fails;
     }
 
 }

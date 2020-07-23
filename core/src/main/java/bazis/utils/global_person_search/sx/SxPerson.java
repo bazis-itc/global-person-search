@@ -15,7 +15,7 @@ import sx.datastore.SXObj;
 import sx.datastore.meta.SXClass;
 import sx.datastore.params.SXObjListParams;
 
-public final class SxPerson implements Person {
+final class SxPerson implements Person {
 
     private static final String
         SURNAME = "Surname", NAME = "Name", PATRONYMIC = "SecondName",
@@ -23,7 +23,7 @@ public final class SxPerson implements Person {
 
     private final CheckedScalar<SXObj> person;
 
-    public SxPerson(final SXId id) {
+    SxPerson(final SXId id) {
         this(
             new Scalar<SXObj>() {
                 @Override

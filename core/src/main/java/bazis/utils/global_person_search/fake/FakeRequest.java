@@ -1,22 +1,28 @@
 package bazis.utils.global_person_search.fake;
 
-import java.util.HashMap;
 import java.util.Map;
 import sx.admin.AdmRequest;
 
 @SuppressWarnings("MethodDoesntCallSuperMethod")
 public final class FakeRequest extends AdmRequest {
 
-    private final Map<String, Object> map = new HashMap<>(0);
+    private final Map<String, String> params;
 
-    @Override
-    public void set(String key, Object value) {
-        this.map.put(key, value);
+    public FakeRequest(Map<String, String> params) {
+        super();
+        this.params = params;
     }
 
     @Override
-    public Object get(String key) {
-        return this.map.get(key);
+    public String getParam(String name) {
+        if (!this.params.containsKey(name))
+            throw new IllegalArgumentException("Param value not defined");
+        return this.params.get(name);
+    }
+
+    @Override
+    public void set(String key, Object val) {
+        //nothing
     }
 
 }

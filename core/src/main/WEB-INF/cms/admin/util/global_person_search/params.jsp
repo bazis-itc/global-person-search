@@ -206,8 +206,8 @@
 			</div>
 		</div>		
 	</form>
-	<div style="padding-right:10px; display: inline-flex; float:right;">
+	<!--<div style="padding-right:10px; display: inline-flex; float:right;">
 		<input type="button" value="Закрыть" class="button_blue" id="winCloseButton" onClick="self.close(); return getFalse(event);"/>
-	</div>
+	</div>-->
 </body>
 </html>

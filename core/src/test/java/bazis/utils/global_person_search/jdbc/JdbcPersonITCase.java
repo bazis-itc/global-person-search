@@ -3,6 +3,7 @@ package bazis.utils.global_person_search.jdbc;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Borough;
 import bazis.utils.global_person_search.Payout;
+import bazis.utils.global_person_search.PrintedPayout;
 import bazis.utils.global_person_search.ext.ConcatedText;
 import bazis.utils.global_person_search.fake.FakeBorough;
 import java.sql.Connection;
@@ -55,7 +56,7 @@ public final class JdbcPersonITCase {
                     ).appoints()
             ) {
                 for (final Payout payout : appoint.payouts())
-                    System.out.println(new Payout.AsText(payout).asString());
+                    System.out.println(new PrintedPayout(payout).asString());
                 System.out.println();
             }
         }

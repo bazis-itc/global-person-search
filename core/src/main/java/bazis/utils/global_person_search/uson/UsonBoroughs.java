@@ -9,13 +9,15 @@ import bazis.utils.global_person_search.Borough;
 import bazis.utils.global_person_search.ext.Entries;
 import bazis.utils.global_person_search.ext.Lines;
 import java.sql.Connection;
+import java.util.Collection;
 import java.util.Map;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 public final class UsonBoroughs extends MapEnvelope<Integer, Borough> {
 
-    public UsonBoroughs(final Connection connection) {
+    public UsonBoroughs(
+        final Connection connection, final Collection<String> fails) {
         this(
             new Scalar<Map<Integer, Borough>>() {
                 @Override
@@ -44,7 +46,7 @@ public final class UsonBoroughs extends MapEnvelope<Integer, Borough> {
                             new Func<Record, Borough>() {
                                 @Override
                                 public Borough apply(Record record) {
-                                    return new UsonBorough(record);
+                                    return new UsonBorough(record, fails);
                                 }
                             }
                         )

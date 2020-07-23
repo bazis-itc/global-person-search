@@ -7,6 +7,7 @@ import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Payout;
+import bazis.utils.global_person_search.PrintedPayout;
 import bazis.utils.global_person_search.dates.HumanDate;
 import java.util.Collection;
 import java.util.Date;
@@ -52,7 +53,7 @@ public final class JspAppoint {
                 new Func<Payout, String>() {
                     @Override
                     public String apply(Payout payout) throws BazisException {
-                        return new Payout.AsText(payout).asString();
+                        return new PrintedPayout(payout).asString();
                     }
                 }
             )

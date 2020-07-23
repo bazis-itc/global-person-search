@@ -14,11 +14,11 @@ import sx.datastore.SXObjList;
 import sx.datastore.meta.SXClass;
 import sx.datastore.params.SXObjListParams;
 
-public final class MspMap extends MapEnvelope<String, String> {
+final class MspMap extends MapEnvelope<String, String> {
 
     private static final String GUID_ATTR = "guid", NAME_ATTR = "name";
 
-    public MspMap(final String identifiers) {
+    MspMap(final String identifiers) {
         super(
             new CachedScalar<>(
                 new Scalar<Map<String, String>>() {

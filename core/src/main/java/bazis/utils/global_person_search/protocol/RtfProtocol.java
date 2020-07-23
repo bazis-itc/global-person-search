@@ -1,7 +1,6 @@
 package bazis.utils.global_person_search.protocol;
 
 import bazis.cactoos3.Func;
-import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.iterable.JoinedIterable;
@@ -12,14 +11,14 @@ import bazis.cactoos3.text.JoinedText;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.PrintedPayouts;
 import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.Report;
 import bazis.utils.global_person_search.dates.HumanDate;
-import bazis.utils.global_person_search.ext.Lines;
+import bazis.utils.global_person_search.dates.Period;
 import bazis.utils.global_person_search.ext.ReportData;
 import bazis.utils.global_person_search.ext.Sum;
 import bazis.utils.global_person_search.sx.DownloadUrl;
-import java.util.Date;
 import java.util.Map;
 import sx.admin.AdmRequest;
 
@@ -118,53 +117,15 @@ public final class RtfProtocol implements Protocol {
                     .withString("child", appoint.child())
                     .withString(
                         "period",
-                        new Lines(
-                            this.dateAsString("с", appoint.startDate()),
-                            this.dateAsString("по", appoint.endDate())
+                        new Period(
+                            "\n", appoint.startDate(), appoint.endDate()
                         )
                     )
                     .withString("status", appoint.status())
                     .withString(
-                        "payments",
-                        new JoinedText(
-                            "\n",
-                            new JoinedIterable<>(
-                                new MappedIterable<>(
-                                    appoint.payouts(),
-                                    new Func<Payout, String>() {
-                                        @Override
-                                        public String apply(Payout payout)
-                                            throws BazisException {
-                                            return new Payout.AsText(payout)
-                                                .asString();
-                                        }
-                                    }
-                                ),
-                                new IterableOf<>(
-                                    new IsEmpty(appoint.payouts()).value() ? ""
-                                        : String.format(
-                                        "Итого: %.02f",
-                                        new Sum(
-                                            new MappedIterable<>(
-                                                appoint.payouts(), sums
-                                            )
-                                        ).doubleValue()
-                                    )
-                                )
-                            )
-                        )
+                        "payments", new PrintedPayouts(appoint.payouts())
                     )
             );
-    }
-
-    @SuppressWarnings("MethodMayBeStatic")
-    private String dateAsString(String prefix, Opt<Date> date)
-        throws BazisException {
-        return date.has()
-            ? String.format(
-                "%s %s", prefix, new HumanDate(date.get()).asString()
-            )
-            : "";
     }
 
 }

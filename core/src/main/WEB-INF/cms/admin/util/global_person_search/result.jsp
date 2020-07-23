@@ -68,6 +68,32 @@
 				<br><br><br>
 			</c:forEach>
 		</c:forEach>
-		<br>
+		
+	    <form 
+			name="formMain" id="formMain" enctype="multipart/form-data" 
+			action="<%=admRequest.getBaseUrl()%><c:out value="${data.actionCode}"/>.sx" 
+			method="post"
+		>
+			<input type="hidden" name="cmd" value="resultCmd">
+			<input type="hidden" name="objId" value="<%=admRequest.getParam("objId")%>">	
+			
+			<input type="hidden" name="yearOfStart" value='<%=admRequest.getParam("yearOfStart")%>'/>	
+			<input type="hidden" name="monthOfStart" value='<%=admRequest.getParam("monthOfStart")%>'/>
+			<input type="hidden" name="yearOfEnd" value='<%=admRequest.getParam("yearOfEnd")%>'/>
+			<input type="hidden" name="monthOfEnd" value='<%=admRequest.getParam("monthOfEnd")%>'/>
+			
+			<input type="hidden" name="isAllMsp" value='<%=admRequest.getParam("isAllMsp")%>'/>
+			<input type="hidden" name="data(mspList)" value='<%=admRequest.getParam("data(mspList)")%>'/>
+
+			<input type="hidden" name="persons" value='<%=admRequest.getString("persons")%>'/>	
+			<input type="hidden" name="fails" value='<%=admRequest.getString("fails")%>'/>	
+			
+			<div>
+				<div style="padding-right:10px; display: inline-flex; float:right;">
+					<input type="submit" name="nextData" value="—формировать документ" class="button_green"/>
+				</div>
+			</div>		
+		</form>
+		
 	</body>
 </html>

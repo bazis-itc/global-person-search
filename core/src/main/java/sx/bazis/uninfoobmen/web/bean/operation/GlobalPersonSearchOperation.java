@@ -1,5 +1,6 @@
 package sx.bazis.uninfoobmen.web.bean.operation;
 
+import bazis.cactoos3.text.JoinedText;
 import bazis.utils.global_person_search.EncryptedText;
 import bazis.utils.global_person_search.jdbc.JdbcRegister;
 import bazis.utils.global_person_search.json.JsonPersons;
@@ -7,7 +8,9 @@ import bazis.utils.global_person_search.json.JsonRequest;
 import bazis.utils.global_person_search.json.JsonText;
 import bazis.utils.global_person_search.uson.UsonBoroughs;
 import java.sql.Connection;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import javax.servlet.http.HttpSession;
 import sx.bazis.uninfoobmen.sys.store.DataObject;
 import sx.bazis.uninfoobmen.sys.store.ReturnDataObject;
@@ -32,17 +35,21 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
                     new EncryptedText(dataObject.getInputStream())
                 ).asJson()
             );
+            final Collection<String> fails = new LinkedList<>();
             return super.getReturnMessage(
-                "COMPLETE", "", null,
+                "COMPLETE",
+                new JoinedText(", ", fails).asString(),
+                null,
                 new EncryptedText(
                     new JsonText(
                         new JsonPersons(
-                            new JdbcRegister(conn, new UsonBoroughs(conn))
-                                .persons(
-                                    request.fio(),
-                                    request.birthdate(),
-                                    request.snils()
-                                )
+                            new JdbcRegister(
+                                conn, new UsonBoroughs(conn, fails)
+                            ).persons(
+                                request.fio(),
+                                request.birthdate(),
+                                request.snils()
+                            )
                         )
                     )
                 ).asBytes()
