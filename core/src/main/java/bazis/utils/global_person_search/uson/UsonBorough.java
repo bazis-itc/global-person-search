@@ -1,9 +1,11 @@
 package bazis.utils.global_person_search.uson;
 
 import bazis.cactoos3.Opt;
+import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.opt.EmptyOpt;
 import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.Borough;
+import bazis.utils.global_person_search.PropertiesOf;
 import java.sql.ResultSet;
 import java.util.Collection;
 import org.jooq.Record;
@@ -24,7 +26,7 @@ final class UsonBorough implements Borough {
 
     @Override
     @SuppressWarnings("OverlyBroadCatchBlock")
-    public Opt<ResultSet> select(final String query) {
+    public Opt<ResultSet> select(final String query) throws BazisException {
         Opt<ResultSet> result;
         try {
             result = new OptOf<ResultSet>(
@@ -34,13 +36,28 @@ final class UsonBorough implements Borough {
                 )
             );
         } catch (final Throwable ex) {
-            SXSysLog.error(
-                "globalPersonSearchLog", SXUtils.getStackTrace(ex),
-                null, false
+            if (
+                Boolean.parseBoolean(
+                    new PropertiesOf(
+                        this.getClass(), "UsonBorough.properties"
+                    ).get("failSafe")
+                )
+            ) {
+                SXSysLog.error(
+                    "globalPersonSearchLog", SXUtils.getStackTrace(ex),
+                    null, false
+                );
+                this.fails.add(this.name());
+                result = new EmptyOpt<>();
+            } else throw new BazisException(
+                String.format("Сервер не опрошен: %s", this.name()), ex
             );
-            this.fails.add(this.record.getValue("name", String.class));
-            result = new EmptyOpt<>();
         }
         return result;
     }
+
+    private String name() {
+        return this.record.getValue("name", String.class);
+    }
+
 }

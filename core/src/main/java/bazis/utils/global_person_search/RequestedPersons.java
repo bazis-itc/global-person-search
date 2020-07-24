@@ -13,9 +13,9 @@ import java.util.Collection;
 import java.util.Date;
 import sx.common.MonthYearBean;
 
-final class RequestedPersons extends IterableEnvelope<Person> {
+public final class RequestedPersons extends IterableEnvelope<Person> {
 
-    RequestedPersons(final Iterable<Person> origin,
+    public RequestedPersons(final Iterable<Person> origin,
         final Iterable<String> msp, final Date startDate, final Date endDate) {
         super(
             new ScalarOf<>(

@@ -1,4 +1,4 @@
-package bazis.utils.global_person_search;
+package bazis.utils.global_person_search.action;
 
 import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
@@ -6,6 +6,9 @@ import bazis.cactoos3.map.EmptyMap;
 import bazis.cactoos3.scalar.CachedScalar;
 import bazis.cactoos3.scalar.CheckedScalar;
 import bazis.cactoos3.scalar.ScalarOf;
+import bazis.utils.global_person_search.Esrn;
+import bazis.utils.global_person_search.ParamsOf;
+import bazis.utils.global_person_search.RequestedPersons;
 import bazis.utils.global_person_search.ext.SitexAction;
 import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.json.JsonText;

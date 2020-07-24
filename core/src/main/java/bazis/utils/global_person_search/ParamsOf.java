@@ -1,6 +1,9 @@
 package bazis.utils.global_person_search;
 
+import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
+import bazis.cactoos3.opt.EmptyOpt;
+import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.dates.IsoDate;
 import java.util.Date;
 import sx.admin.AdmRequest;
@@ -14,10 +17,19 @@ public final class ParamsOf {
         this.request = request;
     }
 
+    @Deprecated
     public Number objId() {
         return Integer.parseInt(
             this.request.getParam("objId").split("@")[0]
         );
+    }
+
+    public Opt<Number> personId() {
+        final String[] parts =
+            this.request.getParam("objId").split("@");
+        return parts.length == 2 && "wmPersonalCard".equals(parts[1])
+            ? new OptOf<Number>(Integer.parseInt(parts[0]))
+            : new EmptyOpt<Number>();
     }
 
     public Date startDate() throws BazisException {

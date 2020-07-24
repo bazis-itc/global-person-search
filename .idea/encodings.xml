@@ -5,6 +5,7 @@
     <file url="file://$PROJECT_DIR$/assembly" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/core/src/main/WEB-INF/cms/admin/util/global_person_search/error.jsp" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/core/src/main/WEB-INF/cms/admin/util/global_person_search/message.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/core/src/main/WEB-INF/cms/admin/util/global_person_search/openwindow.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/core/src/main/WEB-INF/cms/admin/util/global_person_search/params.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/core/src/main/WEB-INF/cms/admin/util/global_person_search/result.jsp" charset="windows-1251" />

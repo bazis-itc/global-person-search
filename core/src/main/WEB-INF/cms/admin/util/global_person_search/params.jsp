@@ -103,6 +103,19 @@
 			}			
 			th.submit();
 		}
+		function checkVals() {
+			var message;
+			var extended = <c:out value="${requestScope.extended}"/>;
+			if (!extended) message = null;
+			else if (document.getElementById('surname').value == "") 
+				message = "Не указана фамилия";
+			else if (document.getElementById('name').value == "") 
+				message = "Не указано имя";
+			else if (document.getElementById('data(birthdate)').value == "") 
+				message = "Не указана дата рождения";
+			if (message) alert(message);
+			return message == null;
+		}
 	</script>
 	
 	<script type="text/javascript" src="admin/scripts/images.js"></script>
@@ -118,13 +131,61 @@
 	<script type="text/javascript" src="admin/scripts/js.js"></script>
 	<script type="text/javascript" src="admin/scripts/list.js"></script>
 </head>
-<body>
-    <form name="formMain" id="formMain" enctype="multipart/form-data" action="<%=admRequest.getBaseUrl()%><c:out value="${data.actionCode}"/>.sx" method="post" onSubmit="checkValues(this); return false;">
+<body onload="try {resize();} catch (e) {}">
+    <form name="formMain" id="formMain" 
+		  enctype="multipart/form-data" 
+		  action="<%=admRequest.getBaseUrl()%><c:out value="${data.actionCode}"/>.sx" 
+		  method="post" onSubmit="return checkVals();">
 		<input type="hidden" name="cmd" value="paramsCmd">
 		<input type="hidden" name="objId" value="<%=admRequest.getObjIdList().get(0).toString()%>">
 
 		<input type="hidden" name="data(mspList)" id="id_mspList" value="" ischanged="false">
 		<input type="hidden" name="delobj(mspList)" id="del_id_mspList" value="">
+				
+		<c:if test="${requestScope.extended}">		
+		<br>
+		<table>
+			<tr>
+				<td><font class="font">Фамилия:</font></td>
+				<td class="noBottom"><input id="surname" name="surname" value=""/></td>
+			</tr>     
+			<tr>
+				<td><font class="font">Имя:</font></td>
+				<td class="noBottom"><input id="name" name="name" value=""/></td>
+			</tr>  
+			<tr>
+				<td><font class="font">Отчество:</font></td>
+				<td class="noBottom"><input name="patronymic" value=""/></td>
+			</tr>     
+			<tr>
+				<td><font class="font">Дата рождения:</font></td>
+				<td>
+					<input type="hidden" name="birthdate" id="data(birthdate)" value="">
+					<input style="width:80px;" size="10" maxlength="10" type="text" onKeyPress="setChanged()"
+						 name="date(birthdate)"
+						 id="cal_birthdate"
+						 onBlur="setDatetoHidden(this,'birthdate','Не правильный формат даты документа');"
+						 onfocus="initMask(this);" mask="xx.xx.xxxx">
+					<script>
+						addCalendar("Выберите дату", "birthdate", null, "Не правильный формат даты поля");
+					</script>
+					<span id="buttons_birthdate">
+						<button class="lnk" title="Выбрать" tabindex="-1" onClick="showCal('birthdate',null,event);return false;">
+							<img src="admin/images/view_up.gif" onMouseOver="newImg(this,view_down)" onMouseOut="newImg(this,view_up)"/>
+						</button>
+						<button class="lnk" title="Удалить" tabindex="-1" onClick="clearDateField('birthdate');return getFalse();">
+							<img src="admin/images/delete_src_up.gif" onMouseOver="newImg(this,delete_src_down)"
+								onMouseOut="newImg(this,delete_src_up)"/>
+						</button>
+					</span>
+				</td>
+			</tr> 
+			<tr>
+				<td><font class="font">СНИЛС:</font></td>
+				<td><input name="snils" value=""/></td>
+			</tr>                 
+		</table>
+		</c:if>
 		
 		<br>
 		<font class="font">Период для запроса информации:</font>
@@ -185,7 +246,7 @@
 				<td><font class="font">Запросить по всем МСП:</font></td>
 				<td><input id="isAllMsp" name="isAllMsp" onClick="checkIsAllMsp()" type="checkbox" checked="checked"></td>
 			</tr>                        
-        </table>
+        </table>	
 		<br>
 		<div id="mspBlock">
 			<font class="font">Выбор МСП для запроса информации:</font>

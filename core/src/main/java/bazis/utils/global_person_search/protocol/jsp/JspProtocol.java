@@ -6,11 +6,9 @@ import bazis.cactoos3.iterable.EmptyIterable;
 import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.iterable.JoinedIterable;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.PropertiesOf;
 import bazis.utils.global_person_search.Protocol;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
-import java.util.Properties;
 import sx.admin.AdmRequest;
 
 public final class JspProtocol implements Protocol {
@@ -46,23 +44,15 @@ public final class JspProtocol implements Protocol {
     @Override
     public void outputTo(AdmRequest request,
         Map<String, Object> params) throws BazisException {
-        try {
-            final InputStream resource = JspProtocol.class
-                .getResourceAsStream("JspProtocol.properties");
-            if (resource == null)
-                throw new BazisException("Properties file not found");
-            final Properties properties = new Properties();
-            properties.load(resource);
-            request.set("lists", new ListOf<>(this.lists));
-            request.set(
-                JspProtocol.DISPLAY_PAYMENTS,
-                Boolean.parseBoolean(
-                    properties.getProperty(JspProtocol.DISPLAY_PAYMENTS)
-                )
-            );
-        } catch (final IOException ex) {
-            throw new BazisException(ex);
-        }
+        request.set("lists", new ListOf<>(this.lists));
+        request.set(
+            JspProtocol.DISPLAY_PAYMENTS,
+            Boolean.parseBoolean(
+                new PropertiesOf(
+                    this.getClass(), "JspProtocol.properties"
+                ).get(JspProtocol.DISPLAY_PAYMENTS)
+            )
+        );
     }
 
 }

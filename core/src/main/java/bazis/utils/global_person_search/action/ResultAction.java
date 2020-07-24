@@ -1,9 +1,17 @@
-package bazis.utils.global_person_search;
+package bazis.utils.global_person_search.action;
 
 import bazis.cactoos3.Func;
+import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.scalar.IsEmpty;
 import bazis.cactoos3.text.JoinedText;
+import bazis.utils.global_person_search.Esrn;
+import bazis.utils.global_person_search.ParamsOf;
+import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.PropertiesOf;
+import bazis.utils.global_person_search.RequestPerson;
+import bazis.utils.global_person_search.RequestedPersons;
+import bazis.utils.global_person_search.Server;
 import bazis.utils.global_person_search.dates.FormattedDate;
 import bazis.utils.global_person_search.ext.CheckedFunc;
 import bazis.utils.global_person_search.ext.ReportData;
@@ -32,7 +40,7 @@ public final class ResultAction implements SitexAction {
 
     private final Esrn esrn;
 
-    ResultAction(String url,
+    public ResultAction(String url,
         Func<Person, Jsonable> requests, Esrn esrn) {
         this.url = url;
         this.requests = requests;
@@ -42,7 +50,10 @@ public final class ResultAction implements SitexAction {
     @Override
     @SuppressWarnings("OverlyCoupledMethod")
     public void execute(AdmRequest request) throws BazisException {
-        final Person person = this.esrn.person(new ParamsOf(request).objId());
+        final Opt<Number> personId = new ParamsOf(request).personId();
+        final Person person = personId.has()
+            ? this.esrn.person(personId.get())
+            : new RequestPerson(request);
         final Server server = new Server(this.url);
         final String response = server.send(
             new JsonText(
@@ -53,8 +64,23 @@ public final class ResultAction implements SitexAction {
             new JsonPersons(new JsonText(response).asJson());
         request.set("persons", response);
         request.set("fails", server.fails());
-        if (new IsEmpty(persons).value())
-            request.set("error", ResultAction.NO_RESULT);
+        request.set(
+            "canCreateDoc",
+            Boolean.parseBoolean(
+                new PropertiesOf(
+                    this.getClass(), "ResultAction.properties"
+                ).get("canCreateDoc")
+            ) && personId.has()
+        );
+        if (new IsEmpty(persons).value() || !server.fails().isEmpty())
+            request.set(
+                "error", String.format(
+                    "%s %s",
+                    ResultAction.NO_RESULT,
+                    server.fails().isEmpty()
+                        ? "" : "Не опрошены районы: " + server.fails()
+                ).trim()
+            );
         final Date
             start = new ParamsOf(request).startDate(),
             end = new ParamsOf(request).endDate();

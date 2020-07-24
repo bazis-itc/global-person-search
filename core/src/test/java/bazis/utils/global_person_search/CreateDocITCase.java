@@ -4,6 +4,7 @@ import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
+import bazis.utils.global_person_search.action.CreateDoc;
 import bazis.utils.global_person_search.fake.FakeAppoint;
 import bazis.utils.global_person_search.fake.FakePerson;
 import bazis.utils.global_person_search.fake.FakeRequest;

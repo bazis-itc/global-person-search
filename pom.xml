@@ -50,17 +50,22 @@
             <properties>
                 <sitex.version>mrd</sitex.version>
                 <displayPayments>true</displayPayments>
+                <canCreateDoc>true</canCreateDoc>
+                <failSafe>true</failSafe>
             </properties>
         </profile>
     </profiles>
 
     <properties>
-        <programmer.name>IvanovVA</programmer.name>
-        <displayPayments>false</displayPayments>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
+
+        <programmer.name>IvanovVA</programmer.name>
+
+        <failSafe>false</failSafe>
+        <displayPayments>false</displayPayments>
+        <canCreateDoc>false</canCreateDoc>
     </properties>
 
     <dependencies>

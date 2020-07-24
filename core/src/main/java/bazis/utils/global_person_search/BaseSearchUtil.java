@@ -5,6 +5,8 @@ import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
+import bazis.utils.global_person_search.action.CreateDoc;
+import bazis.utils.global_person_search.action.ResultAction;
 import bazis.utils.global_person_search.ext.ActionWithFallback;
 import bazis.utils.global_person_search.ext.DispatchAction;
 import bazis.utils.global_person_search.ext.JspAction;
@@ -47,7 +49,19 @@ public abstract class BaseSearchUtil extends AdmAction {
                     new MapOf<>(
                         new Entry<String, SitexAction>(
                             "openWindowCmd",
-                            new JspAction("global_person_search/params")
+                            new JspAction(
+                                new SitexAction() {
+                                    @Override
+                                    public void execute(AdmRequest request) {
+                                        request.set(
+                                            "extended",
+                                            !new ParamsOf(request)
+                                                .personId().has()
+                                        );
+                                    }
+                                },
+                                "global_person_search/params"
+                            )
                         ),
                         new Entry<String, SitexAction>(
                             "paramsCmd",

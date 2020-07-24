@@ -9,17 +9,17 @@ import sx.bazis.uninfoobmen.web.ConnectServletException;
 import sx.bazis.uninfoobmen.web.HttpMultipurposeClient;
 
 @SuppressWarnings("deprecation")
-final class Server {
+public final class Server {
 
     private final String url;
 
     private String fails = "";
 
-    Server(String url) {
+    public Server(String url) {
         this.url = url;
     }
 
-    String send(String request) throws BazisException {
+    public String send(String request) throws BazisException {
         final HttpMultipurposeClient connection = new HttpMultipurposeClient();
         try {
             connection.setInputObject(new EncryptedText(request).asBytes());
@@ -53,7 +53,7 @@ final class Server {
         }
     }
 
-    String fails() {
+    public String fails() {
         return this.fails;
     }
 

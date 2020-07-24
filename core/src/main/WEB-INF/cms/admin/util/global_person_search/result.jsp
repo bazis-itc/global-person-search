@@ -82,17 +82,16 @@
 			<input type="hidden" name="yearOfEnd" value='<%=admRequest.getParam("yearOfEnd")%>'/>
 			<input type="hidden" name="monthOfEnd" value='<%=admRequest.getParam("monthOfEnd")%>'/>
 			
-			<input type="hidden" name="isAllMsp" value='<%=admRequest.getParam("isAllMsp")%>'/>
-			<input type="hidden" name="data(mspList)" value='<%=admRequest.getParam("data(mspList)")%>'/>
-
+			<input type="hidden" name="msp" value='<%=admRequest.getString("msp")%>'/>
 			<input type="hidden" name="persons" value='<%=admRequest.getString("persons")%>'/>	
-			<input type="hidden" name="fails" value='<%=admRequest.getString("fails")%>'/>	
 			
-			<div>
-				<div style="padding-right:10px; display: inline-flex; float:right;">
-					<input type="submit" name="nextData" value="—формировать документ" class="button_green"/>
-				</div>
-			</div>		
+			<c:if test="${requestScope.canCreateDoc}">
+				<div>
+					<div style="padding-right:10px; display: inline-flex; float:right;">
+						<input type="submit" name="nextData" value="—формировать документ" class="button_green"/>
+					</div>
+				</div>	
+			</c:if>		
 		</form>
 		
 	</body>
