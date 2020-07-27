@@ -34,17 +34,18 @@ public final class ResultAction implements SitexAction {
     private static final String NO_RESULT =
         "Нет информации о данном гражданине на других базах";
 
-    private final String url;
-
     private final Func<Person, Jsonable> requests;
 
     private final Esrn esrn;
 
-    public ResultAction(String url,
-        Func<Person, Jsonable> requests, Esrn esrn) {
-        this.url = url;
+    private final Map<String, String> config;
+
+    public ResultAction(Func<Person, Jsonable> requests, Esrn esrn) {
         this.requests = requests;
         this.esrn = esrn;
+        this.config = new PropertiesOf(
+            this.getClass(), "ResultAction.properties"
+        );
     }
 
     @Override
@@ -54,7 +55,7 @@ public final class ResultAction implements SitexAction {
         final Person person = personId.has()
             ? this.esrn.person(personId.get())
             : new RequestPerson(request);
-        final Server server = new Server(this.url);
+        final Server server = new Server(this.config.get("centralUrl"));
         final String response = server.send(
             new JsonText(
                 new CheckedFunc<>(this.requests).apply(person)
@@ -66,11 +67,8 @@ public final class ResultAction implements SitexAction {
         request.set("fails", server.fails());
         request.set(
             "canCreateDoc",
-            Boolean.parseBoolean(
-                new PropertiesOf(
-                    this.getClass(), "ResultAction.properties"
-                ).get("canCreateDoc")
-            ) && personId.has()
+            Boolean.parseBoolean(this.config.get("canCreateDoc"))
+                && personId.has()
         );
         if (new IsEmpty(persons).value() || !server.fails().isEmpty())
             request.set(

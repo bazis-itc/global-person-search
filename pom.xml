@@ -24,6 +24,7 @@
             <id>Воронеж</id>
             <properties>
                 <sitex.version>vrn</sitex.version>
+                <centralUrl>http://192.168.155.9:8080/central/</centralUrl>
                 <displayPayments>true</displayPayments>
             </properties>
         </profile>
@@ -31,24 +32,28 @@
             <id>Рязань</id>
             <properties>
                 <sitex.version>rzn</sitex.version>
+                <centralUrl>http://192.168.120.108:8080/central/</centralUrl>
             </properties>
         </profile>
         <profile>
             <id>Тамбов</id>
             <properties>
                 <sitex.version>tmb</sitex.version>
+                <centralUrl>http://10.65.12.11:8080/central</centralUrl>
             </properties>
         </profile>
         <profile>
             <id>Ульяновск</id>
             <properties>
                 <sitex.version>uln</sitex.version>
+                <centralUrl>http://172.17.60.6/central/</centralUrl>
             </properties>
         </profile>
         <profile>
             <id>Мордовия</id>
             <properties>
                 <sitex.version>mrd</sitex.version>
+                <centralUrl>http://10.3.0.54:9180/mord_central/</centralUrl>
                 <displayPayments>true</displayPayments>
                 <canCreateDoc>true</canCreateDoc>
                 <failSafe>true</failSafe>

@@ -9,10 +9,18 @@
     <file url="file://$PROJECT_DIR$/core/src/main/WEB-INF/cms/admin/util/global_person_search/openwindow.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/core/src/main/WEB-INF/cms/admin/util/global_person_search/params.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/core/src/main/WEB-INF/cms/admin/util/global_person_search/result.jsp" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mrd" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mrd/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mrd/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/rzn" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rzn/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tmb" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tmb/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/uln" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/uln/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/vrn" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vrn/src/main/java" charset="UTF-8" />
   </component>
 </project>

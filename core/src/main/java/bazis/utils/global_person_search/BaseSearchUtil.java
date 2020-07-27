@@ -27,9 +27,8 @@ public abstract class BaseSearchUtil extends AdmAction {
 
     private final SitexAction action;
 
-    protected BaseSearchUtil(String url) {
+    protected BaseSearchUtil() {
         this(
-            url,
             new Func<Person, Jsonable>() {
                 @Override
                 public Jsonable apply(Person person) throws BazisException {
@@ -41,7 +40,7 @@ public abstract class BaseSearchUtil extends AdmAction {
     }
 
     @SuppressWarnings("HardcodedFileSeparator")
-    protected BaseSearchUtil(String url, Func<Person, Jsonable> requests) {
+    protected BaseSearchUtil(Func<Person, Jsonable> requests) {
         this(
             new ActionWithFallback(
                 new DispatchAction(
@@ -66,7 +65,7 @@ public abstract class BaseSearchUtil extends AdmAction {
                         new Entry<String, SitexAction>(
                             "paramsCmd",
                             new JspAction(
-                                new ResultAction(url, requests, new SxEsrn()),
+                                new ResultAction(requests, new SxEsrn()),
                                 "global_person_search/result"
                             )
                         ),
