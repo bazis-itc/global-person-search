@@ -1,4 +1,4 @@
-package bazis.utils.global_person_search;
+package bazis.utils.global_person_search.misc;
 
 import bazis.cactoos3.Text;
 import bazis.cactoos3.exception.BazisException;
@@ -7,6 +7,7 @@ import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
 import bazis.cactoos3.text.CheckedText;
 import bazis.cactoos3.text.JoinedText;
+import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.dates.HumanDate;
 import java.util.Map;
 

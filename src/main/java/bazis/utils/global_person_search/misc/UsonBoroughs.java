@@ -1,4 +1,4 @@
-package bazis.utils.global_person_search.uson;
+package bazis.utils.global_person_search.misc;
 
 import bazis.cactoos3.Func;
 import bazis.cactoos3.Scalar;

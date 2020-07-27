@@ -1,12 +1,12 @@
 package sx.bazis.uninfoobmen.web.bean.operation;
 
 import bazis.cactoos3.text.JoinedText;
-import bazis.utils.global_person_search.EncryptedText;
 import bazis.utils.global_person_search.jdbc.JdbcRegister;
 import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.json.JsonRequest;
 import bazis.utils.global_person_search.json.JsonText;
-import bazis.utils.global_person_search.uson.UsonBoroughs;
+import bazis.utils.global_person_search.misc.EncryptedText;
+import bazis.utils.global_person_search.misc.UsonBoroughs;
 import java.sql.Connection;
 import java.util.Collection;
 import java.util.HashMap;

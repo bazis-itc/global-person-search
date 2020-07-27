@@ -1,6 +1,7 @@
 package bazis.utils.global_person_search;
 
 import bazis.utils.global_person_search.fake.FakeRequest;
+import bazis.utils.global_person_search.misc.ParamsOf;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

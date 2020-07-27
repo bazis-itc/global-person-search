@@ -1,11 +1,10 @@
-package bazis.utils.global_person_search.uson;
+package bazis.utils.global_person_search.misc;
 
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.opt.EmptyOpt;
 import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.Borough;
-import bazis.utils.global_person_search.PropertiesOf;
 import java.sql.ResultSet;
 import java.util.Collection;
 import org.jooq.Record;

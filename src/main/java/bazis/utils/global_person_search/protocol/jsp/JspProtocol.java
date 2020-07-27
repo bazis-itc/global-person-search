@@ -6,8 +6,8 @@ import bazis.cactoos3.iterable.EmptyIterable;
 import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.iterable.JoinedIterable;
 import bazis.utils.global_person_search.Person;
-import bazis.utils.global_person_search.PropertiesOf;
 import bazis.utils.global_person_search.Protocol;
+import bazis.utils.global_person_search.misc.PropertiesOf;
 import java.util.Map;
 import sx.admin.AdmRequest;
 

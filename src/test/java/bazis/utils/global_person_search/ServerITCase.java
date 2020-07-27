@@ -3,6 +3,7 @@ package bazis.utils.global_person_search;
 import bazis.cactoos3.exception.BazisException;
 import bazis.utils.global_person_search.json.JsonRequest;
 import bazis.utils.global_person_search.json.JsonText;
+import bazis.utils.global_person_search.misc.Server;
 import com.google.gson.JsonObject;
 import org.junit.Ignore;
 import org.junit.Test;

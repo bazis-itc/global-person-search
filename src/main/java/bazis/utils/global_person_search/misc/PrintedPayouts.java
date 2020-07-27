@@ -1,4 +1,4 @@
-package bazis.utils.global_person_search;
+package bazis.utils.global_person_search.misc;
 
 import bazis.cactoos3.Func;
 import bazis.cactoos3.Text;
@@ -9,6 +9,7 @@ import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.scalar.IsEmpty;
 import bazis.cactoos3.text.CheckedText;
 import bazis.cactoos3.text.JoinedText;
+import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.ext.Sum;
 
 public final class PrintedPayouts implements Text {

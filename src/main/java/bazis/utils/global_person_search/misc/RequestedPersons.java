@@ -1,4 +1,4 @@
-package bazis.utils.global_person_search;
+package bazis.utils.global_person_search.misc;
 
 import bazis.cactoos3.Func;
 import bazis.cactoos3.Opt;
@@ -8,6 +8,9 @@ import bazis.cactoos3.iterable.IterableEnvelope;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.opt.OptOrDefault;
 import bazis.cactoos3.scalar.ScalarOf;
+import bazis.utils.global_person_search.Appoint;
+import bazis.utils.global_person_search.Payout;
+import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.ext.SetOf;
 import java.util.Collection;
 import java.util.Date;
