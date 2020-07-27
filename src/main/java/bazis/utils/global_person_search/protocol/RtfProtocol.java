@@ -21,7 +21,6 @@ import bazis.utils.global_person_search.ext.ReportData;
 import bazis.utils.global_person_search.ext.Sum;
 import bazis.utils.global_person_search.misc.ParamsOf;
 import bazis.utils.global_person_search.misc.PrintedPayouts;
-import bazis.utils.global_person_search.sx.DownloadUrl;
 import java.io.File;
 import java.util.Date;
 import sx.admin.AdmRequest;
@@ -76,7 +75,7 @@ public final class RtfProtocol implements Protocol {
                 .withString("failures", (String) request.get("fails"))
                 .withString("message", (String) request.get("message"))
         );
-        request.set("protocol", new DownloadUrl(file).asString());
+        request.set("protocol", this.esrn.downloadUrl(file));
     }
 
     private void write(Number id, Person person) throws BazisException {

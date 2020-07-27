@@ -1,6 +1,7 @@
 package bazis.utils.global_person_search;
 
 import bazis.cactoos3.exception.BazisException;
+import java.io.File;
 import java.util.Map;
 
 public interface Esrn {
@@ -8,5 +9,9 @@ public interface Esrn {
     Person person(Number id) throws BazisException;
 
     Map<String, String> measures(String links);
+
+    Report report(String code);
+
+    String downloadUrl(File file);
 
 }

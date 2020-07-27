@@ -19,7 +19,6 @@ import bazis.utils.global_person_search.protocol.CompoundProtocol;
 import bazis.utils.global_person_search.protocol.RtfProtocol;
 import bazis.utils.global_person_search.protocol.SplitProtocol;
 import bazis.utils.global_person_search.protocol.jsp.JspProtocol;
-import bazis.utils.global_person_search.sx.SxReport;
 import com.google.gson.JsonObject;
 import java.util.Map;
 import sx.admin.AdmRequest;
@@ -79,7 +78,7 @@ public final class ResultAction implements SitexAction {
             new CompoundProtocol(
                 new JspProtocol(),
                 new RtfProtocol(
-                    this.esrn, new SxReport("globalPersonSearchProtocol")
+                    this.esrn, this.esrn.report("globalPersonSearchProtocol")
                 )
             ),
             person

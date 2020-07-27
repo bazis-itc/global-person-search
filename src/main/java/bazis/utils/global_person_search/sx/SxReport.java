@@ -16,13 +16,13 @@ import sx.datastore.meta.SXClass;
 import sx.datastore.params.SXObjListParams;
 import sx.sec.SXLogin;
 
-public final class SxReport implements Report {
+final class SxReport implements Report {
 
     private final String code;
 
     private final Map<Integer, List<Map<String, Object>>> data;
 
-    public SxReport(String code) {
+    SxReport(String code) {
         this.code = code;
         this.data = new HashMap<>(0);
     }

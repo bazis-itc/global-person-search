@@ -26,10 +26,8 @@ public final class RtfProtocolTest {
     @Test
     public void test() throws Exception {
         final Map<String, Object> output = new HashMap<>(0);
-        new RtfProtocol(
-            new FakeEsrn(),
-            new FakeReport(1, output)
-        ).append(
+        final FakeReport report = new FakeReport(1, output);
+        new RtfProtocol(new FakeEsrn(report), report).append(
             new IterableOf<Person>(
                 new FakePerson("Иванов Сидр Петрович", new FakeAppoint())
             )

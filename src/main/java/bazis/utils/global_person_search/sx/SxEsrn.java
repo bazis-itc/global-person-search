@@ -6,8 +6,13 @@ import bazis.cactoos3.map.EmptyMap;
 import bazis.cactoos3.scalar.CheckedScalar;
 import bazis.utils.global_person_search.Esrn;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.Report;
+import java.io.File;
 import java.util.Map;
+import sx.cms.CmsActionUtils;
+import sx.datastore.SXDsFactory;
 import sx.datastore.SXId;
+import sx.datastore.impl.fs.SXDsFs;
 
 public final class SxEsrn implements Esrn {
 
@@ -29,6 +34,19 @@ public final class SxEsrn implements Esrn {
     public Map<String, String> measures(String links) {
         return links.isEmpty()
             ? new EmptyMap<String, String>() : new MspMap(links);
+    }
+
+    @Override
+    public Report report(String code) {
+        return new SxReport(code);
+    }
+
+    @Override
+    public String downloadUrl(File file) {
+        return CmsActionUtils.getDownloadURL(
+            SXDsFs.class.cast(SXDsFactory.getDs("reports"))
+                .file2Obj(file).getId()
+        );
     }
 
 }
