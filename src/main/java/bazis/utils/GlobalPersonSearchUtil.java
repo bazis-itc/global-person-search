@@ -1,9 +1,10 @@
-package bazis.utils.global_person_search;
+package bazis.utils;
 
 import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
+import bazis.utils.global_person_search.ParamsOf;
 import bazis.utils.global_person_search.action.CreateDoc;
 import bazis.utils.global_person_search.action.ResultAction;
 import bazis.utils.global_person_search.ext.ActionWithFallback;
@@ -19,12 +20,12 @@ import sx.admin.AdmApplication;
 import sx.admin.AdmRequest;
 import sx.datastore.SXDsFactory;
 
-public abstract class BaseSearchUtil extends AdmAction {
+public final class GlobalPersonSearchUtil extends AdmAction {
 
     private final SitexAction action;
 
     @SuppressWarnings("HardcodedFileSeparator")
-    protected BaseSearchUtil() {
+    public GlobalPersonSearchUtil() {
         this(
             new ActionWithFallback(
                 new DispatchAction(
@@ -80,14 +81,14 @@ public abstract class BaseSearchUtil extends AdmAction {
         );
     }
 
-    private BaseSearchUtil(SitexAction action) {
+    private GlobalPersonSearchUtil(SitexAction action) {
         super();
         this.action = action;
     }
 
     @Override
     @SuppressWarnings("MethodDoesntCallSuperMethod")
-    public final void execute(AdmRequest request, AdmApplication app)
+    public void execute(AdmRequest request, AdmApplication app)
         throws BazisException {
         this.action.execute(request);
     }

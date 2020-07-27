@@ -6,13 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="global-person-search-assembly" />
-        <module name="global-person-search-tmb" />
-        <module name="global-person-search-vrn" />
-        <module name="mrd" />
-        <module name="global-person-search-core" />
-        <module name="global-person-search-uln" />
-        <module name="global-person-search-rzn" />
+        <module name="global-person-search" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
