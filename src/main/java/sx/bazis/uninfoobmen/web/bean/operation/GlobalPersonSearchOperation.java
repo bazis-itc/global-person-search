@@ -28,6 +28,7 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
     @Override
     public ReturnDataObject exec(HashMap<String, String> hashMap,
         DataObject dataObject, HttpSession httpSession) {
+        ReturnDataObject result;
         //noinspection OverlyBroadCatchBlock
         try (final Connection conn = SXDsFactory.getDs().getConnection()) {
             final JsonRequest request = new JsonRequest(
@@ -36,7 +37,7 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
                 ).asJson()
             );
             final Collection<String> fails = new LinkedList<>();
-            return super.getReturnMessage(
+            result = super.getReturnMessage(
                 "COMPLETE",
                 new JoinedText(", ", fails).asString(),
                 null,
@@ -55,12 +56,13 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
                 ).asBytes()
             );
         } catch (final Exception ex) {
-            return super.getReturnMessage(
+            result = super.getReturnMessage(
                 "ERROR",
                 ex.getMessage() == null ? ex.toString() : ex.getMessage(),
                 ex
             );
         }
+        return result;
     }
 
 }
