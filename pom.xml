@@ -33,6 +33,7 @@
             <properties>
                 <sitex.version>rzn</sitex.version>
                 <centralUrl>http://192.168.120.108:8080/central/</centralUrl>
+                <extendedSearch>true</extendedSearch>
             </properties>
         </profile>
         <profile>
@@ -68,6 +69,7 @@
 
         <programmer.name>IvanovVA</programmer.name>
 
+        <extendedSearch>false</extendedSearch>
         <failSafe>false</failSafe>
         <displayPayments>false</displayPayments>
         <canCreateDoc>false</canCreateDoc>

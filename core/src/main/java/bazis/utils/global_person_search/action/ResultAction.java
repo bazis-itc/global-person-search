@@ -1,6 +1,5 @@
 package bazis.utils.global_person_search.action;
 
-import bazis.cactoos3.Func;
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.scalar.IsEmpty;
@@ -13,10 +12,10 @@ import bazis.utils.global_person_search.RequestPerson;
 import bazis.utils.global_person_search.RequestedPersons;
 import bazis.utils.global_person_search.Server;
 import bazis.utils.global_person_search.dates.FormattedDate;
-import bazis.utils.global_person_search.ext.CheckedFunc;
 import bazis.utils.global_person_search.ext.ReportData;
 import bazis.utils.global_person_search.ext.SitexAction;
 import bazis.utils.global_person_search.json.JsonPersons;
+import bazis.utils.global_person_search.json.JsonRequest;
 import bazis.utils.global_person_search.json.JsonText;
 import bazis.utils.global_person_search.json.Jsonable;
 import bazis.utils.global_person_search.protocol.CompoundProtocol;
@@ -24,6 +23,7 @@ import bazis.utils.global_person_search.protocol.RtfProtocol;
 import bazis.utils.global_person_search.protocol.SplitProtocol;
 import bazis.utils.global_person_search.protocol.jsp.JspProtocol;
 import bazis.utils.global_person_search.sx.SxReport;
+import com.google.gson.JsonObject;
 import java.util.Date;
 import java.util.Map;
 import sx.admin.AdmRequest;
@@ -34,14 +34,11 @@ public final class ResultAction implements SitexAction {
     private static final String NO_RESULT =
         "Нет информации о данном гражданине на других базах";
 
-    private final Func<Person, Jsonable> requests;
-
     private final Esrn esrn;
 
     private final Map<String, String> config;
 
-    public ResultAction(Func<Person, Jsonable> requests, Esrn esrn) {
-        this.requests = requests;
+    public ResultAction(Esrn esrn) {
         this.esrn = esrn;
         this.config = new PropertiesOf(
             this.getClass(), "ResultAction.properties"
@@ -57,9 +54,7 @@ public final class ResultAction implements SitexAction {
             : new RequestPerson(request);
         final Server server = new Server(this.config.get("centralUrl"));
         final String response = server.send(
-            new JsonText(
-                new CheckedFunc<>(this.requests).apply(person)
-            ).asString()
+            new JsonText(this.makeRequest(person)).asString()
         );
         final Iterable<Person> persons =
             new JsonPersons(new JsonText(response).asJson());
@@ -112,6 +107,16 @@ public final class ResultAction implements SitexAction {
                             ? ResultAction.NO_RESULT : ""
                     )
             );
+    }
+
+    private Jsonable makeRequest(Person person) throws BazisException {
+        final JsonRequest base = new JsonRequest(new JsonObject())
+            .withSnils(person.snils());
+        return Boolean.parseBoolean(this.config.get("extendedSearch"))
+            ? base
+                .withFio(person.fio())
+                .withBirthdate(person.birthdate())
+            : base;
     }
 
 }

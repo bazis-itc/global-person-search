@@ -1,6 +1,5 @@
 package bazis.utils.global_person_search;
 
-import bazis.cactoos3.Func;
 import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.map.Entry;
@@ -11,10 +10,7 @@ import bazis.utils.global_person_search.ext.ActionWithFallback;
 import bazis.utils.global_person_search.ext.DispatchAction;
 import bazis.utils.global_person_search.ext.JspAction;
 import bazis.utils.global_person_search.ext.SitexAction;
-import bazis.utils.global_person_search.json.JsonRequest;
-import bazis.utils.global_person_search.json.Jsonable;
 import bazis.utils.global_person_search.sx.SxEsrn;
-import com.google.gson.JsonObject;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -27,20 +23,8 @@ public abstract class BaseSearchUtil extends AdmAction {
 
     private final SitexAction action;
 
-    protected BaseSearchUtil() {
-        this(
-            new Func<Person, Jsonable>() {
-                @Override
-                public Jsonable apply(Person person) throws BazisException {
-                    return new JsonRequest(new JsonObject())
-                        .withSnils(person.snils());
-                }
-            }
-        );
-    }
-
     @SuppressWarnings("HardcodedFileSeparator")
-    protected BaseSearchUtil(Func<Person, Jsonable> requests) {
+    protected BaseSearchUtil() {
         this(
             new ActionWithFallback(
                 new DispatchAction(
@@ -65,7 +49,7 @@ public abstract class BaseSearchUtil extends AdmAction {
                         new Entry<String, SitexAction>(
                             "paramsCmd",
                             new JspAction(
-                                new ResultAction(requests, new SxEsrn()),
+                                new ResultAction(new SxEsrn()),
                                 "global_person_search/result"
                             )
                         ),
