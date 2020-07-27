@@ -6,12 +6,11 @@ import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
 import bazis.utils.global_person_search.action.CreateDoc;
 import bazis.utils.global_person_search.fake.FakeAppoint;
+import bazis.utils.global_person_search.fake.FakeEsrn;
 import bazis.utils.global_person_search.fake.FakePerson;
 import bazis.utils.global_person_search.fake.FakeRequest;
 import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.json.JsonText;
-import java.util.Collections;
-import java.util.Map;
 import org.jooq.impl.DSL;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -26,19 +25,7 @@ public final class CreateDocITCase {
                 "jdbc:sqlserver://sqlbazis.bazis.local;databaseName=ivanov_mord_kadosh",
                 "ivanov", "BF64DVer"
             ),
-            new Esrn() {
-                @Override
-                public Person person(Number id) {
-                    return new FakePerson();
-                }
-                @Override
-                public Map<String, String> measures(String links) {
-                    return Collections.singletonMap(
-                        "37145780-704c-48a2-9272-1f99afddaa9f",
-                        "Ежемесячная денежная компенсация военнослужащим"
-                    );
-                }
-            }
+            new FakeEsrn()
         ).execute(
             new FakeRequest(
                 new MapOf<>(

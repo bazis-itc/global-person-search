@@ -1,14 +1,12 @@
 package bazis.utils.global_person_search.protocol.jsp;
 
 import bazis.cactoos3.collection.ListOf;
-import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.EmptyIterable;
 import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.iterable.JoinedIterable;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.misc.PropertiesOf;
-import java.util.Map;
 import sx.admin.AdmRequest;
 
 public final class JspProtocol implements Protocol {
@@ -42,8 +40,7 @@ public final class JspProtocol implements Protocol {
     }
 
     @Override
-    public void outputTo(AdmRequest request,
-        Map<String, Object> params) throws BazisException {
+    public void outputTo(AdmRequest request) {
         request.set("lists", new ListOf<>(this.lists));
         request.set(
             JspProtocol.DISPLAY_PAYMENTS,

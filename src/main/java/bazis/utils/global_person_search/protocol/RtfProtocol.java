@@ -9,30 +9,37 @@ import bazis.cactoos3.scalar.IsEmpty;
 import bazis.cactoos3.text.FormattedText;
 import bazis.cactoos3.text.JoinedText;
 import bazis.utils.global_person_search.Appoint;
+import bazis.utils.global_person_search.Esrn;
 import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.Report;
+import bazis.utils.global_person_search.dates.FormattedDate;
 import bazis.utils.global_person_search.dates.HumanDate;
 import bazis.utils.global_person_search.dates.Period;
 import bazis.utils.global_person_search.ext.ReportData;
 import bazis.utils.global_person_search.ext.Sum;
+import bazis.utils.global_person_search.misc.ParamsOf;
 import bazis.utils.global_person_search.misc.PrintedPayouts;
 import bazis.utils.global_person_search.sx.DownloadUrl;
-import java.util.Map;
+import java.io.File;
+import java.util.Date;
 import sx.admin.AdmRequest;
 
 public final class RtfProtocol implements Protocol {
+
+    private final Esrn esrn;
 
     private final Report report;
 
     private final Number group;
 
-    public RtfProtocol(Report report) {
-        this(report, 1);
+    public RtfProtocol(Esrn esrn, Report report) {
+        this(esrn, report, 1);
     }
 
-    private RtfProtocol(Report report, Number group) {
+    private RtfProtocol(Esrn esrn, Report report, Number group) {
+        this.esrn = esrn;
         this.report = report;
         this.group = group;
     }
@@ -43,16 +50,33 @@ public final class RtfProtocol implements Protocol {
         for (final Person person : persons)
             //noinspection ValueOfIncrementOrDecrementUsed
             this.write(counter++, person);
-        return new RtfProtocol(this.report, this.group.intValue() + 1);
+        return new RtfProtocol(
+            this.esrn, this.report, this.group.intValue() + 1
+        );
     }
 
     @Override
-    public void outputTo(AdmRequest request,
-        Map<String, Object> params) throws BazisException {
-        request.set(
-            "protocol",
-            new DownloadUrl(this.report.create(params)).asString()
+    public void outputTo(AdmRequest request) throws BazisException {
+        final File file = this.report.create(
+            new ReportData.Immutable()
+                .withString(
+                    "currentDate",
+                    new FormattedDate("dd.MM.yyyy HH:mm:ss", new Date())
+                )
+                .withDate("startDate", new ParamsOf(request).startDate())
+                .withDate("endDate", new ParamsOf(request).endDate())
+                .withString(
+                    "mspList",
+                    new JoinedText(
+                        ", ", this.esrn.measures(
+                            new ParamsOf(request).msp()
+                        ).values()
+                    )
+                )
+                .withString("failures", (String) request.get("fails"))
+                .withString("message", (String) request.get("message"))
         );
+        request.set("protocol", new DownloadUrl(file).asString());
     }
 
     private void write(Number id, Person person) throws BazisException {

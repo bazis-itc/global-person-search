@@ -11,7 +11,6 @@ import bazis.utils.global_person_search.ext.CheckedFunc;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Map;
 import sx.admin.AdmRequest;
 
 public final class SplitProtocol implements Protocol {
@@ -55,9 +54,8 @@ public final class SplitProtocol implements Protocol {
     }
 
     @Override
-    public void outputTo(AdmRequest request,
-        Map<String, Object> params) throws BazisException {
-        this.origin.outputTo(request, params);
+    public void outputTo(AdmRequest request) throws BazisException {
+        this.origin.outputTo(request);
     }
 
 }

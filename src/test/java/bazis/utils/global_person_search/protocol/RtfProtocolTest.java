@@ -10,6 +10,7 @@ import bazis.utils.global_person_search.Report;
 import bazis.utils.global_person_search.ext.ConcatedText;
 import bazis.utils.global_person_search.ext.HtmlReport;
 import bazis.utils.global_person_search.fake.FakeAppoint;
+import bazis.utils.global_person_search.fake.FakeEsrn;
 import bazis.utils.global_person_search.fake.FakePerson;
 import bazis.utils.global_person_search.fake.FakeReport;
 import java.io.File;
@@ -25,7 +26,10 @@ public final class RtfProtocolTest {
     @Test
     public void test() throws Exception {
         final Map<String, Object> output = new HashMap<>(0);
-        new RtfProtocol(new FakeReport(1, output)).append(
+        new RtfProtocol(
+            new FakeEsrn(),
+            new FakeReport(1, output)
+        ).append(
             new IterableOf<Person>(
                 new FakePerson("Иванов Сидр Петрович", new FakeAppoint())
             )
@@ -52,7 +56,7 @@ public final class RtfProtocolTest {
     public void test2() throws BazisException {
         final Report report =
             new HtmlReport(new File("D:\\Exchange\\report.html"));
-        new RtfProtocol(report).append(
+        new RtfProtocol(new FakeEsrn(), report).append(
             new IterableOf<Person>(
                 new FakePerson(),
                 new FakePerson(

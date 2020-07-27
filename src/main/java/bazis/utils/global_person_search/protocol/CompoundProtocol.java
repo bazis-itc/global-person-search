@@ -3,7 +3,6 @@ package bazis.utils.global_person_search.protocol;
 import bazis.cactoos3.exception.BazisException;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
-import java.util.Map;
 import sx.admin.AdmRequest;
 
 public final class CompoundProtocol implements Protocol {
@@ -24,10 +23,9 @@ public final class CompoundProtocol implements Protocol {
     }
 
     @Override
-    public void outputTo(AdmRequest request,
-        Map<String, Object> params) throws BazisException {
-        this.first.outputTo(request, params);
-        this.second.outputTo(request, params);
+    public void outputTo(AdmRequest request) throws BazisException {
+        this.first.outputTo(request);
+        this.second.outputTo(request);
     }
 
 }

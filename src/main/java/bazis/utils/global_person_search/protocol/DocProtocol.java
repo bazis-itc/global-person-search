@@ -19,7 +19,6 @@ import bazis.utils.global_person_search.dates.SqlDate;
 import bazis.utils.global_person_search.ext.SetOf;
 import bazis.utils.global_person_search.misc.ParamsOf;
 import bazis.utils.global_person_search.misc.PrintedPayouts;
-import java.util.Map;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.impl.DSL;
@@ -56,8 +55,7 @@ public final class DocProtocol implements Protocol {
     }
 
     @Override
-    public void outputTo(AdmRequest request, Map<String, Object> params)
-        throws BazisException {
+    public void outputTo(AdmRequest request) throws BazisException {
         final int docId = this.createDoc(request);
         System.out.println(docId);
         this.createDetail(docId, new ListOf<>(this.lists).get(0), true);

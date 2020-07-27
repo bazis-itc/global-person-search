@@ -10,7 +10,6 @@ import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.dates.HumanDate;
 import java.util.Collection;
-import java.util.Map;
 import sx.admin.AdmRequest;
 
 public final class FakeProtocol implements Protocol {
@@ -44,8 +43,7 @@ public final class FakeProtocol implements Protocol {
     }
 
     @Override
-    public void outputTo(AdmRequest request, Map<String, Object> params)
-        throws BazisException {
+    public void outputTo(AdmRequest request)  throws BazisException {
         throw new BazisException("Method not implemented");
     }
 

@@ -2,7 +2,6 @@ package bazis.utils.global_person_search.action;
 
 import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
-import bazis.cactoos3.map.EmptyMap;
 import bazis.cactoos3.scalar.CachedScalar;
 import bazis.cactoos3.scalar.CheckedScalar;
 import bazis.cactoos3.scalar.ScalarOf;
@@ -48,7 +47,7 @@ public final class CreateDoc implements SitexAction {
                     new ParamsOf(request).endDate()
                 )
             )
-            .outputTo(request, new EmptyMap<String, Object>());
+            .outputTo(request);
         request.set("message", "Документ сформирован");
     }
 
