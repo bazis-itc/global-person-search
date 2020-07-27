@@ -10,7 +10,7 @@
     <base href="<c:out value="${admRequest.baseUrl}"/>">
     <script type="text/javascript" src="<c:out value="${admRequest.baseUrl}"/>admin/scripts/jquery-3.1.1.min.js"></script>
 	<link rel="icon" href="<c:out value="${admRequest.baseUrl}"/>/favicon.ico" type="image/x-icon">
-	<link rel="stylesheet" href="admin/styleblue.css">
+	<link rel="stylesheet" href="admin/style.css">
      
 	<style type="text/css">
 		table {

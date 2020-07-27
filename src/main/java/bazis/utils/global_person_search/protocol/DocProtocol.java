@@ -4,6 +4,7 @@ import bazis.cactoos3.Func;
 import bazis.cactoos3.collection.ListOf;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.EmptyIterable;
+import bazis.cactoos3.iterable.FilteredIterable;
 import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.iterable.JoinedIterable;
 import bazis.cactoos3.iterable.MappedIterable;
@@ -62,7 +63,7 @@ public final class DocProtocol implements Protocol {
         this.createDetail(docId, new ListOf<>(this.lists).get(1), false);
     }
 
-    private Integer createDoc(AdmRequest request) throws BazisException {
+    private Integer createDoc(final AdmRequest request) throws BazisException {
         final Field<Integer> identity = DSL.field("OUID", Integer.class);
         return this.context
             .insertInto(DSL.table("WM_ACTDOCUMENTS"))
@@ -110,17 +111,28 @@ public final class DocProtocol implements Protocol {
                 new CheckedText(
                     new JoinedText(
                         ", ",
-                        new SetOf<>(
-                            new MappedIterable<>(
-                                new JoinedIterable<>(this.lists),
-                                new Func<Person, String>() {
-                                    @Override
-                                    public String apply(Person pers)
-                                        throws BazisException {
-                                        return pers.borough();
+                        new FilteredIterable<String>(
+                            new SetOf<>(
+                                new MappedIterable<>(
+                                    new JoinedIterable<>(this.lists),
+                                    new Func<Person, String>() {
+                                        @Override
+                                        public String apply(Person pers)
+                                            throws BazisException {
+                                            return pers.borough();
+                                        }
                                     }
+                                )
+                            ),
+                            new Func<String, Boolean>() {
+                                @Override
+                                public Boolean apply(String borough) {
+                                    final String blacks =
+                                        request.getParam("fails");
+                                    return blacks == null ||
+                                        !blacks.contains(borough);
                                 }
-                            )
+                            }
                         )
                     )
                 ).asString()

@@ -33,23 +33,17 @@ public final class JdbcRegister implements Register {
         String fio, Opt<Date> birthdate, String snils) throws BazisException {
         @SuppressWarnings("SpellCheckingInspection")
         final Text query = new Lines(
-            "",
-            "DECLARE",
-            "  @fio VARCHAR(1000) = ?,",
-            "  @birthdate DATETIME = CONVERT(DATETIME, ?, 120),",
-            "  @snils VARCHAR(255) = ?",
-            "",
             "SELECT ",
-            "  surname.A_NAME AS surname,",
-            "  name.A_NAME AS name,",
-            "  patronymic.A_NAME AS patronymic,",
-            "  person.BIRTHDATE AS birthdate,",
-            "  person.A_REGFLAT AS address,",
-            "  person.A_SERV AS boroughId,",
-            "  person.A_LOCAL_OUID AS localId,",
-            "  person.A_SNILS AS snils,",
-            "  borough.A_RAION_NAME AS boroughName,",
-            "  (",
+            "  surname = surname.A_NAME,",
+            "  [name] = name.A_NAME,",
+            "  patronymic = patronymic.A_NAME,",
+            "  birthdate = person.BIRTHDATE,",
+            "  [address] = person.A_REGFLAT,",
+            "  boroughId = person.A_SERV,",
+            "  localId = person.A_LOCAL_OUID,",
+            "  snils = person.A_SNILS,",
+            "  boroughName = borough.A_RAION_NAME,",
+            "  passport = (",
             "    SELECT TOP 1 ",
             "      ISNULL(passport.DOCUMENTSERIES, '') + ' ' ",
             "      + ISNULL(passport.DOCUMENTSNUMBER, '')",
@@ -63,7 +57,7 @@ public final class JdbcRegister implements Register {
             "      passport.ISSUEEXTENSIONSDATE DESC,",
             "      passport.A_CREATEDATE DESC,",
             "      passport.A_OUID DESC",
-            "  ) AS passport",
+            "  ) ",
             "FROM REGISTER_PERSONAL_CARD person",
             "  LEFT JOIN SPR_FIO_SURNAME surname ",
             "    ON surname.OUID = person.SURNAME",
@@ -75,9 +69,10 @@ public final class JdbcRegister implements Register {
             "    ON borough.A_OUID = person.A_SERV",
             "WHERE ",
             "  surname.A_NAME + ' ' + name.A_NAME + ' ' ",
-            "  + ISNULL(patronymic.A_NAME, '') = @fio",
-            "  AND DATEDIFF(DAY, person.BIRTHDATE, @birthdate) = 0",
-            "  OR REPLACE(REPLACE(person.A_SNILS, ' ', ''), '-', '') = @snils"
+            "    + ISNULL(patronymic.A_NAME, '') = ?",
+            "  AND DATEDIFF(DAY, person.BIRTHDATE, CONVERT(DATETIME, ?, 120)) = 0",
+            "  OR REPLACE(REPLACE(person.A_SNILS, ' ', ''), '-', '') = ",
+            "    REPLACE(REPLACE(?, ' ', ''), '-', '')"
         );
         return new MappedIterable<>(
             DSL.using(this.connection).fetch(

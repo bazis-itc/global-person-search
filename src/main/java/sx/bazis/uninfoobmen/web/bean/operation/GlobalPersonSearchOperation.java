@@ -37,23 +37,23 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
                 ).asJson()
             );
             final Collection<String> fails = new LinkedList<>();
+            final DataObject response = new EncryptedText(
+                new JsonText(
+                    new JsonPersons(
+                        new JdbcRegister(
+                            conn, new UsonBoroughs(conn, fails)
+                        ).persons(
+                            request.fio(),
+                            request.birthdate(),
+                            request.snils()
+                        )
+                    )
+                )
+            ).asBytes();
             result = super.getReturnMessage(
                 "COMPLETE",
                 new JoinedText(", ", fails).asString(),
-                null,
-                new EncryptedText(
-                    new JsonText(
-                        new JsonPersons(
-                            new JdbcRegister(
-                                conn, new UsonBoroughs(conn, fails)
-                            ).persons(
-                                request.fio(),
-                                request.birthdate(),
-                                request.snils()
-                            )
-                        )
-                    )
-                ).asBytes()
+                null, response
             );
         } catch (final Exception ex) {
             result = super.getReturnMessage(

@@ -21,7 +21,7 @@
 		<c:if test="${not empty requestScope.error}">			
 			<span style="color:red; font-size:12px; font-weight:bold" id="err">
 				<c:out value="${requestScope.error}"/>
-			</span><br>
+			</span><br><br>
 		</c:if>	
 		
 		<c:forEach var="list" items="${requestScope.lists}">		
@@ -82,8 +82,10 @@
 			<input type="hidden" name="yearOfEnd" value='<%=admRequest.getParam("yearOfEnd")%>'/>
 			<input type="hidden" name="monthOfEnd" value='<%=admRequest.getParam("monthOfEnd")%>'/>
 			
-			<input type="hidden" name="msp" value='<%=admRequest.getString("msp")%>'/>
+			<input type="hidden" name="isAllMsp" value='<%=admRequest.getParam("isAllMsp")%>'/>
+			<input type="hidden" name="data(mspList)" value='<%=admRequest.getParam("data(mspList)")%>'/>
 			<input type="hidden" name="persons" value='<%=admRequest.getString("persons")%>'/>	
+			<input type="hidden" name="fails" value='<%=admRequest.getString("fails")%>'/>	
 			
 			<c:if test="${requestScope.canCreateDoc}">
 				<div>

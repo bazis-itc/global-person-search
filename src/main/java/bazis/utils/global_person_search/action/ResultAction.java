@@ -69,7 +69,8 @@ public final class ResultAction implements SitexAction {
             request.set(
                 "error", String.format(
                     "%s %s",
-                    ResultAction.NO_RESULT,
+                    new IsEmpty(persons).value()
+                        ? ResultAction.NO_RESULT : "",
                     server.fails().isEmpty()
                         ? "" : "Не опрошены районы: " + server.fails()
                 ).trim()
