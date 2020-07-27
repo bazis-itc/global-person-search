@@ -54,7 +54,7 @@ public final class Server {
     }
 
     public String fails() {
-        return this.fails;
+        return this.fails == null ? "" : this.fails;
     }
 
 }
