@@ -10,8 +10,8 @@ import bazis.utils.global_person_search.ext.SitexAction;
 import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.json.JsonText;
 import bazis.utils.global_person_search.misc.ParamsOf;
-import bazis.utils.global_person_search.misc.RequestedPersons;
 import bazis.utils.global_person_search.protocol.DocProtocol;
+import bazis.utils.global_person_search.protocol.FilteredProtocol;
 import bazis.utils.global_person_search.protocol.SplitProtocol;
 import org.jooq.DSLContext;
 import sx.admin.AdmRequest;
@@ -33,18 +33,18 @@ public final class CreateDoc implements SitexAction {
 
     @Override
     public void execute(AdmRequest request) throws BazisException {
-        new SplitProtocol(
-            new DocProtocol(this.context.value(), this.esrn),
-            this.esrn.person(new ParamsOf(request).objId())
+        new FilteredProtocol(
+            new SplitProtocol(
+                new DocProtocol(this.context.value(), this.esrn),
+                this.esrn.person(new ParamsOf(request).objId())
+            ),
+            this.esrn.measures(new ParamsOf(request).msp()).keySet(),
+            new ParamsOf(request).startDate(),
+            new ParamsOf(request).endDate()
         )
             .append(
-                new RequestedPersons(
-                    new JsonPersons(
-                        new JsonText(request.getParam("persons")).asJson()
-                    ),
-                    this.esrn.measures(new ParamsOf(request).msp()).keySet(),
-                    new ParamsOf(request).startDate(),
-                    new ParamsOf(request).endDate()
+                new JsonPersons(
+                    new JsonText(request.getParam("persons")).asJson()
                 )
             )
             .outputTo(request);

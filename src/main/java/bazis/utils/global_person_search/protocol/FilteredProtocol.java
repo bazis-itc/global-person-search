@@ -1,45 +1,65 @@
-package bazis.utils.global_person_search.misc;
+package bazis.utils.global_person_search.protocol;
 
 import bazis.cactoos3.Func;
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.FilteredIterable;
-import bazis.cactoos3.iterable.IterableEnvelope;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.opt.OptOrDefault;
-import bazis.cactoos3.scalar.ScalarOf;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.ext.SetOf;
 import java.util.Collection;
 import java.util.Date;
+import sx.admin.AdmRequest;
 import sx.common.MonthYearBean;
 
-public final class RequestedPersons extends IterableEnvelope<Person> {
+public final class FilteredProtocol implements Protocol {
 
-    public RequestedPersons(final Iterable<Person> origin,
-        final Iterable<String> msp, final Date startDate, final Date endDate) {
-        super(
-            new ScalarOf<>(
-                new MappedIterable<>(
-                    origin,
-                    new Func<Person, Person>() {
-                        @Override
-                        public Person apply(Person person) {
-                            return new RequestedPerson(
-                                person, msp, startDate, endDate
-                            );
-                        }
+    private final Protocol origin;
+
+    private final Iterable<String> msp;
+
+    private final Date startDate, endDate;
+
+    public FilteredProtocol(Protocol origin, Iterable<String> msp,
+        Date startDate, Date endDate) {
+        this.origin = origin;
+        this.msp = msp;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    @Override
+    public Protocol append(Iterable<Person> persons) throws BazisException {
+        return this.origin.append(
+            new MappedIterable<>(
+                persons,
+                new Func<Person, Person>() {
+                    @Override
+                    public Person apply(Person person) {
+                        return new FilteredPerson(
+                            person,
+                            FilteredProtocol.this.msp,
+                            FilteredProtocol.this.startDate,
+                            FilteredProtocol.this.endDate
+                        );
                     }
-                )
+                }
             )
         );
     }
 
+    @Override
+    public void outputTo(AdmRequest request) throws BazisException {
+        this.origin.outputTo(request);
+    }
+
 }
 
-final class RequestedPerson implements Person {
+final class FilteredPerson implements Person {
 
     private final Person origin;
 
@@ -47,8 +67,8 @@ final class RequestedPerson implements Person {
 
     private final Date startDate, endDate;
 
-    RequestedPerson(Person origin,
-        Iterable<String> msp, Date startDate, Date endDate) {
+    FilteredPerson(Person origin,
+                   Iterable<String> msp, Date startDate, Date endDate) {
         this.origin = origin;
         this.msp = msp;
         this.startDate = startDate;
@@ -96,10 +116,10 @@ final class RequestedPerson implements Person {
                 new Func<Appoint, Appoint>() {
                     @Override
                     public Appoint apply(Appoint appoint) {
-                        return new RequestedAppoint(
+                        return new FilteredAppoint(
                             appoint,
-                            RequestedPerson.this.startDate,
-                            RequestedPerson.this.endDate
+                            FilteredPerson.this.startDate,
+                            FilteredPerson.this.endDate
                         );
                     }
                 }
@@ -109,24 +129,24 @@ final class RequestedPerson implements Person {
                 public Boolean apply(Appoint appoint) throws BazisException {
                     //noinspection OverlyComplexBooleanExpression
                     return (list.isEmpty() || list.contains(appoint.type()))
-                        && !new MonthYearBean(RequestedPerson.this.startDate)
-                            .afterInDay(
-                                new MonthYearBean(
-                                    new OptOrDefault<>(
-                                        appoint.endDate(),
-                                        RequestedPerson.this.startDate
-                                    ).value()
-                                )
+                        && !new MonthYearBean(FilteredPerson.this.startDate)
+                        .afterInDay(
+                            new MonthYearBean(
+                                new OptOrDefault<>(
+                                    appoint.endDate(),
+                                    FilteredPerson.this.startDate
+                                ).value()
                             )
-                        && !new MonthYearBean(RequestedPerson.this.endDate)
-                            .beforeInDay(
-                                new MonthYearBean(
-                                    new OptOrDefault<>(
-                                        appoint.startDate(),
-                                        RequestedPerson.this.endDate
-                                    ).value()
-                                )
-                            );
+                        )
+                        && !new MonthYearBean(FilteredPerson.this.endDate)
+                        .beforeInDay(
+                            new MonthYearBean(
+                                new OptOrDefault<>(
+                                    appoint.startDate(),
+                                    FilteredPerson.this.endDate
+                                ).value()
+                            )
+                        );
                 }
             }
         );
@@ -135,13 +155,13 @@ final class RequestedPerson implements Person {
 }
 
 @SuppressWarnings("ClassWithTooManyMethods")
-final class RequestedAppoint implements Appoint {
+final class FilteredAppoint implements Appoint {
 
     private final Appoint origin;
 
     private final Date startDate, endDate;
 
-    RequestedAppoint(Appoint origin, Date startDate, Date endDate) {
+    FilteredAppoint(Appoint origin, Date startDate, Date endDate) {
         this.origin = origin;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -195,9 +215,9 @@ final class RequestedAppoint implements Appoint {
                         1
                     );
                     return
-                        !new MonthYearBean(RequestedAppoint.this.startDate)
+                        !new MonthYearBean(FilteredAppoint.this.startDate)
                             .afterInDay(date)
-                        && !new MonthYearBean(RequestedAppoint.this.endDate)
+                            && !new MonthYearBean(FilteredAppoint.this.endDate)
                             .beforeInDay(date);
                 }
             }

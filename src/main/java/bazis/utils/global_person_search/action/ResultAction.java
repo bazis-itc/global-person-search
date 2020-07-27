@@ -13,9 +13,9 @@ import bazis.utils.global_person_search.json.Jsonable;
 import bazis.utils.global_person_search.misc.ParamsOf;
 import bazis.utils.global_person_search.misc.PropertiesOf;
 import bazis.utils.global_person_search.misc.RequestPerson;
-import bazis.utils.global_person_search.misc.RequestedPersons;
 import bazis.utils.global_person_search.misc.Server;
 import bazis.utils.global_person_search.protocol.CompoundProtocol;
+import bazis.utils.global_person_search.protocol.FilteredProtocol;
 import bazis.utils.global_person_search.protocol.RtfProtocol;
 import bazis.utils.global_person_search.protocol.SplitProtocol;
 import bazis.utils.global_person_search.protocol.jsp.JspProtocol;
@@ -74,24 +74,20 @@ public final class ResultAction implements SitexAction {
                         ? "" : "Не опрошены районы: " + server.fails()
                 ).trim()
             );
-        new SplitProtocol(
-            new CompoundProtocol(
-                new JspProtocol(),
-                new RtfProtocol(
-                    this.esrn, this.esrn.report("globalPersonSearchProtocol")
-                )
+        new FilteredProtocol(
+            new SplitProtocol(
+                new CompoundProtocol(
+                    new JspProtocol(),
+                    new RtfProtocol(
+                        this.esrn, this.esrn.report("globalPersonSearchProtocol")
+                    )
+                ),
+                person
             ),
-            person
-        )
-            .append(
-                new RequestedPersons(
-                    persons,
-                    this.esrn.measures(new ParamsOf(request).msp()).keySet(),
-                    new ParamsOf(request).startDate(),
-                    new ParamsOf(request).endDate()
-                )
-            )
-            .outputTo(request);
+            this.esrn.measures(new ParamsOf(request).msp()).keySet(),
+            new ParamsOf(request).startDate(),
+            new ParamsOf(request).endDate()
+        ).append(persons).outputTo(request);
     }
 
     private Jsonable makeRequest(Person person) throws BazisException {
