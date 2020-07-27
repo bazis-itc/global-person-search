@@ -15,6 +15,7 @@ import bazis.utils.global_person_search.ParamsOf;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.PrintedPayouts;
 import bazis.utils.global_person_search.Protocol;
+import bazis.utils.global_person_search.dates.HumanDate;
 import bazis.utils.global_person_search.dates.Period;
 import bazis.utils.global_person_search.dates.SqlDate;
 import bazis.utils.global_person_search.ext.SetOf;
@@ -163,6 +164,23 @@ public final class DocProtocol implements Protocol {
                 .insertInto(DSL.table("GLOBAL_PERSON_SEARCH_APPOINT"))
                 .set(DSL.field("A_DOC", Integer.class), docId)
                 .set(DSL.field("A_BOROUGH", String.class), person.borough())
+                .set(
+                    DSL.field("A_PERSON", String.class),
+                    new CheckedText(
+                        new JoinedText(
+                            ", ",
+                            new IterableOf<>(
+                                person.fio(),
+                                new HumanDate(person.birthdate()).asString(),
+                                person.address()
+                            )
+                        )
+                    ).asString()
+                )
+                .set(
+                    DSL.field("A_PASSPORT", String.class),
+                    String.format("%s, %s", person.snils(), person.passport())
+                )
                 .set(DSL.field("A_MSP", String.class), appoint.msp())
                 .set(DSL.field("A_CATEGORY", String.class), appoint.category())
                 .set(DSL.field("A_CHILD", String.class), appoint.child())
