@@ -111,7 +111,7 @@ public final class DocProtocol implements Protocol {
                 new CheckedText(
                     new JoinedText(
                         ", ",
-                        new FilteredIterable<String>(
+                        new FilteredIterable<>(
                             new SetOf<>(
                                 new MappedIterable<>(
                                     new JoinedIterable<>(this.lists),

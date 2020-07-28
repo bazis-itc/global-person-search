@@ -39,19 +39,19 @@ public final class PrintedPayouts implements Text {
                     new IterableOf<>(
                         new IsEmpty(this.payouts).value() ? ""
                             : String.format(
-                            "Итого: %.02f",
-                            new Sum(
-                                new MappedIterable<>(
-                                    this.payouts,
-                                    new Func<Payout, Number>() {
-                                        @Override
-                                        public Number apply(Payout payout) {
-                                            return payout.sum();
+                                "Итого: %.02f",
+                                new Sum(
+                                    new MappedIterable<>(
+                                        this.payouts,
+                                        new Func<Payout, Number>() {
+                                            @Override
+                                            public Number apply(Payout payout) {
+                                                return payout.sum();
+                                            }
                                         }
-                                    }
-                                )
-                            ).doubleValue()
-                        )
+                                    )
+                                ).doubleValue()
+                            )
                     )
                 )
             )

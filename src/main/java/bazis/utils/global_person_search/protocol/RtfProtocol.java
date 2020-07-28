@@ -100,8 +100,7 @@ public final class RtfProtocol implements Protocol {
                 )
             )
             .withString(
-                "passport",
-                new FormattedText(
+                "passport", new FormattedText(
                     "%s, %s", person.snils(), person.passport()
                 )
             )
