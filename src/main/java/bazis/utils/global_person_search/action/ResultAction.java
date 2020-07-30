@@ -22,6 +22,7 @@ import bazis.utils.global_person_search.protocol.jsp.JspProtocol;
 import com.google.gson.JsonObject;
 import java.util.Map;
 import sx.admin.AdmRequest;
+import sx.cms.CmsApplication;
 
 @SuppressWarnings("OverlyCoupledClass")
 public final class ResultAction implements SitexAction {
@@ -47,7 +48,7 @@ public final class ResultAction implements SitexAction {
         final Person person = personId.has()
             ? this.esrn.person(personId.get())
             : new RequestPerson(request);
-        final Server server = new Server(this.config.get("centralUrl"));
+        final Server server = new Server(this.centralUrl());
         final String response = server.send(
             new JsonText(this.makeRequest(person)).asString()
         );
@@ -99,6 +100,19 @@ public final class ResultAction implements SitexAction {
                 .withFio(person.fio())
                 .withBirthdate(person.birthdate())
             : base;
+    }
+
+    private String centralUrl() throws BazisException {
+        final String result;
+        final String fromConfig = this.config.get("centralUrl");
+        if (fromConfig.isEmpty()) {
+            result = CmsApplication.getCmsApplication()
+                .getString("regCentralServerURL");
+            if (result == null || result.isEmpty()) throw new BazisException(
+                "В настройках соц. регистра не указан адрес центральной базы"
+            );
+        } else result = fromConfig;
+        return result;
     }
 
 }

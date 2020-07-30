@@ -43,7 +43,7 @@
             <id>Мордовия</id>
             <properties>
                 <sitex.version>mrd</sitex.version>
-                <centralUrl>http://10.3.0.54:9180/mord_central/</centralUrl>
+                <centralUrl/>
                 <displayPayments>true</displayPayments>
                 <canCreateDoc>true</canCreateDoc>
                 <failSafe>true</failSafe>
