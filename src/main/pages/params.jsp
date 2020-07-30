@@ -92,8 +92,9 @@
 			else if (document.getElementById('data(birthdate)').value == "") 
 				message = "Не указана дата рождения";
 			if (message) alert(message);
-			popupMsgOn(self, 'Идет поиск', 'Подождите...');
-			return message == null;
+			var result = message == null;
+			if (result) popupMsgOn(self, 'Идет поиск', 'Подождите...');
+			return result;
 		}
 	</script>
 	
