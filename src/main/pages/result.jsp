@@ -7,10 +7,10 @@
 		<meta name="Content-Type" content="<c:out value="${cmsApplication.contentType}"/>">
 		<base href="<c:out value="${admRequest.baseUrl}"/>">
 		<meta http-equiv="X-UA-TextLayoutMetrics" content="natural" />
-		<link rel="stylesheet" href="admin/styleblue.css">
+		<link rel="stylesheet" href="admin/style.css">
 	</head>
 
-	<body>
+	<body class="editBG">
 		<h3 align="center"></h3>
 		<br>			
 			<a tabindex="-1" href="<c:out value='${requestScope.protocol}'/>">
@@ -30,26 +30,29 @@
 			</c:if>	
 			
 			<c:forEach var="person" items="${list.persons}" varStatus="row">		
-				<b><c:out value="${row.count}"/>) ФИО:</b> <c:out value="${person.fio}"/><br>
+				<font class="font"><b><c:out value="${row.count}"/>) ФИО:</b> <c:out value="${person.fio}"/></font><br>
 				<b>Дата рождения:</b> <c:out value="${person.birthdate}"/><br>
 				<b>Адрес регистрации:</b> <c:out value="${person.address}"/><br>
 				<b>СНИЛС:</b> <c:out value="${person.snils}"/><br>
 				<b>Район:</b> <c:out value="${person.borough}"/><br>
 				<b>Документ удостоверяющий личность:</b> <c:out value="${person.passport}"/><br>
 							
-				<table border="1">
-					<tr>
-						<td><b>МСП</b></td>
-						<td><b>ЛК</b></td>
-						<td><b>Лицо, на основании данных ЛД которого сделано назначение</b></td>
-						<td><b>Период предоставления МСП</b></td>
-						<td><b>Статус назначения</b></td>
+				<table class="sort">
+					<thead>
+					<tr class="gridRow">
+						<th><b>МСП</b></th>
+						<th><b>ЛК</b></th>
+						<th><b>Лицо, на основании данных ЛД которого сделано назначение</b></th>
+						<th><b>Период предоставления МСП</b></th>
+						<th><b>Статус назначения</b></th>
 						<c:if test="${requestScope.displayPayments}">
-							<td><b>Выплаты</b></td>
+							<th><b>Выплаты</b></th>
 						</c:if>	
-					</tr>					
+					</tr>	
+					</thead>
+					<tbody>
 					<c:forEach var="appoint" items="${person.appoints}">
-						<tr>
+						<tr class="gridRow">
 							<td><c:out value="${appoint.msp}"/></td>
 							<td><c:out value="${appoint.category}"/></td>
 							<td><c:out value="${appoint.child}"/></td>
@@ -64,6 +67,7 @@
 							</c:if>	
 						</tr>			
 					</c:forEach>
+					</tbody>
 				</table>
 				<br><br><br>
 			</c:forEach>
@@ -90,7 +94,7 @@
 			<c:if test="${requestScope.canCreateDoc}">
 				<div>
 					<div style="padding-right:10px; display: inline-flex; float:right;">
-						<input type="submit" name="nextData" value="Сформировать документ" class="button_green"/>
+						<input type="submit" name="nextData" value="Сформировать документ" class="button_green" style="width:200px;"/>
 					</div>
 				</div>	
 			</c:if>		

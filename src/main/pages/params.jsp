@@ -11,29 +11,7 @@
     <script type="text/javascript" src="<c:out value="${admRequest.baseUrl}"/>admin/scripts/jquery-3.1.1.min.js"></script>
 	<link rel="icon" href="<c:out value="${admRequest.baseUrl}"/>/favicon.ico" type="image/x-icon">
 	<link rel="stylesheet" href="admin/style.css">
-     
-	<style type="text/css">
-		table {
-			border-collapse: collapse;
-		}
-		form{background-color: #d7e4f2; width: 100%;}
-		.font {
-			font-size: 16px;
-			margin-left: 15px;
-			padding-top: 10px;
-		}
-		.param-content ,#msp-table {
-			border:0px;
-			margin-top: 5px;
-			margin-left: 50px;
-		}
-		input[type="text"] {
-			width: 82px;
-		}
-		input[type="checkbox"] {
-			width: 15px;
-		}		
-	</style>
+    
 	<script>
 		String.prototype.replaceAll = function(search, replacement) {
 			var target = this;
@@ -114,6 +92,7 @@
 			else if (document.getElementById('data(birthdate)').value == "") 
 				message = "Не указана дата рождения";
 			if (message) alert(message);
+			popupMsgOn(self, 'Идет поиск', 'Подождите...');
 			return message == null;
 		}
 	</script>
@@ -135,7 +114,7 @@
     <form name="formMain" id="formMain" 
 		  enctype="multipart/form-data" 
 		  action="<%=admRequest.getBaseUrl()%><c:out value="${data.actionCode}"/>.sx" 
-		  method="post" onSubmit="return checkVals();">
+		  method="post" onSubmit="return checkVals();" class="editBG">
 		<input type="hidden" name="cmd" value="paramsCmd">
 		<input type="hidden" name="objId" value="<%=admRequest.getObjIdList().get(0).toString()%>">
 
@@ -146,19 +125,19 @@
 		<br>
 		<table>
 			<tr>
-				<td><font class="font">Фамилия:</font></td>
+				<td><font class="font"><b>Фамилия:</b></font></td>
 				<td class="noBottom"><input id="surname" name="surname" value=""/></td>
 			</tr>     
 			<tr>
-				<td><font class="font">Имя:</font></td>
+				<td><font class="font"><b>Имя:</b></font></td>
 				<td class="noBottom"><input id="name" name="name" value=""/></td>
 			</tr>  
 			<tr>
-				<td><font class="font">Отчество:</font></td>
+				<td><font class="font"><b>Отчество:</b></font></td>
 				<td class="noBottom"><input name="patronymic" value=""/></td>
 			</tr>     
 			<tr>
-				<td><font class="font">Дата рождения:</font></td>
+				<td><font class="font"><b>Дата рождения:</b></font></td>
 				<td>
 					<input type="hidden" name="birthdate" id="data(birthdate)" value="">
 					<input style="width:80px;" size="10" maxlength="10" type="text" onKeyPress="setChanged()"
@@ -181,14 +160,14 @@
 				</td>
 			</tr> 
 			<tr>
-				<td><font class="font">СНИЛС:</font></td>
+				<td><font class="font"><b>СНИЛС:</b></font></td>
 				<td><input name="snils" value=""/></td>
 			</tr>                 
 		</table>
 		</c:if>
 		
 		<br>
-		<font class="font">Период для запроса информации:</font>
+		<font class="font"><b>Период для запроса информации:</b></font>
 		<table class="param-content">
 			<tr>
 				<td><b></b></td>
@@ -243,13 +222,13 @@
 		<br>
 		<table>
 			<tr>
-				<td><font class="font">Запросить по всем МСП:</font></td>
+				<td><font class="font"><b>Запросить по всем МСП:</b></font></td>
 				<td><input id="isAllMsp" name="isAllMsp" onClick="checkIsAllMsp()" type="checkbox" checked="checked"></td>
 			</tr>                        
         </table>	
 		<br>
 		<div id="mspBlock">
-			<font class="font">Выбор МСП для запроса информации:</font>
+			<font class="font"><b>Выбор МСП для запроса информации:</b></font>
 			<select 
 				size="10" multiple="" tabindex="1" style="width:300px; " 
 				name="title_mspList" id="title_mspList"
@@ -260,12 +239,10 @@
 				<img src="admin/images/view_up.gif" class="ico" onmouseover="newImg(this,view_down)" onmouseout="newImg(this,view_up)">
 			</button>
 		</div>
-		
-		<div>
-			<div style="padding-right:10px; display: inline-flex; float:right;">
-				<input type="submit" name="nextData" value="Дальше" class="button_green"/>
-			</div>
-		</div>		
+				
+        <div align=right style="padding-right:10px;">
+          <input type="submit" value="Дальше" class="button_green"/>
+        </div>
 	</form>
 	<!--<div style="padding-right:10px; display: inline-flex; float:right;">
 		<input type="button" value="Закрыть" class="button_blue" id="winCloseButton" onClick="self.close(); return getFalse(event);"/>
