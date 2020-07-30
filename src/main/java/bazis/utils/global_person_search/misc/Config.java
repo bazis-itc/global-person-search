@@ -3,20 +3,24 @@ package bazis.utils.global_person_search.misc;
 import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.map.MapEnvelope;
+import bazis.cactoos3.scalar.CachedScalar;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-public final class PropertiesOf extends MapEnvelope<String, String> {
+public final class Config extends MapEnvelope<String, String> {
 
-    public PropertiesOf(final Class<?> cls, final String path) {
-        super(
+    public Config() {
+        this(
             new Scalar<Map<String, String>>() {
                 @Override
                 public Map<String, String> value() throws Exception {
-                    final InputStream resource = cls.getResourceAsStream(path);
+                    final InputStream resource =
+                        this.getClass().getResourceAsStream(
+                            "/bazis/utils/global_person_search/config.properties"
+                        );
                     if (resource == null)
                         throw new BazisException("Properties file not found");
                     final Properties properties = new Properties();
@@ -29,6 +33,10 @@ public final class PropertiesOf extends MapEnvelope<String, String> {
                 }
             }
         );
+    }
+
+    private Config(Scalar<Map<String, String>> scalar) {
+        super(new CachedScalar<>(scalar));
     }
 
 }

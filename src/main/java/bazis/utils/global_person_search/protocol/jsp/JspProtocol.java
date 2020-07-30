@@ -6,7 +6,7 @@ import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.iterable.JoinedIterable;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
-import bazis.utils.global_person_search.misc.PropertiesOf;
+import bazis.utils.global_person_search.misc.Config;
 import sx.admin.AdmRequest;
 
 public final class JspProtocol implements Protocol {
@@ -44,11 +44,7 @@ public final class JspProtocol implements Protocol {
         request.set("lists", new ListOf<>(this.lists));
         request.set(
             JspProtocol.DISPLAY_PAYMENTS,
-            Boolean.parseBoolean(
-                new PropertiesOf(
-                    this.getClass(), "JspProtocol.properties"
-                ).get(JspProtocol.DISPLAY_PAYMENTS)
-            )
+            Boolean.parseBoolean(new Config().get(JspProtocol.DISPLAY_PAYMENTS))
         );
     }
 

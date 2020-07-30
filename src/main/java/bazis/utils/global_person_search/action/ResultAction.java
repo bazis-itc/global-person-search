@@ -10,8 +10,8 @@ import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.json.JsonRequest;
 import bazis.utils.global_person_search.json.JsonText;
 import bazis.utils.global_person_search.json.Jsonable;
+import bazis.utils.global_person_search.misc.Config;
 import bazis.utils.global_person_search.misc.ParamsOf;
-import bazis.utils.global_person_search.misc.PropertiesOf;
 import bazis.utils.global_person_search.misc.RequestPerson;
 import bazis.utils.global_person_search.misc.Server;
 import bazis.utils.global_person_search.protocol.CompoundProtocol;
@@ -36,9 +36,7 @@ public final class ResultAction implements SitexAction {
 
     public ResultAction(Esrn esrn) {
         this.esrn = esrn;
-        this.config = new PropertiesOf(
-            this.getClass(), "ResultAction.properties"
-        );
+        this.config = new Config();
     }
 
     @Override

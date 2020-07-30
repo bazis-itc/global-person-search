@@ -35,13 +35,7 @@ final class UsonBorough implements Borough {
                 )
             );
         } catch (final Throwable ex) {
-            if (
-                Boolean.parseBoolean(
-                    new PropertiesOf(
-                        this.getClass(), "UsonBorough.properties"
-                    ).get("failSafe")
-                )
-            ) {
+            if (Boolean.parseBoolean(new Config().get("failSafe"))) {
                 SXSysLog.error(
                     "globalPersonSearchLog", SXUtils.getStackTrace(ex),
                     null, false
