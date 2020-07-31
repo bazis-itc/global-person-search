@@ -69,9 +69,8 @@ public final class DocProtocol implements Protocol {
             .insertInto(DSL.table("WM_ACTDOCUMENTS"))
             .set(
                 DSL.field("A_STATUS"),
-                DSL.field(
-                    "(SELECT A_ID FROM ESRN_SERV_STATUS WHERE A_STATUSCODE = 'act')",
-                    Integer.class
+                this.context.fetchValue(
+                    "SELECT A_ID FROM ESRN_SERV_STATUS WHERE A_STATUSCODE = 'act'"
                 )
             )
             .set(
@@ -86,16 +85,14 @@ public final class DocProtocol implements Protocol {
             )
             .set(
                 DSL.field("A_DOCSTATUS"),
-                DSL.field(
-                    "(SELECT A_OUID FROM SPR_DOC_STATUS WHERE A_CODE = 'active')",
-                    Integer.class
+                this.context.fetchValue(
+                    "SELECT A_OUID FROM SPR_DOC_STATUS WHERE A_CODE = 'active'"
                 )
             )
             .set(
                 DSL.field("DOCUMENTSTYPE"),
-                DSL.field(
-                    "(SELECT A_ID FROM PPR_DOC WHERE A_CODE = 'globalPersonSearchDoc')",
-                    Integer.class
+                this.context.fetchValue(
+                    "(SELECT A_ID FROM PPR_DOC WHERE A_CODE = 'globalPersonSearchDoc')"
                 )
             )
             .set(

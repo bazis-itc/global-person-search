@@ -79,12 +79,6 @@ public final class RtfProtocol implements Protocol {
     }
 
     private void write(Number id, Person person) throws BazisException {
-        final Func<Payout, Number> sums = new Func<Payout, Number>() {
-            @Override
-            public Number apply(Payout payout) {
-                return payout.sum();
-            }
-        };
         final ReportData row = new ReportData.Immutable()
             .withInt("personId", id)
             .withString("borough", person.borough())
@@ -122,7 +116,12 @@ public final class RtfProtocol implements Protocol {
                                     }
                                 )
                             ),
-                            sums
+                            new Func<Payout, Number>() {
+                                @Override
+                                public Number apply(Payout payout) {
+                                    return payout.sum();
+                                }
+                            }
                         )
                     ).doubleValue()
                 )
