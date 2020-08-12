@@ -27,7 +27,7 @@ public final class FakeReport implements Report {
 
     @Override
     public File create(Map<String, Object> params) throws BazisException {
-        throw new BazisException("Method not implemented");
+        return new File("");
     }
 
 }

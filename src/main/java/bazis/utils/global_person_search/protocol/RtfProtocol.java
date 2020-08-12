@@ -1,10 +1,13 @@
 package bazis.utils.global_person_search.protocol;
 
 import bazis.cactoos3.Func;
+import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
+import bazis.cactoos3.iterable.EmptyIterable;
 import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.iterable.JoinedIterable;
 import bazis.cactoos3.iterable.MappedIterable;
+import bazis.cactoos3.scalar.CheckedScalar;
 import bazis.cactoos3.scalar.IsEmpty;
 import bazis.cactoos3.text.FormattedText;
 import bazis.cactoos3.text.JoinedText;
@@ -14,49 +17,72 @@ import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.Report;
+import bazis.utils.global_person_search.action.ResultAction;
 import bazis.utils.global_person_search.dates.FormattedDate;
 import bazis.utils.global_person_search.dates.HumanDate;
 import bazis.utils.global_person_search.dates.Period;
+import bazis.utils.global_person_search.ext.All;
 import bazis.utils.global_person_search.ext.ReportData;
 import bazis.utils.global_person_search.ext.Sum;
 import bazis.utils.global_person_search.misc.ParamsOf;
 import bazis.utils.global_person_search.misc.PrintedPayouts;
+import bazis.utils.global_person_search.misc.RequestPerson;
 import java.io.File;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 import sx.admin.AdmRequest;
 
 public final class RtfProtocol implements Protocol {
 
+    private static final AtomicInteger COUNTER = new AtomicInteger(1);
+
     private final Esrn esrn;
 
-    private final Report report;
+    private final Iterable<Iterable<Person>> lists;
 
-    private final Number group;
-
-    public RtfProtocol(Esrn esrn, Report report) {
-        this(esrn, report, 1);
+    public RtfProtocol(Esrn esrn) {
+        this(esrn, new EmptyIterable<Iterable<Person>>());
     }
 
-    private RtfProtocol(Esrn esrn, Report report, Number group) {
+    private RtfProtocol(Esrn esrn, Iterable<Iterable<Person>> lists) {
         this.esrn = esrn;
-        this.report = report;
-        this.group = group;
+        this.lists = lists;
     }
 
     @Override
-    public Protocol append(Iterable<Person> persons) throws BazisException {
-        int counter = 1;
-        for (final Person person : persons)
-            //noinspection ValueOfIncrementOrDecrementUsed
-            this.write(counter++, person);
+    public Protocol append(Iterable<Person> persons) {
         return new RtfProtocol(
-            this.esrn, this.report, this.group.intValue() + 1
+            this.esrn, new JoinedIterable<>(
+                this.lists, new IterableOf<>(persons)
+            )
         );
     }
 
     @Override
     public void outputTo(AdmRequest request) throws BazisException {
-        final File file = this.report.create(
+        Report report = this.esrn.report("globalPersonSearchProtocol");
+        int group = 1;
+        for (final Iterable<Person> persons : this.lists) {
+            for (final Person person : persons)
+                report = RtfProtocol.append(report, group, person);
+            group++;
+        }
+        final boolean isEmpty = new CheckedScalar<>(
+            new All<>(
+                this.lists,
+                new Func<Iterable<Person>, Boolean>() {
+                    @Override
+                    public Boolean apply(Iterable<Person> list) {
+                        return new IsEmpty(list).value();
+                    }
+                }
+            )
+        ).value();
+        final Opt<Number> personId = new ParamsOf(request).personId();
+        final Person person = personId.has()
+            ? this.esrn.person(personId.get())
+            : new RequestPerson(request);
+        final File file = report.create(
             new ReportData.Immutable()
                 .withString(
                     "currentDate",
@@ -73,14 +99,46 @@ public final class RtfProtocol implements Protocol {
                     )
                 )
                 .withString("failures", (String) request.get("fails"))
-                .withString("message", (String) request.get("message"))
+                .withString("message", isEmpty ? ResultAction.NO_RESULT : "")
+                .withInt(
+                    "num",
+                    this.esrn.iteratorValue("globalPersonSearchIterator")
+                )
+                .withString("fromDate", new HumanDate(new Date()))
+                .withString("org", this.esrn.orgName())
+                .withString("fio", person.fio())
+                .withString("birthdate", new HumanDate(person.birthdate()))
+                .withString("snils", person.snils())
+                .withString("docName", "Паспорт гражданина России")
+                .withString("docNumber", person.passport())
+                .withString(
+                    "requestPeriod",
+                    new FormattedText(
+                        "%s - %s",
+                        new HumanDate(
+                            new ParamsOf(request).startDate()
+                        ).asString(),
+                        new HumanDate(
+                            new ParamsOf(request).endDate()
+                        ).asString()
+                    )
+                )
+                .withString(
+                    "resultMessage",
+                    new FormattedText(
+                        "Данные в других СЗН Республики Мордовия %s",
+                        isEmpty ? "не найдены" : "найдены"
+                    )
+                )
         );
         request.set("protocol", this.esrn.downloadUrl(file));
+        "".toCharArray();
     }
 
-    private void write(Number id, Person person) throws BazisException {
+    private static Report append(Report report, Number group, Person person)
+        throws BazisException {
         final ReportData row = new ReportData.Immutable()
-            .withInt("personId", id)
+            .withInt("personId", RtfProtocol.COUNTER.getAndIncrement())
             .withString("borough", person.borough())
             .withString(
                 "person",
@@ -126,12 +184,13 @@ public final class RtfProtocol implements Protocol {
                     ).doubleValue()
                 )
             );
+        Report result = report;
         if (new IsEmpty(person.appoints()).value())
-            this.report.append(this.group, row);
+            result = result.append(group, row);
         else for (final Appoint appoint : person.appoints())
             //noinspection HardcodedLineSeparator
-            this.report.append(
-                this.group,
+            result = result.append(
+                group,
                 row
                     .withString("msp", appoint.msp())
                     .withString("category", appoint.category())
@@ -147,6 +206,7 @@ public final class RtfProtocol implements Protocol {
                         "payments", new PrintedPayouts(appoint.payouts())
                     )
             );
+        return result;
     }
 
 }

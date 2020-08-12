@@ -1,6 +1,5 @@
-package bazis.utils.global_person_search;
+package bazis.utils.global_person_search.misc;
 
-import bazis.utils.global_person_search.misc.EncryptedText;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;

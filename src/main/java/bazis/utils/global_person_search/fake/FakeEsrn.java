@@ -55,4 +55,14 @@ public final class FakeEsrn implements Esrn {
         return file.getAbsolutePath();
     }
 
+    @Override
+    public Number iteratorValue(String iterator) {
+        return 256;
+    }
+
+    @Override
+    public String orgName() {
+        return "Отдел по Пролетарскому району";
+    }
+
 }

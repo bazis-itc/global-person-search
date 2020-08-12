@@ -49,7 +49,7 @@ public final class RequestPerson implements Person {
 
     @Override
     public String passport() {
-        throw new UnsupportedOperationException("Method not implemented");
+        return "";
     }
 
     @Override

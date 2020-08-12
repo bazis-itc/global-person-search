@@ -27,7 +27,7 @@ import sx.cms.CmsApplication;
 @SuppressWarnings("OverlyCoupledClass")
 public final class ResultAction implements SitexAction {
 
-    private static final String NO_RESULT =
+    public static final String NO_RESULT =
         "Нет информации о данном гражданине на других базах";
 
     private final Esrn esrn;
@@ -59,11 +59,6 @@ public final class ResultAction implements SitexAction {
             Boolean.parseBoolean(this.config.get("canCreateDoc"))
                 && personId.has()
         );
-        request.set(
-            "message",
-            new IsEmpty(persons).value()
-                ? ResultAction.NO_RESULT : ""
-        );
         if (new IsEmpty(persons).value() || !server.fails().isEmpty())
             request.set(
                 "error", String.format(
@@ -77,10 +72,7 @@ public final class ResultAction implements SitexAction {
         new FilteredProtocol(
             new SplitProtocol(
                 new CompoundProtocol(
-                    new JspProtocol(),
-                    new RtfProtocol(
-                        this.esrn, this.esrn.report("globalPersonSearchProtocol")
-                    )
+                    new JspProtocol(), new RtfProtocol(this.esrn)
                 ),
                 person
             ),

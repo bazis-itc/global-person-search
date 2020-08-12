@@ -14,4 +14,8 @@ public interface Esrn {
 
     String downloadUrl(File file);
 
+    Number iteratorValue(String iterator) throws BazisException;
+
+    String orgName() throws BazisException;
+
 }

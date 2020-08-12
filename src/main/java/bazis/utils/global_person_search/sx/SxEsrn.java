@@ -10,9 +10,13 @@ import bazis.utils.global_person_search.Report;
 import java.io.File;
 import java.util.Map;
 import sx.cms.CmsActionUtils;
+import sx.cms.CmsApplication;
 import sx.datastore.SXDsFactory;
 import sx.datastore.SXId;
+import sx.datastore.impl.SXIterator;
 import sx.datastore.impl.fs.SXDsFs;
+import sx.datastore.meta.SXClass;
+import sx.datastore.params.SXObjListParams;
 
 public final class SxEsrn implements Esrn {
 
@@ -47,6 +51,35 @@ public final class SxEsrn implements Esrn {
             SXDsFs.class.cast(SXDsFactory.getDs("reports"))
                 .file2Obj(file).getId()
         );
+    }
+
+    @Override
+    public Number iteratorValue(final String iterator) throws BazisException {
+        return new CheckedScalar<>(
+            new Scalar<Number>() {
+                @Override
+                public Number value() throws Exception {
+                    return SXIterator.getSXIterator().next(iterator, true);
+                }
+            }
+        ).value();
+    }
+
+    @Override
+    public String orgName() throws BazisException {
+        return new CheckedScalar<>(
+            new Scalar<String>() {
+                @Override
+                public String value() throws Exception {
+                    return new SXObjListParams(
+                        (SXId) CmsApplication.getCmsApplication()
+                            .getObject("regOrgName")
+                    )
+                        .setDefaultAttrCollection(SXClass.TITLE_ATTRS)
+                        .getObj().getTitle();
+                }
+            }
+        ).value();
     }
 
 }

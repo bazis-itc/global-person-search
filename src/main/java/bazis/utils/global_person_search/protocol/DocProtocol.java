@@ -92,7 +92,7 @@ public final class DocProtocol implements Protocol {
             .set(
                 DSL.field("DOCUMENTSTYPE"),
                 this.context.fetchValue(
-                    "(SELECT A_ID FROM PPR_DOC WHERE A_CODE = 'globalPersonSearchDoc')"
+                    "SELECT A_ID FROM PPR_DOC WHERE A_CODE = 'globalPersonSearchDoc'"
                 )
             )
             .set(
@@ -158,7 +158,7 @@ public final class DocProtocol implements Protocol {
             .set(
                 DSL.field("A_NOTE", String.class),
                 new ListOf<>(new JoinedIterable<>(this.lists)).isEmpty()
-                    ? DocProtocol.NO_RESULT : null
+                    ? DocProtocol.NO_RESULT : ""
             )
             .returning(identity)
             .fetchOne().getValue(identity);
