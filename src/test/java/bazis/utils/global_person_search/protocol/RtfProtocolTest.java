@@ -32,12 +32,11 @@ public final class RtfProtocolTest {
                 new FakePerson("Иванов Сидр Петрович", new FakeAppoint())
             )
         ).outputTo(new FakeRequest());
-        //noinspection HardcodedLineSeparator
         MatcherAssert.assertThat(
             output,
             Matchers.allOf(
                 Matchers.<String, Object>hasEntry(
-                    "period", "с 01.01.2019\nпо 31.12.2019"
+                    "period", "с 01.01.2019 по 31.12.2019"
                 ),
                 Matchers.<String, Object>hasEntry(
                     "person",
@@ -54,7 +53,7 @@ public final class RtfProtocolTest {
     public void itCase() throws BazisException {
         final Report report =
             new HtmlReport(new File("target\\report.html"));
-        final IterableOf<Person> persons = new IterableOf<Person>(
+        final Iterable<Person> persons = new IterableOf<Person>(
             new FakePerson(),
             new FakePerson(
                 "Пустой Иван Иванович",
@@ -63,7 +62,6 @@ public final class RtfProtocolTest {
         );
         new RtfProtocol(new FakeEsrn(report))
             .append(persons).append(persons).outputTo(new FakeRequest());
-//        report.create(new EmptyMap<String, Object>());
     }
 
 }

@@ -5,7 +5,7 @@ import bazis.utils.global_person_search.Borough;
 import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.ext.ConcatedText;
 import bazis.utils.global_person_search.fake.FakeBorough;
-import bazis.utils.global_person_search.misc.PrintedPayout;
+import bazis.utils.global_person_search.printed.PrintedPayout;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Collections;

@@ -56,7 +56,11 @@
 							<td><c:out value="${appoint.msp}"/></td>
 							<td><c:out value="${appoint.category}"/></td>
 							<td><c:out value="${appoint.child}"/></td>
-							<td>с <c:out value="${appoint.startDate}"/><br>по <c:out value="${appoint.endDate}"/></td>
+							<td>
+								<c:forEach var="period" items="${appoint.periods}">
+									<nobr><c:out value="${period}"/></nobr><br>
+								</c:forEach>
+							</td>
 							<td><c:out value="${appoint.status}"/></td>
 							<c:if test="${requestScope.displayPayments}">
 								<td>

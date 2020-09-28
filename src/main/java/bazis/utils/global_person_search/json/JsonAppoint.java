@@ -8,7 +8,9 @@ import bazis.cactoos3.opt.EmptyOpt;
 import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Payout;
+import bazis.utils.global_person_search.Period;
 import bazis.utils.global_person_search.dates.IsoDate;
+import bazis.utils.global_person_search.misc.PeriodOf;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -21,7 +23,7 @@ final class JsonAppoint implements Appoint, Jsonable {
         TYPE = "type", MSP = "msp", CATEGORY = "category",
         CHILD = "child", STATUS = "status",
         START_DATE = "startDate", END_DATE = "endDate",
-        PAYOUTS = "payouts";
+        PAYOUTS = "payouts", PERIODS = "periods";
 
     private final Appoint origin;
 
@@ -59,13 +61,8 @@ final class JsonAppoint implements Appoint, Jsonable {
     }
 
     @Override
-    public Opt<Date> startDate() throws BazisException {
-        return this.origin.startDate();
-    }
-
-    @Override
-    public Opt<Date> endDate() throws BazisException {
-        return this.origin.endDate();
+    public Iterable<Period> periods() throws BazisException {
+        return this.origin.periods();
     }
 
     @Override
@@ -81,23 +78,26 @@ final class JsonAppoint implements Appoint, Jsonable {
         json.addProperty(JsonAppoint.CATEGORY, this.category());
         json.addProperty(JsonAppoint.CHILD, this.child());
         json.addProperty(JsonAppoint.STATUS, this.status());
-        json.addProperty(
-            JsonAppoint.START_DATE, this.dateAsText(this.startDate())
-        );
-        json.addProperty(
-            JsonAppoint.END_DATE, this.dateAsText(this.endDate())
-        );
+        final JsonArray periods = new JsonArray();
+        for (final Period period : this.periods()) {
+            final JsonObject obj = new JsonObject();
+            final Opt<Date> start = period.start(), end = period.end();
+            obj.addProperty(
+                JsonAppoint.START_DATE,
+                start.has() ? new IsoDate(start.get()).asString() : ""
+            );
+            obj.addProperty(
+                JsonAppoint.END_DATE,
+                end.has() ? new IsoDate(end.get()).asString() : ""
+            );
+            periods.add(obj);
+        }
+        json.add(JsonAppoint.PERIODS, periods);
         final JsonArray payouts = new JsonArray();
         for (final Payout payout : this.payouts())
             payouts.add(new JsonPayout(payout).asJson());
         json.add(JsonAppoint.PAYOUTS, payouts);
         return json;
-    }
-
-    @SuppressWarnings("MethodMayBeStatic")
-    private String dateAsText(Opt<Date> date) throws BazisException {
-        //noinspection ReturnOfNull
-        return date.has() ? new IsoDate(date.get()).asString() : null;
     }
 
     private static final class Parsed implements Appoint {
@@ -134,13 +134,32 @@ final class JsonAppoint implements Appoint, Jsonable {
         }
 
         @Override
-        public Opt<Date> startDate() throws BazisException {
-            return this.date(JsonAppoint.START_DATE);
-        }
-
-        @Override
-        public Opt<Date> endDate() throws BazisException {
-            return this.date(JsonAppoint.END_DATE);
+        public Iterable<Period> periods() {
+            return new MappedIterable<>(
+                this.json
+                    .getAsJsonObject()
+                    .get(JsonAppoint.PERIODS)
+                    .getAsJsonArray(),
+                new Func<JsonElement, Period>() {
+                    @Override
+                    public Period apply(JsonElement period)
+                        throws BazisException {
+                        final JsonObject obj = period.getAsJsonObject();
+                        final String
+                            start = obj.get(JsonAppoint.START_DATE)
+                                .getAsString(),
+                            end =  obj.get(JsonAppoint.END_DATE).getAsString();
+                        return new PeriodOf(
+                            start.isEmpty()
+                                ? new EmptyOpt<Date>()
+                                : new OptOf<>(new IsoDate(start).value()),
+                            end.isEmpty()
+                                ? new EmptyOpt<Date>()
+                                : new OptOf<>(new IsoDate(end).value())
+                        );
+                    }
+                }
+            );
         }
 
         @Override
@@ -161,14 +180,6 @@ final class JsonAppoint implements Appoint, Jsonable {
 
         private String string(String property) {
             return this.json.getAsJsonObject().get(property).getAsString();
-        }
-
-        private Opt<Date> date(String property) throws BazisException {
-            final JsonElement element =
-                this.json.getAsJsonObject().get(property);
-            return element == null
-                ? new EmptyOpt<Date>()
-                : new OptOf<>(new IsoDate(element.getAsString()).value());
         }
 
     }

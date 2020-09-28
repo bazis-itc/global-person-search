@@ -1,4 +1,4 @@
-package bazis.utils.global_person_search.misc;
+package bazis.utils.global_person_search.printed;
 
 import bazis.cactoos3.Text;
 import bazis.cactoos3.exception.BazisException;

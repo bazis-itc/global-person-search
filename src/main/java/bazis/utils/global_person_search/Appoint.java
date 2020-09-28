@@ -1,10 +1,7 @@
 package bazis.utils.global_person_search;
 
-import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
-import java.util.Date;
 
-@SuppressWarnings("ClassWithTooManyMethods")
 public interface Appoint {
 
     String type();
@@ -17,9 +14,7 @@ public interface Appoint {
 
     String status();
 
-    Opt<Date> startDate() throws BazisException;
-
-    Opt<Date> endDate() throws BazisException;
+    Iterable<Period> periods() throws BazisException;
 
     Iterable<Payout> payouts();
 

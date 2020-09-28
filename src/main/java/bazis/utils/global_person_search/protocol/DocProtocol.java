@@ -15,11 +15,11 @@ import bazis.utils.global_person_search.Esrn;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.dates.HumanDate;
-import bazis.utils.global_person_search.dates.Period;
 import bazis.utils.global_person_search.dates.SqlDate;
 import bazis.utils.global_person_search.ext.SetOf;
 import bazis.utils.global_person_search.misc.ParamsOf;
-import bazis.utils.global_person_search.misc.PrintedPayouts;
+import bazis.utils.global_person_search.printed.PrintedPayouts;
+import bazis.utils.global_person_search.printed.PrintedPeriods;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.impl.DSL;
@@ -197,9 +197,7 @@ public final class DocProtocol implements Protocol {
                 )
                 .set(
                     DSL.field("A_PERIOD", String.class),
-                    new Period(
-                        " ", appoint.startDate(), appoint.endDate()
-                    ).asString()
+                    new PrintedPeriods(appoint.periods()).asString()
                 )
                 .set(
                     DSL.field("A_PAYOUTS", String.class),

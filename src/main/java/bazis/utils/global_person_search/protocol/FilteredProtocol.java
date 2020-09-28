@@ -1,15 +1,16 @@
 package bazis.utils.global_person_search.protocol;
 
 import bazis.cactoos3.Func;
-import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.FilteredIterable;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.opt.OptOrDefault;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Payout;
+import bazis.utils.global_person_search.Period;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
+import bazis.utils.global_person_search.ext.Any;
 import bazis.utils.global_person_search.ext.SetOf;
 import java.util.Collection;
 import java.util.Date;
@@ -68,7 +69,7 @@ final class FilteredPerson implements Person {
     private final Date startDate, endDate;
 
     FilteredPerson(Person origin,
-                   Iterable<String> msp, Date startDate, Date endDate) {
+        Iterable<String> msp, Date startDate, Date endDate) {
         this.origin = origin;
         this.msp = msp;
         this.startDate = startDate;
@@ -109,7 +110,6 @@ final class FilteredPerson implements Person {
     public Iterable<Appoint> appoints() throws BazisException {
         //noinspection MismatchedQueryAndUpdateOfCollection
         final Collection<String> list = new SetOf<>(this.msp);
-        //noinspection OverlyComplexAnonymousInnerClass
         return new FilteredIterable<>(
             new MappedIterable<>(
                 this.origin.appoints(),
@@ -126,30 +126,42 @@ final class FilteredPerson implements Person {
             ),
             new Func<Appoint, Boolean>() {
                 @Override
-                public Boolean apply(Appoint appoint) throws BazisException {
-                    //noinspection OverlyComplexBooleanExpression
+                public Boolean apply(Appoint appoint) throws Exception {
                     return (list.isEmpty() || list.contains(appoint.type()))
-                        && !new MonthYearBean(FilteredPerson.this.startDate)
-                        .afterInDay(
-                            new MonthYearBean(
-                                new OptOrDefault<>(
-                                    appoint.endDate(),
-                                    FilteredPerson.this.startDate
-                                ).value()
-                            )
-                        )
-                        && !new MonthYearBean(FilteredPerson.this.endDate)
-                        .beforeInDay(
-                            new MonthYearBean(
-                                new OptOrDefault<>(
-                                    appoint.startDate(),
-                                    FilteredPerson.this.endDate
-                                ).value()
-                            )
-                        );
+                        && FilteredPerson.this.checkPeriods(appoint);
                 }
             }
         );
+    }
+
+    private boolean checkPeriods(Appoint appoint) throws Exception {
+        return new Any<>(
+            appoint.periods(),
+            new Func<Period, Boolean>() {
+                @Override
+                public Boolean apply(Period period) throws BazisException {
+                    return
+                        !new MonthYearBean(FilteredPerson.this.startDate)
+                            .afterInDay(
+                                new MonthYearBean(
+                                    new OptOrDefault<>(
+                                        period.end(),
+                                        FilteredPerson.this.startDate
+                                    ).value()
+                                )
+                            )
+                        && !new MonthYearBean(FilteredPerson.this.endDate)
+                            .beforeInDay(
+                                new MonthYearBean(
+                                    new OptOrDefault<>(
+                                        period.start(),
+                                        FilteredPerson.this.endDate
+                                    ).value()
+                                )
+                            );
+                }
+            }
+        ).value();
     }
 
 }
@@ -193,13 +205,8 @@ final class FilteredAppoint implements Appoint {
     }
 
     @Override
-    public Opt<Date> startDate() throws BazisException {
-        return this.origin.startDate();
-    }
-
-    @Override
-    public Opt<Date> endDate() throws BazisException {
-        return this.origin.endDate();
+    public Iterable<Period> periods() throws BazisException {
+        return this.origin.periods();
     }
 
     @Override

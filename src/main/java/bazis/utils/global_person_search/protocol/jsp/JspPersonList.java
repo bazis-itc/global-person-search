@@ -12,11 +12,7 @@ public final class JspPersonList {
 
     private final Iterable<Person> persons;
 
-    JspPersonList(Iterable<Person> persons) {
-        this("", persons);
-    }
-
-    JspPersonList(String title, Iterable<Person> persons) {
+    public JspPersonList(String title, Iterable<Person> persons) {
         this.title = title;
         this.persons = persons;
     }

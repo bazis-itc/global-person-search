@@ -1,16 +1,15 @@
 package bazis.utils.global_person_search.protocol.jsp;
 
 import bazis.cactoos3.Func;
-import bazis.cactoos3.Opt;
 import bazis.cactoos3.collection.ListOf;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Payout;
-import bazis.utils.global_person_search.dates.HumanDate;
-import bazis.utils.global_person_search.misc.PrintedPayout;
+import bazis.utils.global_person_search.Period;
+import bazis.utils.global_person_search.printed.PrintedPayout;
+import bazis.utils.global_person_search.printed.PrintedPeriod;
 import java.util.Collection;
-import java.util.Date;
 
 public final class JspAppoint {
 
@@ -36,14 +35,18 @@ public final class JspAppoint {
         return this.appoint.status();
     }
 
-    public String getStartDate() throws BazisException {
-        final Opt<Date> date = this.appoint.startDate();
-        return date.has() ? new HumanDate(date.get()).asString() : "";
-    }
-
-    public String getEndDate() throws BazisException {
-        final Opt<Date> date = this.appoint.endDate();
-        return date.has() ? new HumanDate(date.get()).asString() : "";
+    public Collection<String> getPeriods() throws BazisException {
+        return new ListOf<>(
+            new MappedIterable<>(
+                this.appoint.periods(),
+                new Func<Period, String>() {
+                    @Override
+                    public String apply(Period period) throws BazisException {
+                        return new PrintedPeriod(period).asString();
+                    }
+                }
+            )
+        );
     }
 
     public Collection<String> getPayouts() {

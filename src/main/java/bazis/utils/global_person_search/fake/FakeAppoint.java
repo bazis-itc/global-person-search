@@ -11,9 +11,11 @@ import bazis.cactoos3.opt.OptOf;
 import bazis.cactoos3.text.UncheckedText;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Payout;
+import bazis.utils.global_person_search.Period;
 import bazis.utils.global_person_search.dates.IsoDate;
 import bazis.utils.global_person_search.ext.ConcatedText;
 import bazis.utils.global_person_search.ext.Entries;
+import bazis.utils.global_person_search.misc.PeriodOf;
 import java.util.Date;
 import java.util.Map;
 
@@ -112,13 +114,13 @@ public final class FakeAppoint implements Appoint {
     }
 
     @Override
-    public Opt<Date> startDate() throws BazisException {
-        return this.date(FakeAppoint.START_DATE);
-    }
-
-    @Override
-    public Opt<Date> endDate() throws BazisException {
-        return this.date(FakeAppoint.END_DATE);
+    public Iterable<Period> periods() throws BazisException {
+        return new IterableOf<Period>(
+            new PeriodOf(
+                this.date(FakeAppoint.START_DATE),
+                this.date(FakeAppoint.END_DATE)
+            )
+        );
     }
 
     @Override

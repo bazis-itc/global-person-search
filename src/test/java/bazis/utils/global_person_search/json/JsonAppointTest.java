@@ -1,9 +1,10 @@
 package bazis.utils.global_person_search.json;
 
+import bazis.cactoos3.collection.ListOf;
 import bazis.cactoos3.exception.BazisException;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Payout;
-import bazis.utils.global_person_search.dates.IsoDate;
+import bazis.utils.global_person_search.Period;
 import bazis.utils.global_person_search.fake.FakeAppoint;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -41,41 +42,18 @@ public final class JsonAppointTest {
             converted.status(), Matchers.equalTo(origin.status())
         );
         MatcherAssert.assertThat(
-            "test startDate",
-            new IsoDate(converted.startDate().get()).asString(),
-            Matchers.equalTo(
-                new IsoDate(origin.startDate().get()).asString()
-            )
-        );
-        MatcherAssert.assertThat(
-            "test endDate",
-            new IsoDate(converted.endDate().get()).asString(),
-            Matchers.equalTo(
-                new IsoDate(origin.endDate().get()).asString()
+            "test periods",
+            converted.periods(),
+            Matchers.<Period>iterableWithSize(
+                new ListOf<>(origin.periods()).size()
             )
         );
         MatcherAssert.assertThat(
             "test payouts",
-            converted.payouts(), Matchers.<Payout>iterableWithSize(3)
-        );
-    }
-
-    @Test
-    public void emptyDates() throws BazisException {
-        final Appoint
-            origin = new FakeAppoint().withDates("", ""),
-            converted = new JsonAppoint(
-                new JsonText(
-                    new JsonText(new JsonAppoint(origin)).asString()
-                ).asJson()
-            );
-        MatcherAssert.assertThat(
-            "start date not empty",
-            converted.startDate().has(), Matchers.is(false)
-        );
-        MatcherAssert.assertThat(
-            "end date not empty",
-            converted.endDate().has(), Matchers.is(false)
+            converted.payouts(),
+            Matchers.<Payout>iterableWithSize(
+                new ListOf<>(origin.payouts()).size()
+            )
         );
     }
 

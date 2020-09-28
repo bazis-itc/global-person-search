@@ -1,4 +1,4 @@
-package bazis.utils.global_person_search.protocol.jsp;
+package bazis.utils.global_person_search.protocol;
 
 import bazis.cactoos3.collection.ListOf;
 import bazis.cactoos3.iterable.EmptyIterable;
@@ -7,6 +7,7 @@ import bazis.cactoos3.iterable.JoinedIterable;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.misc.Config;
+import bazis.utils.global_person_search.protocol.jsp.JspPersonList;
 import sx.admin.AdmRequest;
 
 public final class JspProtocol implements Protocol {

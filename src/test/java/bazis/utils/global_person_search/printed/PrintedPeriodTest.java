@@ -1,20 +1,20 @@
-package bazis.utils.global_person_search.dates;
+package bazis.utils.global_person_search.printed;
 
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.opt.EmptyOpt;
 import bazis.cactoos3.opt.OptOf;
+import bazis.utils.global_person_search.dates.IsoDate;
 import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
-public final class PeriodTest {
+public final class PrintedPeriodTest {
 
     @Test
     public void twoDates() throws BazisException {
         MatcherAssert.assertThat(
-            new Period(
-                " ",
+            new PrintedPeriod(
                 new IsoDate("2019-01-02").value(),
                 new IsoDate("2019-12-01").value()
             ).asString(),
@@ -25,8 +25,7 @@ public final class PeriodTest {
     @Test
     public void withoutStart() throws BazisException {
         MatcherAssert.assertThat(
-            new Period(
-                "unused",
+            new PrintedPeriod(
                 new EmptyOpt<Date>(),
                 new OptOf<>(new IsoDate("2019-12-02").value())
             ).asString(),
@@ -37,8 +36,7 @@ public final class PeriodTest {
     @Test
     public void withoutEnd() throws BazisException {
         MatcherAssert.assertThat(
-            new Period(
-                " ",
+            new PrintedPeriod(
                 new OptOf<>(new IsoDate("2019-12-03").value()),
                 new EmptyOpt<Date>()
             ).asString(),
@@ -49,10 +47,10 @@ public final class PeriodTest {
     @Test
     public void withoutAnything() throws BazisException {
         MatcherAssert.assertThat(
-            new Period(
-                " ", new EmptyOpt<Date>(), new EmptyOpt<Date>()
+            new PrintedPeriod(
+                new EmptyOpt<Date>(), new EmptyOpt<Date>()
             ).asString(),
-            Matchers.isEmptyString()
+            Matchers.emptyString()
         );
     }
 

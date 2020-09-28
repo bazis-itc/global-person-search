@@ -20,13 +20,13 @@ import bazis.utils.global_person_search.Report;
 import bazis.utils.global_person_search.action.ResultAction;
 import bazis.utils.global_person_search.dates.FormattedDate;
 import bazis.utils.global_person_search.dates.HumanDate;
-import bazis.utils.global_person_search.dates.Period;
 import bazis.utils.global_person_search.ext.All;
 import bazis.utils.global_person_search.ext.ReportData;
 import bazis.utils.global_person_search.ext.Sum;
 import bazis.utils.global_person_search.misc.ParamsOf;
-import bazis.utils.global_person_search.misc.PrintedPayouts;
 import bazis.utils.global_person_search.misc.RequestPerson;
+import bazis.utils.global_person_search.printed.PrintedPayouts;
+import bazis.utils.global_person_search.printed.PrintedPeriods;
 import java.io.File;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -132,7 +132,6 @@ public final class RtfProtocol implements Protocol {
                 )
         );
         request.set("protocol", this.esrn.downloadUrl(file));
-        "".toCharArray();
     }
 
     private static Report append(Report report, Number group, Person person)
@@ -196,10 +195,7 @@ public final class RtfProtocol implements Protocol {
                     .withString("category", appoint.category())
                     .withString("child", appoint.child())
                     .withString(
-                        "period",
-                        new Period(
-                            "\n", appoint.startDate(), appoint.endDate()
-                        )
+                        "period", new PrintedPeriods(appoint.periods())
                     )
                     .withString("status", appoint.status())
                     .withString(
