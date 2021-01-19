@@ -1,10 +1,10 @@
 package bazis.utils.global_person_search.fake;
 
 import bazis.cactoos3.iterable.IterableOf;
-import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
 import bazis.cactoos3.text.UncheckedText;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.ext.MapEntry;
 import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.json.JsonText;
 import java.util.Map;
@@ -18,15 +18,15 @@ public final class FakeRequest extends AdmRequest {
     public FakeRequest() {
         this(
             new MapOf<>(
-                new Entry<>("objId", "10002@wmPersonalCard"),
-                new Entry<>("yearOfStart", "2019"),
-                new Entry<>("monthOfStart", "1"),
-                new Entry<>("yearOfEnd", "2020"),
-                new Entry<>("monthOfEnd", "2"),
-                new Entry<>("isAllMsp", "on"),
-                new Entry<>("data(mspList)", ""),
-                new Entry<>("fails", "Неопрошенный район"),
-                new Entry<>(
+                new MapEntry<>("objId", "10002@wmPersonalCard"),
+                new MapEntry<>("yearOfStart", "2019"),
+                new MapEntry<>("monthOfStart", "1"),
+                new MapEntry<>("yearOfEnd", "2020"),
+                new MapEntry<>("monthOfEnd", "2"),
+                new MapEntry<>("isAllMsp", "on"),
+                new MapEntry<>("data(mspList)", ""),
+                new MapEntry<>("fails", "Неопрошенный район"),
+                new MapEntry<>(
                     "persons",
                     new UncheckedText(
                         new JsonText(
