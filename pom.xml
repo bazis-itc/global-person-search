@@ -29,7 +29,8 @@
             <id>Тамбов</id>
             <properties>
                 <sitex.version>tmb</sitex.version>
-                <centralUrl>http://10.65.12.11:8080/central</centralUrl>
+                <centralUrl>http://10.65.12.11:8080/central/</centralUrl>
+                <displayPayments>true</displayPayments>
             </properties>
         </profile>
         <profile>
@@ -150,6 +151,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
             <version>1.7.26</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>20.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
