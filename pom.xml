@@ -29,7 +29,7 @@
             <id>Тамбов</id>
             <properties>
                 <sitex.version>tmb</sitex.version>
-                <centralUrl>http://10.65.12.11:8080/central_test</centralUrl>
+                <centralUrl>http://10.65.12.11:8080/central/</centralUrl>
                 <displayPayments>true</displayPayments>
             </properties>
         </profile>
