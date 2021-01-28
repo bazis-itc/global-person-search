@@ -2,15 +2,8 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/assembly" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/core" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/core/src/main/WEB-INF/cms/admin/util/global_person_search/error.jsp" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/core/src/main/WEB-INF/cms/admin/util/global_person_search/openwindow.jsp" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/core/src/main/WEB-INF/cms/admin/util/global_person_search/params.jsp" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/core/src/main/WEB-INF/cms/admin/util/global_person_search/result.jsp" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/rzn" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/tmb" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/uln" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/vrn" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/pages" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>
 </project>

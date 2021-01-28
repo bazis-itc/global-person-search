@@ -6,23 +6,14 @@
 
     <groupId>bazis</groupId>
     <artifactId>global-person-search</artifactId>
-    <packaging>pom</packaging>
     <version>snapshot</version>
-
-    <modules>
-        <module>core</module>
-        <module>tmb</module>
-        <module>rzn</module>
-        <module>vrn</module>
-        <module>uln</module>
-        <module>assembly</module>
-    </modules>
 
     <profiles>
         <profile>
             <id>Воронеж</id>
             <properties>
                 <sitex.version>vrn</sitex.version>
+                <centralUrl>http://192.168.155.9:8080/central/</centralUrl>
                 <displayPayments>true</displayPayments>
             </properties>
         </profile>
@@ -30,29 +21,47 @@
             <id>Рязань</id>
             <properties>
                 <sitex.version>rzn</sitex.version>
+                <centralUrl>http://192.168.120.108:8080/central/</centralUrl>
+                <extendedSearch>true</extendedSearch>
             </properties>
         </profile>
         <profile>
             <id>Тамбов</id>
             <properties>
                 <sitex.version>tmb</sitex.version>
+                <centralUrl>http://10.65.12.11:8080/central</centralUrl>
             </properties>
         </profile>
         <profile>
             <id>Ульяновск</id>
             <properties>
                 <sitex.version>uln</sitex.version>
+                <centralUrl>http://172.17.60.6/central/</centralUrl>
+            </properties>
+        </profile>
+        <profile>
+            <id>Мордовия</id>
+            <properties>
+                <sitex.version>mrd</sitex.version>
+                <centralUrl/>
+                <displayPayments>true</displayPayments>
+                <canCreateDoc>true</canCreateDoc>
+                <failSafe>true</failSafe>
             </properties>
         </profile>
     </profiles>
 
     <properties>
-        <programmer.name>IvanovVA</programmer.name>
-        <displayPayments>false</displayPayments>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
+
+        <programmer.name>IvanovVA</programmer.name>
+
+        <extendedSearch>false</extendedSearch>
+        <failSafe>false</failSafe>
+        <displayPayments>false</displayPayments>
+        <canCreateDoc>false</canCreateDoc>
     </properties>
 
     <dependencies>
@@ -85,19 +94,19 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.4</version>
+            <version>1.3.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.2.4</version>
+            <version>2.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.2.1</version>
+            <version>2.1</version>
             <scope>provided</scope>
         </dependency>
 
@@ -105,7 +114,6 @@
             <groupId>bazis</groupId>
             <artifactId>bazis-cactoos</artifactId>
             <version>3.2</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jooq</groupId>
@@ -145,5 +153,91 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>bazis-global-person-search</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>auto-clean</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>
+                                        target/${programmer.name}/WEB-INF
+                                    </directory>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <outputDirectory>
+                        target/${programmer.name}/WEB-INF/lib
+                    </outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                target/${programmer.name}/WEB-INF/cms/admin/util/global_person_search
+                            </outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/pages</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <mkdir dir="${basedir}/target/${programmer.name}/WEB-INF/reports/globalPersonSearchProtocol" />
+                                <copy file="src/main/templates/${sitex.version}.rtf"
+                                      tofile="target/${programmer.name}/WEB-INF/rep_templates/globalPersonSearchProtocol.rtf"/>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
