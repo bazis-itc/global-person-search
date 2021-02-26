@@ -150,6 +150,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>bazis</groupId>
+            <artifactId>mock-report</artifactId>
+            <version>0.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <version>6.1.0.jre8</version>
@@ -177,6 +183,11 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <testResources>
+            <testResource>
+                <directory>src/main/templates</directory>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>

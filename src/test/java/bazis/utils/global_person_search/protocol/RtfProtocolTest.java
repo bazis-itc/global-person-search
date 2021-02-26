@@ -3,23 +3,21 @@ package bazis.utils.global_person_search.protocol;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.EmptyIterable;
 import bazis.cactoos3.iterable.IterableOf;
-import bazis.sitex3.SitexReport;
 import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.ext.ConcatedText;
-import bazis.utils.global_person_search.ext.HtmlReport;
 import bazis.utils.global_person_search.fake.FakeAppoint;
 import bazis.utils.global_person_search.fake.FakeEsrn;
 import bazis.utils.global_person_search.fake.FakePerson;
 import bazis.utils.global_person_search.fake.FakeReport;
 import bazis.utils.global_person_search.fake.FakeRequest;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
+import sx.common.reportsystem.MockReport;
 
 public final class RtfProtocolTest {
 
@@ -51,8 +49,6 @@ public final class RtfProtocolTest {
 
     @Ignore @Test
     public void itCase() throws BazisException {
-        final SitexReport report =
-            new HtmlReport(new File("target\\report.html"));
         final Iterable<Person> persons = new IterableOf<Person>(
             new FakePerson(),
             new FakePerson(
@@ -60,7 +56,7 @@ public final class RtfProtocolTest {
                 new FakeAppoint().withPayouts(new EmptyIterable<Payout>())
             )
         );
-        new RtfProtocol(new FakeEsrn(report))
+        new RtfProtocol(new FakeEsrn(new MockReport("/uln.rtf")))
             .append(persons).append(persons).outputTo(new FakeRequest());
     }
 
