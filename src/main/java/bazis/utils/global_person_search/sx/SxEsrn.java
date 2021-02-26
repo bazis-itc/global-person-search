@@ -4,9 +4,9 @@ import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.map.EmptyMap;
 import bazis.cactoos3.scalar.CheckedScalar;
+import bazis.sitex3.SitexReport;
 import bazis.utils.global_person_search.Esrn;
 import bazis.utils.global_person_search.Person;
-import bazis.utils.global_person_search.Report;
 import java.io.File;
 import java.util.Map;
 import sx.cms.CmsActionUtils;
@@ -41,7 +41,7 @@ public final class SxEsrn implements Esrn {
     }
 
     @Override
-    public Report report(String code) {
+    public SitexReport report(String code) {
         return new SxReport(code);
     }
 

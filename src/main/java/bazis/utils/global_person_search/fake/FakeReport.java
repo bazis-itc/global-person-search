@@ -1,11 +1,11 @@
 package bazis.utils.global_person_search.fake;
 
 import bazis.cactoos3.exception.BazisException;
-import bazis.utils.global_person_search.Report;
+import bazis.sitex3.SitexReport;
 import java.io.File;
 import java.util.Map;
 
-public final class FakeReport implements Report {
+public final class FakeReport implements SitexReport {
 
     private final Number group;
 
@@ -17,7 +17,7 @@ public final class FakeReport implements Report {
     }
 
     @Override
-    public Report append(Number grp, Map<String, Object> row) {
+    public SitexReport append(Number grp, Map<String, Object> row) {
         if (this.group.intValue() == grp.intValue()) {
             this.output.clear();
             this.output.putAll(row);
@@ -26,7 +26,7 @@ public final class FakeReport implements Report {
     }
 
     @Override
-    public File create(Map<String, Object> params) throws BazisException {
+    public File toFile(Map<String, Object> params) throws BazisException {
         return new File("");
     }
 

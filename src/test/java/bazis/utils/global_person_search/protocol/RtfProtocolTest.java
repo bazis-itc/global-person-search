@@ -3,9 +3,9 @@ package bazis.utils.global_person_search.protocol;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.EmptyIterable;
 import bazis.cactoos3.iterable.IterableOf;
+import bazis.sitex3.SitexReport;
 import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.Person;
-import bazis.utils.global_person_search.Report;
 import bazis.utils.global_person_search.ext.ConcatedText;
 import bazis.utils.global_person_search.ext.HtmlReport;
 import bazis.utils.global_person_search.fake.FakeAppoint;
@@ -51,7 +51,7 @@ public final class RtfProtocolTest {
 
     @Ignore @Test
     public void itCase() throws BazisException {
-        final Report report =
+        final SitexReport report =
             new HtmlReport(new File("target\\report.html"));
         final Iterable<Person> persons = new IterableOf<Person>(
             new FakePerson(),

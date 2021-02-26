@@ -1,7 +1,7 @@
 package bazis.utils.global_person_search.sx;
 
 import bazis.cactoos3.exception.BazisException;
-import bazis.utils.global_person_search.Report;
+import bazis.sitex3.SitexReport;
 import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -17,7 +17,7 @@ import sx.datastore.impl.sitex2.beans.report.SXReport;
 import sx.datastore.meta.SXClass;
 import sx.datastore.params.SXObjListParams;
 
-public final class SxCustomReport implements Report {
+public final class SxCustomReport implements SitexReport {
 
     private final String code;
 
@@ -32,7 +32,7 @@ public final class SxCustomReport implements Report {
     }
 
     @Override
-    public Report append(Number group, Map<String, Object> row) {
+    public SitexReport append(Number group, Map<String, Object> row) {
         final String key = Integer.toString(group.intValue());
         if (!this.data.containsKey(key))
             this.data.put(key, new LinkedList<Map<String, Object>>());
@@ -41,7 +41,7 @@ public final class SxCustomReport implements Report {
     }
 
     @Override
-    public File create(Map<String, Object> params) throws BazisException {
+    public File toFile(Map<String, Object> params) throws BazisException {
         final SXId id = this.id();
         try {
             final SXReport sxReport =

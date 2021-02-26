@@ -5,7 +5,7 @@ import bazis.cactoos3.collection.ListOf;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.JoinedIterable;
 import bazis.cactoos3.iterable.MappedIterable;
-import bazis.utils.global_person_search.Report;
+import bazis.sitex3.SitexReport;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 
-public final class HtmlReport implements Report {
+public final class HtmlReport implements SitexReport {
 
     private final File file;
 
@@ -28,7 +28,7 @@ public final class HtmlReport implements Report {
     }
 
     @Override
-    public Report append(Number group, Map<String, Object> row) {
+    public SitexReport append(Number group, Map<String, Object> row) {
         if (!this.groups.containsKey(group.intValue()))
             this.groups.put(
                 group.intValue(), new Group(new LinkedList<Record>())
@@ -39,7 +39,7 @@ public final class HtmlReport implements Report {
     }
 
     @Override
-    public File create(Map<String, Object> params) throws BazisException {
+    public File toFile(Map<String, Object> params) throws BazisException {
         this.groups.put(0, new Group(new ListOf<>(new Record(params))));
         try (
             final PrintWriter writer =

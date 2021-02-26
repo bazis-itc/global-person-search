@@ -11,12 +11,12 @@ import bazis.cactoos3.scalar.CheckedScalar;
 import bazis.cactoos3.scalar.IsEmpty;
 import bazis.cactoos3.text.FormattedText;
 import bazis.cactoos3.text.JoinedText;
+import bazis.sitex3.SitexReport;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Esrn;
 import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
-import bazis.utils.global_person_search.Report;
 import bazis.utils.global_person_search.action.ResultAction;
 import bazis.utils.global_person_search.dates.FormattedDate;
 import bazis.utils.global_person_search.dates.HumanDate;
@@ -60,7 +60,7 @@ public final class RtfProtocol implements Protocol {
 
     @Override
     public void outputTo(AdmRequest request) throws BazisException {
-        Report report = this.esrn.report("globalPersonSearchProtocol");
+        SitexReport report = this.esrn.report("globalPersonSearchProtocol");
         int group = 1;
         for (final Iterable<Person> persons : this.lists) {
             for (final Person person : persons)
@@ -82,7 +82,7 @@ public final class RtfProtocol implements Protocol {
         final Person person = personId.has()
             ? this.esrn.person(personId.get())
             : new RequestPerson(request);
-        final File file = report.create(
+        final File file = report.toFile(
             new ReportData.Immutable()
                 .withString(
                     "currentDate",
@@ -134,7 +134,7 @@ public final class RtfProtocol implements Protocol {
         request.set("protocol", this.esrn.downloadUrl(file));
     }
 
-    private static Report append(Report report, Number group, Person person)
+    private static SitexReport append(SitexReport report, Number group, Person person)
         throws BazisException {
         final ReportData row = new ReportData.Immutable()
             .withInt("personId", RtfProtocol.COUNTER.getAndIncrement())
@@ -183,7 +183,7 @@ public final class RtfProtocol implements Protocol {
                     ).doubleValue()
                 )
             );
-        Report result = report;
+        SitexReport result = report;
         if (new IsEmpty(person.appoints()).value())
             result = result.append(group, row);
         else for (final Appoint appoint : person.appoints())

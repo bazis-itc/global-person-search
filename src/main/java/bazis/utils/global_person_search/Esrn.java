@@ -1,6 +1,7 @@
 package bazis.utils.global_person_search;
 
 import bazis.cactoos3.exception.BazisException;
+import bazis.sitex3.SitexReport;
 import java.io.File;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ public interface Esrn {
 
     Map<String, String> measures(String links);
 
-    Report report(String code);
+    SitexReport report(String code);
 
     String downloadUrl(File file);
 
