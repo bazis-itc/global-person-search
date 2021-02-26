@@ -44,21 +44,22 @@ public final class SxCustomReport implements SitexReport {
     public File toFile(Map<String, Object> params) throws BazisException {
         final SXId id = this.id();
         try {
-            final SXReport sxReport =
+            final SXReport report =
                 (SXReport) new SXObjListParams(id)
                     .setUseCache(false)
                     .addSelectedAttr(SXClass.IN_FORM_ATTRS)
                     .getObj();
-            sxReport.setAttr(
+            report.setReadOnly(false);
+            report.setAttr(
                 "repFile",
                 SXDsFs.class.cast(SXDsFactory.getDs("reports"))
                     .file2Obj(this.template).getId()
             );
-            sxReport.setLogin(SXSession.getSXSession().getLogin());
-            sxReport.setParams(params);
-            sxReport.setQueryValue(this.data);
-            ReportFactory.create(sxReport);
-            return sxReport.getReportFile();
+            report.setLogin(SXSession.getSXSession().getLogin());
+            report.setParams(params);
+            report.setQueryValue(this.data);
+            ReportFactory.create(report);
+            return report.getReportFile();
         } catch (final Exception ex) {
             throw new BazisException(
                 String.format(
