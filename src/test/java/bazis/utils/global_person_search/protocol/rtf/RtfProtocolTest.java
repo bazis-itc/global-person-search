@@ -1,4 +1,4 @@
-package bazis.utils.global_person_search.protocol;
+package bazis.utils.global_person_search.protocol.rtf;
 
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.EmptyIterable;
@@ -56,7 +56,7 @@ public final class RtfProtocolTest {
                 new FakeAppoint().withPayouts(new EmptyIterable<Payout>())
             )
         );
-        new RtfProtocol(new FakeEsrn(new MockReport("/uln.rtf")))
+        new RtfProtocol(new FakeEsrn(new MockReport("/vrn.rtf")))
             .append(persons).append(persons).outputTo(new FakeRequest());
     }
 

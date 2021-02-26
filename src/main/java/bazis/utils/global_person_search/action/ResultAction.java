@@ -18,7 +18,7 @@ import bazis.utils.global_person_search.protocol.CompoundProtocol;
 import bazis.utils.global_person_search.protocol.FilteredProtocol;
 import bazis.utils.global_person_search.protocol.JspProtocol;
 import bazis.utils.global_person_search.protocol.SplitProtocol;
-import bazis.utils.global_person_search.protocol.ZipProtocol;
+import bazis.utils.global_person_search.protocol.rtf.ZipProtocol;
 import com.google.gson.JsonObject;
 import java.util.Map;
 import sx.admin.AdmRequest;

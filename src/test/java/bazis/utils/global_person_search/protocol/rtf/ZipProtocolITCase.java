@@ -1,4 +1,4 @@
-package bazis.utils.global_person_search.protocol;
+package bazis.utils.global_person_search.protocol.rtf;
 
 import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
