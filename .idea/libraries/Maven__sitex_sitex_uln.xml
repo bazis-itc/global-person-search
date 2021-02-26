@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: sitex:sitex:uln">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/sitex/sitex/uln/sitex-uln.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/sitex/sitex/uln/sitex-uln-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/sitex/sitex/uln/sitex-uln-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

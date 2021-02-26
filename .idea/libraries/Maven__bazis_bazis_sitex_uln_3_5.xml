@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: bazis:bazis-sitex:uln:3.5">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/bazis/bazis-sitex/3.5/bazis-sitex-3.5-uln.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/bazis/bazis-sitex/3.5/bazis-sitex-3.5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/bazis/bazis-sitex/3.5/bazis-sitex-3.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
