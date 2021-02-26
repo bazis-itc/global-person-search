@@ -37,6 +37,7 @@
             <id>Ульяновск</id>
             <properties>
                 <sitex.version>uln</sitex.version>
+                <bazis-common.version>3.5</bazis-common.version>
                 <centralUrl>http://172.17.60.6/central/</centralUrl>
             </properties>
         </profile>
@@ -58,6 +59,7 @@
         <maven.compiler.target>1.7</maven.compiler.target>
 
         <programmer.name>IvanovVA</programmer.name>
+        <bazis-common.version>3.2</bazis-common.version>
 
         <extendedSearch>false</extendedSearch>
         <failSafe>false</failSafe>
@@ -114,7 +116,13 @@
         <dependency>
             <groupId>bazis</groupId>
             <artifactId>bazis-cactoos</artifactId>
-            <version>3.2</version>
+            <version>${bazis-common.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>bazis</groupId>
+            <artifactId>bazis-sitex</artifactId>
+            <version>${bazis-common.version}</version>
+            <classifier>${sitex.version}</classifier>
         </dependency>
         <dependency>
             <groupId>org.jooq</groupId>
