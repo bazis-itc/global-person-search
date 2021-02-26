@@ -3,6 +3,7 @@ package bazis.utils.global_person_search.json;
 import bazis.cactoos3.Func;
 import bazis.cactoos3.Opt;
 import bazis.cactoos3.exception.BazisException;
+import bazis.cactoos3.iterable.EmptyIterable;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.opt.EmptyOpt;
 import bazis.cactoos3.opt.OptOf;
@@ -135,11 +136,12 @@ final class JsonAppoint implements Appoint, Jsonable {
 
         @Override
         public Iterable<Period> periods() {
+            final JsonElement elem = this.json
+                .getAsJsonObject()
+                .get(JsonAppoint.PERIODS);
             return new MappedIterable<>(
-                this.json
-                    .getAsJsonObject()
-                    .get(JsonAppoint.PERIODS)
-                    .getAsJsonArray(),
+                elem == null
+                    ? new EmptyIterable<JsonElement>() : elem.getAsJsonArray(),
                 new Func<JsonElement, Period>() {
                     @Override
                     public Period apply(JsonElement period)

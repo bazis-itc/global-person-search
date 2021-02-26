@@ -17,8 +17,8 @@ import bazis.utils.global_person_search.misc.Server;
 import bazis.utils.global_person_search.protocol.CompoundProtocol;
 import bazis.utils.global_person_search.protocol.FilteredProtocol;
 import bazis.utils.global_person_search.protocol.JspProtocol;
-import bazis.utils.global_person_search.protocol.RtfProtocol;
 import bazis.utils.global_person_search.protocol.SplitProtocol;
+import bazis.utils.global_person_search.protocol.ZipProtocol;
 import com.google.gson.JsonObject;
 import java.util.Map;
 import sx.admin.AdmRequest;
@@ -72,7 +72,7 @@ public final class ResultAction implements SitexAction {
         new FilteredProtocol(
             new SplitProtocol(
                 new CompoundProtocol(
-                    new JspProtocol(), new RtfProtocol(this.esrn)
+                    new JspProtocol(), new ZipProtocol(this.esrn)
                 ),
                 person
             ),

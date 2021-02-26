@@ -1,6 +1,9 @@
 package bazis.utils.global_person_search.fake;
 
+import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
+import bazis.cactoos3.scalar.ScalarOf;
+import bazis.cactoos3.scalar.UncheckedScalar;
 import bazis.sitex3.SitexReport;
 import bazis.utils.global_person_search.Esrn;
 import bazis.utils.global_person_search.Person;
@@ -10,7 +13,7 @@ import java.util.Map;
 
 public final class FakeEsrn implements Esrn {
 
-    private final SitexReport report;
+    private final Scalar<SitexReport> report;
 
     public FakeEsrn() {
         this(
@@ -29,6 +32,10 @@ public final class FakeEsrn implements Esrn {
     }
 
     public FakeEsrn(SitexReport report) {
+        this(new ScalarOf<>(report));
+    }
+
+    public FakeEsrn(Scalar<SitexReport> report) {
         this.report = report;
     }
 
@@ -47,7 +54,7 @@ public final class FakeEsrn implements Esrn {
 
     @Override
     public SitexReport report(String code) {
-        return this.report;
+        return new UncheckedScalar<>(this.report).value();
     }
 
     @Override
