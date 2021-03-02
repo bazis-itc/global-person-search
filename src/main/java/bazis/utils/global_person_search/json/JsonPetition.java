@@ -13,7 +13,7 @@ import java.util.Date;
 final class JsonPetition implements Petition, Jsonable {
 
     private static final String
-        MSP = "msp", CATEGORY = "category",
+        TYPE = "type", MSP = "msp", CATEGORY = "category",
         REG_DATE = "startDate", APPOINT_DATE = "endDate",
         STATUS = "status";
 
@@ -25,6 +25,11 @@ final class JsonPetition implements Petition, Jsonable {
 
     JsonPetition(Petition origin) {
         this.origin = origin;
+    }
+
+    @Override
+    public String type() {
+        return this.origin.type();
     }
 
     @Override
@@ -55,6 +60,7 @@ final class JsonPetition implements Petition, Jsonable {
     @Override
     public JsonElement asJson() throws BazisException {
         final JsonObject json = new JsonObject();
+        json.addProperty(JsonPetition.TYPE, this.type());
         json.addProperty(JsonPetition.MSP, this.msp());
         json.addProperty(JsonPetition.CATEGORY, this.category());
         json.addProperty(
@@ -75,6 +81,11 @@ final class JsonPetition implements Petition, Jsonable {
 
         private Parsed(JsonElement json) {
             this.json = json;
+        }
+
+        @Override
+        public String type() {
+            return this.string(JsonPetition.TYPE);
         }
 
         @Override

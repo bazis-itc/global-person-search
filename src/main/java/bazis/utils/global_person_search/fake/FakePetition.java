@@ -20,6 +20,11 @@ public final class FakePetition implements Petition {
     }
 
     @Override
+    public String type() {
+        return "37145780-704c-48a2-9272-1f99afddaa9f";
+    }
+
+    @Override
     public String msp() {
         return "Ежемесячная денежная компенсация за коммунальные услуги";
     }

@@ -6,6 +6,8 @@ import java.util.Date;
 
 public interface Petition {
 
+    String type();
+
     String msp();
 
     String category();

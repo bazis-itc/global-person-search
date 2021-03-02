@@ -109,13 +109,17 @@ final class FilteredPerson implements Person {
 
     @Override
     public Iterable<Petition> petitions() throws BazisException {
+        //noinspection MismatchedQueryAndUpdateOfCollection
+        final Collection<String> list = new SetOf<>(this.msp);
         return new FilteredIterable<>(
             this.origin.petitions(),
             new Func<Petition, Boolean>() {
                 @Override
                 public Boolean apply(Petition petition) throws BazisException {
+                    //noinspection OverlyComplexBooleanExpression
                     return
-                        !new MonthYearBean(FilteredPerson.this.startDate)
+                        (list.isEmpty() || list.contains(petition.type()))
+                        && !new MonthYearBean(FilteredPerson.this.startDate)
                             .afterInDay(new MonthYearBean(petition.regDate()))
                         && !new MonthYearBean(FilteredPerson.this.endDate)
                             .beforeInDay(new MonthYearBean(petition.regDate()));

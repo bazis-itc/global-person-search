@@ -20,6 +20,10 @@ public final class JsonPetitionTest {
             );
         MatcherAssert.assertThat(
             "test msp",
+            converted.type(), Matchers.equalTo(origin.type())
+        );
+        MatcherAssert.assertThat(
+            "test msp",
             converted.msp(), Matchers.equalTo(origin.msp())
         );
         MatcherAssert.assertThat(

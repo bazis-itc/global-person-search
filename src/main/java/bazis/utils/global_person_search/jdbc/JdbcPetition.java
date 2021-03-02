@@ -16,6 +16,11 @@ final class JdbcPetition implements Petition {
     }
 
     @Override
+    public String type() {
+        return new NoNulls(this.record).string("mspGuid");
+    }
+
+    @Override
     public String msp() {
         return new NoNulls(this.record).string("mspName");
     }
