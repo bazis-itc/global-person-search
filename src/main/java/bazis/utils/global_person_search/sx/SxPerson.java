@@ -11,6 +11,7 @@ import bazis.cactoos3.text.JoinedText;
 import bazis.cactoos3.text.UncheckedText;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.Petition;
 import bazis.utils.global_person_search.ext.IterableOfScalar;
 import java.util.Date;
 import java.util.List;
@@ -127,6 +128,11 @@ final class SxPerson implements Person {
             );
         }
         return result;
+    }
+
+    @Override
+    public Iterable<Petition> petitions() {
+        throw new UnsupportedOperationException("Method not implemented");
     }
 
     @Override

@@ -5,6 +5,7 @@ import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.Petition;
 import bazis.utils.global_person_search.dates.IsoDate;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -16,8 +17,8 @@ final class JsonPerson implements Person, Jsonable {
 
     private static final String
         FIO = "fio", BIRTHDATE = "birthdate", ADDRESS = "address",
-        SNILS = "snils", BOROUGH = "borough", APPOINTS = "appoints",
-        PASSPORT = "passport";
+        SNILS = "snils", BOROUGH = "borough", PASSPORT = "passport",
+        PETITIONS = "petitions", APPOINTS = "appoints";
 
     private final Person origin;
 
@@ -60,6 +61,11 @@ final class JsonPerson implements Person, Jsonable {
     }
 
     @Override
+    public Iterable<Petition> petitions() throws BazisException {
+        return this.origin.petitions();
+    }
+
+    @Override
     public Iterable<Appoint> appoints() throws BazisException {
         return this.origin.appoints();
     }
@@ -75,10 +81,17 @@ final class JsonPerson implements Person, Jsonable {
         json.addProperty(JsonPerson.SNILS, this.snils());
         json.addProperty(JsonPerson.BOROUGH, this.borough());
         json.addProperty(JsonPerson.PASSPORT, this.passport());
+
         final JsonArray appoints = new JsonArray();
         for (final Appoint appoint : this.appoints())
             appoints.add(new JsonAppoint(appoint).asJson());
         json.add(JsonPerson.APPOINTS, appoints);
+
+        final JsonArray petitions = new JsonArray();
+        for (final Petition petition : this.petitions())
+            petitions.add(new JsonPetition(petition).asJson());
+        json.add(JsonPerson.PETITIONS, petitions);
+
         return json;
     }
 
@@ -118,6 +131,22 @@ final class JsonPerson implements Person, Jsonable {
         @Override
         public String passport() {
             return this.string(JsonPerson.PASSPORT);
+        }
+
+        @Override
+        public Iterable<Petition> petitions() {
+            return new MappedIterable<>(
+                this.json
+                    .getAsJsonObject()
+                    .get(JsonPerson.PETITIONS)
+                    .getAsJsonArray(),
+                new Func<JsonElement, Petition>() {
+                    @Override
+                    public Petition apply(JsonElement item) {
+                        return new JsonPetition(item);
+                    }
+                }
+            );
         }
 
         @Override

@@ -3,6 +3,7 @@ package bazis.utils.global_person_search.misc;
 import bazis.cactoos3.exception.BazisException;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.Petition;
 import java.util.Date;
 import sx.admin.AdmRequest;
 
@@ -50,6 +51,11 @@ public final class RequestPerson implements Person {
     @Override
     public String passport() {
         return "";
+    }
+
+    @Override
+    public Iterable<Petition> petitions() {
+        throw new UnsupportedOperationException("Method not implemented");
     }
 
     @Override

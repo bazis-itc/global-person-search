@@ -5,6 +5,7 @@ import bazis.cactoos3.opt.OptOfNullable;
 import java.util.Date;
 import org.jooq.Record;
 
+@Deprecated
 final class SmartRecord {
 
     private final Record record;

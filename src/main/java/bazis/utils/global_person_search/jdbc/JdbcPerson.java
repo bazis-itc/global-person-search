@@ -2,9 +2,11 @@ package bazis.utils.global_person_search.jdbc;
 
 import bazis.cactoos3.Func;
 import bazis.cactoos3.Opt;
-import bazis.cactoos3.Text;
+import bazis.cactoos3.Scalar;
+import bazis.cactoos3.collection.ListOf;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.EmptyIterable;
+import bazis.cactoos3.iterable.FilteredIterable;
 import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.text.CheckedText;
@@ -13,12 +15,14 @@ import bazis.cactoos3.text.UncheckedText;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Borough;
 import bazis.utils.global_person_search.Person;
-import bazis.utils.global_person_search.ext.Lines;
+import bazis.utils.global_person_search.Petition;
+import bazis.utils.global_person_search.ext.NoNulls;
+import bazis.utils.global_person_search.ext.TextResource;
+import java.nio.charset.Charset;
 import java.sql.ResultSet;
 import java.util.Date;
 import java.util.Map;
 import org.jooq.Record;
-import org.jooq.RecordMapper;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
@@ -26,11 +30,47 @@ final class JdbcPerson implements Person {
 
     private final Record record;
 
-    private final Map<Integer, Borough> boroughs;
+    private final Iterable<Record> records;
 
-    JdbcPerson(Record record, Map<Integer, Borough> boroughs) {
+    JdbcPerson(final Record record, final Map<Integer, Borough> boroughs) {
+        this(
+            record,
+            new ListOf<>(
+                new IterableOf<>(
+                    new Scalar<Iterable<Record>>() {
+                        @Override
+                        public Iterable<Record> value() throws BazisException {
+                            final Borough borough = boroughs.get(
+                                record.getValue("boroughId", Integer.class)
+                            );
+                            if (borough == null)
+                                throw new BazisException("Borough not found");
+                            final Opt<ResultSet> result = borough.select(
+                                new CheckedText(
+                                    new TextResource(
+                                        JdbcPerson.class, "JdbcPerson.sql",
+                                        Charset.forName("CP1251")
+                                    )
+                                ).asString().replace(
+                                    "@id",
+                                    record.getValue("localId", String.class)
+                                )
+                            );
+                            System.out.println("data fetched");
+                            return result.has()
+                                ? DSL.using(SQLDialect.DEFAULT)
+                                    .fetch(result.get())
+                                : new EmptyIterable<Record>();
+                        }
+                    }
+                )
+            )
+        );
+    }
+
+    private JdbcPerson(Record record, Iterable<Record> records) {
         this.record = record;
-        this.boroughs = boroughs;
+        this.records = records;
     }
 
     @Override
@@ -82,83 +122,43 @@ final class JdbcPerson implements Person {
     }
 
     @Override
-    public Iterable<Appoint> appoints() throws BazisException {
-        final Text query = new Lines(
-            "SELECT",
-            "  [mspGuid] = msp.GUID,",
-            "  [mspName] = msp.A_NAME,",
-            "  [category] = category.A_NAME,",
-            "  [status] = appointStatus.A_NAME,",
-            "  [childSurname] = surname.A_NAME,",
-            "  [childName] = name.A_NAME,",
-            "  [childPatronymic] = patronymic.A_NAME,",
-            "  [periods] = (",
-            "    SELECT ",
-            "      ISNULL(CONVERT(VARCHAR(10), term.STARTDATE, 120), 'NULL') + ' '",
-            "      + ISNULL(CONVERT(VARCHAR(10), term.A_LASTDATE, 120), 'NULL') + '|'",
-            "    FROM SPR_SERV_PERIOD term",
-            "    WHERE term.A_SERV = appoint.OUID",
-            "      AND ISNULL(term.A_STATUS, 10) = 10",
-            "    FOR XML PATH ('')",
-            "  ),",
-            "  [payments] = (",
-            "    SELECT ",
-            "      CONVERT(VARCHAR(10), pay.PAIDDATE, 120) +  ' '",
-            "      + CAST(pay.A_YEAR AS VARCHAR) + ' '",
-            "      + CAST(payMonth.A_CODE AS VARCHAR) + ' '",
-            "      + CAST(pay.AMOUNT AS VARCHAR) + '|'",
-            "    FROM WM_PAY_CALC accrual",
-            "      JOIN WM_PAIDAMOUNTS pay ON pay.A_PAYCALC = accrual.OUID",
-            "        AND ISNULL(pay.A_STATUS, 10) = 10",
-            "      JOIN SPR_STATUS_PAYMENT payStatus ",
-            "        ON payStatus.A_ID = pay.A_STATUSPRIVELEGE",
-            "      JOIN SPR_MONTH payMonth ON payMonth.A_ID = pay.A_MONTH",
-            "    WHERE accrual.A_MSP = appoint.OUID",
-            "      AND payStatus.A_CODE = 10 --Выплачено (закрыто)",
-            "      AND ISNULL(accrual.A_STATUS, 10) = 10",
-            "    FOR XML PATH ('')",
-            "  )",
-            "FROM ESRN_SERV_SERV appoint",
-            "  LEFT JOIN SPR_NPD_MSP_CAT basement ",
-            "    ON basement.A_ID = appoint.A_SERV",
-            "  LEFT JOIN PPR_SERV msp ON basement.A_MSP = msp.A_ID",
-            "  LEFT JOIN PPR_CAT category ",
-            "    ON category.A_ID = basement.A_CATEGORY",
-            "  LEFT JOIN WM_PERSONAL_CARD child ",
-            "    LEFT JOIN SPR_FIO_SURNAME surname ",
-            "      ON surname.OUID = child.SURNAME",
-            "    LEFT JOIN SPR_FIO_NAME name ON name.OUID = child.A_NAME",
-            "    LEFT JOIN SPR_FIO_SECONDNAME patronymic ",
-            "      ON patronymic.OUID = child.A_SECONDNAME",
-            "  ON child.OUID = appoint.A_CHILD",
-            "  LEFT JOIN SPR_STATUS_PROCESS appointStatus ",
-            "    ON appointStatus.A_ID = appoint.A_STATUSPRIVELEGE",
-            "WHERE ISNULL(appoint.A_STATUS, 10) = 10",
-            "  AND appoint.A_PERSONOUID = #id#"
+    public Iterable<Petition> petitions() {
+        return new MappedIterable<>(
+            this.typed("petition"),
+            new Func<Record, Petition>() {
+                @Override
+                public Petition apply(Record petition) {
+                    return new JdbcPetition(petition);
+                }
+            }
         );
-        final Borough borough = this.boroughs.get(
-            this.record.getValue("boroughId", Integer.class)
+    }
+
+    @Override
+    public Iterable<Appoint> appoints() {
+        return new MappedIterable<>(
+            this.typed("appoint"),
+            new Func<Record, Appoint>() {
+                @Override
+                public Appoint apply(Record appoint) {
+                    return new JdbcAppoint(appoint);
+                }
+            }
         );
-        if (borough == null) throw new BazisException("Borough not found");
-        @SuppressWarnings("DynamicRegexReplaceableByCompiledPattern")
-        final Opt<ResultSet> result = borough.select(
-            new CheckedText(query).asString().replace(
-                "#id#",
-                this.record.getValue("localId", String.class)
-            )
+    }
+
+    private Iterable<Record> typed(final String type) {
+        return new FilteredIterable<>(
+            this.records,
+            new Func<Record, Boolean>() {
+                @Override
+                public Boolean apply(Record rec) {
+                    return type.equals(
+                        new NoNulls(rec).string("type")
+                    );
+                }
+            }
         );
-        return result.has()
-            ? DSL.using(SQLDialect.DEFAULT)
-                .fetch(result.get())
-                .map(
-                    new RecordMapper<Record, Appoint>() {
-                        @Override
-                        public Appoint map(Record appoint) {
-                            return new JdbcAppoint(appoint);
-                        }
-                    }
-                )
-            : new EmptyIterable<Appoint>();
     }
 
 }

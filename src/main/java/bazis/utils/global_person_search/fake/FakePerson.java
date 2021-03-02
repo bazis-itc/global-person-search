@@ -3,9 +3,11 @@ package bazis.utils.global_person_search.fake;
 import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.IterableOf;
+import bazis.cactoos3.opt.OptOf;
 import bazis.cactoos3.scalar.CheckedScalar;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.Petition;
 import bazis.utils.global_person_search.dates.IsoDate;
 import java.util.Date;
 
@@ -68,6 +70,13 @@ public final class FakePerson implements Person {
     @Override
     public String passport() {
         return "6804 162300";
+    }
+
+    @Override
+    public Iterable<Petition> petitions() {
+        return new IterableOf<Petition>(
+            new FakePetition(), new FakePetition(new OptOf<>(new Date()))
+        );
     }
 
     @Override

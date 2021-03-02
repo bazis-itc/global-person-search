@@ -2,10 +2,10 @@ package bazis.utils.global_person_search.jdbc;
 
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Borough;
-import bazis.utils.global_person_search.Payout;
+import bazis.utils.global_person_search.Petition;
 import bazis.utils.global_person_search.ext.ConcatedText;
 import bazis.utils.global_person_search.fake.FakeBorough;
-import bazis.utils.global_person_search.printed.PrintedPayout;
+import bazis.utils.global_person_search.printed.PrintedPeriods;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Collections;
@@ -46,19 +46,25 @@ public final class JdbcPersonITCase {
                 ).asString()
             )
         ) {
-            for (
-                final Appoint appoint :
-                    new JdbcPerson(
-                        record,
-                        Collections.<Integer, Borough>singletonMap(
-                            boroughId, new FakeBorough(borough)
-                        )
-                    ).appoints()
-            ) {
-                for (final Payout payout : appoint.payouts())
-                    System.out.println(new PrintedPayout(payout).asString());
-                System.out.println();
-            }
+            final JdbcPerson person = new JdbcPerson(
+                record,
+                Collections.<Integer, Borough>singletonMap(
+                    boroughId, new FakeBorough(borough)
+                )
+            );
+            System.out.println("appoints:");
+            for (final Appoint appoint : person.appoints())
+                System.out.printf(
+                    "%s, %s, %s%n",
+                    appoint.msp(), appoint.category(),
+                    new PrintedPeriods(appoint.periods()).asString()
+                );
+            System.out.println("petitions:");
+            for (final Petition petition : person.petitions())
+                System.out.printf(
+                    "%s, %s%n",
+                    petition.msp(), petition.category()
+                );
         }
     }
 
