@@ -19,13 +19,13 @@ import org.junit.Ignore;
 import org.junit.Test;
 import sx.common.reportsystem.MockReport;
 
-public final class RtfProtocolTest {
+public final class SimpleProtocolTest {
 
     @Test
     public void test() throws Exception {
         final Map<String, Object> output = new HashMap<>(0);
         final FakeReport report = new FakeReport(1, output);
-        new RtfProtocol(new FakeEsrn(report)).append(
+        new SimpleProtocol(new FakeEsrn(report)).append(
             new IterableOf<Person>(
                 new FakePerson("Иванов Сидр Петрович", new FakeAppoint())
             )
@@ -56,7 +56,7 @@ public final class RtfProtocolTest {
                 new FakeAppoint().withPayouts(new EmptyIterable<Payout>())
             )
         );
-        new RtfProtocol(new FakeEsrn(new MockReport("/vrn.rtf")))
+        new SimpleProtocol(new FakeEsrn(new MockReport("/vrn.rtf")))
             .append(persons).append(persons).outputTo(new FakeRequest());
     }
 

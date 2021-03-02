@@ -12,7 +12,10 @@ import bazis.sitex3.misc.ReportRow;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Esrn;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.Petition;
 import bazis.utils.global_person_search.Protocol;
+import bazis.utils.global_person_search.dates.HumanDate;
+import bazis.utils.global_person_search.ext.TextOf;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -25,13 +28,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import sx.admin.AdmRequest;
 
-public final class ZipProtocol implements Protocol {
+final class ZipProtocol implements Protocol {
 
     private final Esrn esrn;
 
     private final Iterable<Iterable<Person>> lists;
 
-    public ZipProtocol(Esrn esrn) {
+    ZipProtocol(Esrn esrn) {
         this(esrn, new EmptyIterable<Iterable<Person>>());
     }
 
@@ -55,14 +58,35 @@ public final class ZipProtocol implements Protocol {
             this.esrn, request, new JoinedIterable<>(this.lists)
         );
         final Collection<File> files = new LinkedList<>();
-        int counter = 1;
-        for (final Iterable<Person> persons : this.lists)
-            for (final Person pers : persons) {
+        int counter = 1, group = 1;
+        for (final Iterable<Person> persons : this.lists) {
+            for (final Person person : persons) {
                 SitexReport report = this.esrn
                     .report("globalPersonSearchProtocol")
-                    .append(1, new RtfPerson(pers));
-                for (final Appoint appoint : pers.appoints())
-                    report = report.append(11, new RtfAppoint(appoint));
+                    .append(group, new RtfPerson(person));
+                for (final Petition petition : person.petitions())
+                    report = report.append(
+                        group * 10 + 1,
+                        new ReportRow()
+                            .withString("msp", petition.msp())
+                            .withString("category", petition.category())
+                            .withString(
+                                "regDate", new HumanDate(petition.regDate())
+                            )
+                            .withString(
+                                "appointDate",
+                                petition.appointDate().has()
+                                    ? new HumanDate(
+                                    petition.appointDate().get()
+                                )
+                                    : new TextOf("")
+                            )
+                            .withString("status", petition.status())
+                    );
+                for (final Appoint appoint : person.appoints())
+                    report = report.append(
+                        group * 10 + 2, new RtfAppoint(appoint)
+                    );
                 files.add(
                     report.toFile(
                         new MapOf<>(
@@ -75,6 +99,8 @@ public final class ZipProtocol implements Protocol {
                     )
                 );
             }
+            group++;
+        }
         request.set(
             "protocol", this.esrn.downloadUrl(ZipProtocol.toZip(files))
         );

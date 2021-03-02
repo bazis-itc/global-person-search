@@ -6,6 +6,7 @@ import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Person;
+import bazis.utils.global_person_search.Petition;
 import bazis.utils.global_person_search.dates.HumanDate;
 import java.util.Collection;
 
@@ -50,6 +51,21 @@ public final class JspPerson {
                     @Override
                     public JspAppoint apply(Appoint appoint) {
                         return new JspAppoint(appoint);
+                    }
+                }
+            )
+        );
+    }
+
+    @SuppressWarnings("MethodReturnOfConcreteClass")
+    public Collection<JspPetition> getPetitions() throws BazisException {
+        return new ListOf<>(
+            new MappedIterable<>(
+                this.person.petitions(),
+                new Func<Petition, JspPetition>() {
+                    @Override
+                    public JspPetition apply(Petition petition) {
+                        return new JspPetition(petition);
                     }
                 }
             )

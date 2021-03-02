@@ -1,2 +1,3 @@
 /target/
 /output/
+/src/main/resources/bazis/utils/global_person_search/jdbc/JdbcPerson.sql.design

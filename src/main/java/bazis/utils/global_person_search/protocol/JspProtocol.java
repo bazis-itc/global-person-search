@@ -12,7 +12,9 @@ import sx.admin.AdmRequest;
 
 public final class JspProtocol implements Protocol {
 
-    private static final String DISPLAY_PAYMENTS = "displayPayments";
+    private static final String
+        DISPLAY_PAYMENTS = "displayPayments",
+        DISPLAY_PETITIONS = "displayPetitions";
 
     private final String title;
 
@@ -46,6 +48,12 @@ public final class JspProtocol implements Protocol {
         request.set(
             JspProtocol.DISPLAY_PAYMENTS,
             Boolean.parseBoolean(new Config().get(JspProtocol.DISPLAY_PAYMENTS))
+        );
+        request.set(
+            JspProtocol.DISPLAY_PETITIONS,
+            Boolean.parseBoolean(
+                new Config().get(JspProtocol.DISPLAY_PETITIONS)
+            )
         );
     }
 
