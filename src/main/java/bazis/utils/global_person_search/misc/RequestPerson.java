@@ -5,6 +5,7 @@ import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Petition;
 import java.util.Date;
+import java.util.Map;
 import sx.admin.AdmRequest;
 
 public final class RequestPerson implements Person {
@@ -51,6 +52,16 @@ public final class RequestPerson implements Person {
     @Override
     public String passport() {
         return "";
+    }
+
+    @Override
+    public String status() {
+        throw new UnsupportedOperationException("Method not implemented");
+    }
+
+    @Override
+    public Map<String, String> regOff() {
+        throw new UnsupportedOperationException("Method not implemented");
     }
 
     @Override

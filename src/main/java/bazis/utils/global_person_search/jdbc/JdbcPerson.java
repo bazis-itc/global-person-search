@@ -122,6 +122,19 @@ final class JdbcPerson implements Person {
     }
 
     @Override
+    public String status() {
+        return new NoNulls(this.record).string("status");
+    }
+
+    @Override
+    public Map<String, String> regOff() {
+        return new Person.RegOff(
+            new NoNulls(this.record).date("regOffDate"),
+            new NoNulls(this.record).string("regOffReason")
+        );
+    }
+
+    @Override
     public Iterable<Petition> petitions() {
         return new MappedIterable<>(
             this.typed("petition"),

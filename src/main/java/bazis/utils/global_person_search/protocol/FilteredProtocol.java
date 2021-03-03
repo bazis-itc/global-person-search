@@ -15,6 +15,7 @@ import bazis.utils.global_person_search.ext.Any;
 import bazis.utils.global_person_search.ext.SetOf;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 import sx.admin.AdmRequest;
 import sx.common.MonthYearBean;
 
@@ -105,6 +106,16 @@ final class FilteredPerson implements Person {
     @Override
     public String passport() throws BazisException {
         return this.origin.passport();
+    }
+
+    @Override
+    public String status() throws BazisException {
+        return this.origin.status();
+    }
+
+    @Override
+    public Map<String, String> regOff() throws BazisException {
+        return this.origin.regOff();
     }
 
     @Override

@@ -15,6 +15,7 @@ import bazis.utils.global_person_search.Petition;
 import bazis.utils.global_person_search.ext.IterableOfScalar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import sx.datastore.SXId;
 import sx.datastore.SXObj;
 import sx.datastore.SXObjList;
@@ -128,6 +129,16 @@ final class SxPerson implements Person {
             );
         }
         return result;
+    }
+
+    @Override
+    public String status() {
+        throw new UnsupportedOperationException("Method not implemented");
+    }
+
+    @Override
+    public Map<String, String> regOff() {
+        throw new UnsupportedOperationException("Method not implemented");
     }
 
     @Override

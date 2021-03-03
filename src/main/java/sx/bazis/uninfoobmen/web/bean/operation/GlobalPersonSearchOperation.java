@@ -7,11 +7,13 @@ import bazis.utils.global_person_search.json.JsonRequest;
 import bazis.utils.global_person_search.json.JsonText;
 import bazis.utils.global_person_search.misc.EncryptedText;
 import bazis.utils.global_person_search.misc.UsonBoroughs;
-import java.sql.Connection;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import javax.servlet.http.HttpSession;
+import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
 import sx.bazis.uninfoobmen.sys.store.DataObject;
 import sx.bazis.uninfoobmen.sys.store.ReturnDataObject;
 import sx.datastore.SXDsFactory;
@@ -30,7 +32,11 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
         DataObject dataObject, HttpSession httpSession) {
         ReturnDataObject result;
         //noinspection OverlyBroadCatchBlock
-        try (final Connection conn = SXDsFactory.getDs().getConnection()) {
+        try {
+            final DSLContext context = DSL.using(
+                SXDsFactory.getDs().getDb().getDataSource(),
+                SQLDialect.DEFAULT
+            );
             final JsonRequest request = new JsonRequest(
                 new JsonText(
                     new EncryptedText(dataObject.getInputStream())
@@ -41,7 +47,7 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
                 new JsonText(
                     new JsonPersons(
                         new JdbcRegister(
-                            conn, new UsonBoroughs(conn, fails)
+                            context, new UsonBoroughs(context, fails)
                         ).persons(
                             request.fio(),
                             request.birthdate(),

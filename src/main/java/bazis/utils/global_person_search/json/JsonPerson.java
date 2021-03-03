@@ -3,6 +3,8 @@ package bazis.utils.global_person_search.json;
 import bazis.cactoos3.Func;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.MappedIterable;
+import bazis.cactoos3.opt.EmptyOpt;
+import bazis.cactoos3.opt.OptOf;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Petition;
@@ -11,6 +13,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.Date;
+import java.util.Map;
 
 @SuppressWarnings({"CyclicClassDependency", "ClassWithTooManyMethods"})
 final class JsonPerson implements Person, Jsonable {
@@ -18,7 +21,8 @@ final class JsonPerson implements Person, Jsonable {
     private static final String
         FIO = "fio", BIRTHDATE = "birthdate", ADDRESS = "address",
         SNILS = "snils", BOROUGH = "borough", PASSPORT = "passport",
-        PETITIONS = "petitions", APPOINTS = "appoints";
+        STATUS = "status", PETITIONS = "petitions", APPOINTS = "appoints",
+        REG_OFF_DATE = "regOffDate", REG_OFF_REASON = "regOffReason";
 
     private final Person origin;
 
@@ -61,6 +65,16 @@ final class JsonPerson implements Person, Jsonable {
     }
 
     @Override
+    public String status() throws BazisException {
+        return this.origin.status();
+    }
+
+    @Override
+    public Map<String, String> regOff() throws BazisException {
+        return this.origin.regOff();
+    }
+
+    @Override
     public Iterable<Petition> petitions() throws BazisException {
         return this.origin.petitions();
     }
@@ -81,6 +95,14 @@ final class JsonPerson implements Person, Jsonable {
         json.addProperty(JsonPerson.SNILS, this.snils());
         json.addProperty(JsonPerson.BOROUGH, this.borough());
         json.addProperty(JsonPerson.PASSPORT, this.passport());
+        json.addProperty(JsonPerson.STATUS, this.status());
+        final Person.RegOff regOff = new Person.RegOff(this);
+        json.addProperty(
+            JsonPerson.REG_OFF_DATE,
+            regOff.date().has()
+                ? new IsoDate(regOff.date().get()).asString() : ""
+        );
+        json.addProperty(JsonPerson.REG_OFF_REASON, regOff.reason());
 
         final JsonArray appoints = new JsonArray();
         for (final Appoint appoint : this.appoints())
@@ -131,6 +153,22 @@ final class JsonPerson implements Person, Jsonable {
         @Override
         public String passport() {
             return this.string(JsonPerson.PASSPORT);
+        }
+
+        @Override
+        public String status() {
+            return this.string(JsonPerson.STATUS);
+        }
+
+        @Override
+        public Map<String, String> regOff() throws BazisException {
+            final String date = this.string(JsonPerson.REG_OFF_DATE);
+            return new Person.RegOff(
+                date.isEmpty()
+                    ? new EmptyOpt<Date>()
+                    : new OptOf<>(new IsoDate(date).value()),
+                this.string(JsonPerson.REG_OFF_REASON)
+            );
         }
 
         @Override

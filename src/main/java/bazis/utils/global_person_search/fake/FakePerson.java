@@ -10,6 +10,7 @@ import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Petition;
 import bazis.utils.global_person_search.dates.IsoDate;
 import java.util.Date;
+import java.util.Map;
 
 public final class FakePerson implements Person {
 
@@ -70,6 +71,16 @@ public final class FakePerson implements Person {
     @Override
     public String passport() {
         return "6804 162300";
+    }
+
+    @Override
+    public String status() {
+        return "Снят с учёта";
+    }
+
+    @Override
+    public Map<String, String> regOff() throws BazisException {
+        return new Person.RegOff(new OptOf<>(new Date()), "Смерть");
     }
 
     @Override

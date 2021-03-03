@@ -8,16 +8,15 @@ import bazis.cactoos3.scalar.CachedScalar;
 import bazis.utils.global_person_search.Borough;
 import bazis.utils.global_person_search.ext.Entries;
 import bazis.utils.global_person_search.ext.Lines;
-import java.sql.Connection;
 import java.util.Collection;
 import java.util.Map;
+import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.jooq.impl.DSL;
 
 public final class UsonBoroughs extends MapEnvelope<Integer, Borough> {
 
     public UsonBoroughs(
-        final Connection connection, final Collection<String> fails) {
+        final DSLContext context, final Collection<String> fails) {
         this(
             new Scalar<Map<Integer, Borough>>() {
                 @Override
@@ -25,7 +24,7 @@ public final class UsonBoroughs extends MapEnvelope<Integer, Borough> {
                     //noinspection SpellCheckingInspection
                     return new MapOf<>(
                         new Entries<>(
-                            DSL.using(connection).fetch(
+                            context.fetch(
                                 new Lines(
                                     "",
                                     "SELECT",
