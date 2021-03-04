@@ -3,6 +3,7 @@ package bazis.utils.global_person_search.protocol.rtf;
 import bazis.cactoos3.Func;
 import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
+import bazis.cactoos3.iterable.FilteredIterable;
 import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.iterable.JoinedIterable;
 import bazis.cactoos3.iterable.MappedIterable;
@@ -38,6 +39,7 @@ final class RtfPerson extends MapEnvelope<String, Object> {
 
     private static Map<String, Object> map(Person person)
         throws BazisException {
+        final Person.RegOff regOff = new Person.RegOff(person);
         return new ReportRow()
             .withInt("personId", RtfPerson.COUNTER.getAndIncrement())
             .withString("borough", person.borough())
@@ -55,6 +57,27 @@ final class RtfPerson extends MapEnvelope<String, Object> {
             .withString(
                 "passport", new FormattedText(
                     "%s, %s", person.snils(), person.passport()
+                )
+            )
+            .withString(
+                "personStatus",
+                new JoinedText(
+                    ", ",
+                    new FilteredIterable<>(
+                        new IterableOf<>(
+                            person.status(),
+                            regOff.date().has()
+                                ? new HumanDate(regOff.date().get()).asString()
+                                : "",
+                            regOff.reason()
+                        ),
+                        new Func<String, Boolean>() {
+                            @Override
+                            public Boolean apply(String part) {
+                                return !part.isEmpty();
+                            }
+                        }
+                    )
                 )
             )
             .withString(

@@ -7,6 +7,7 @@ import bazis.cactoos3.iterable.IterableOf;
 import bazis.cactoos3.iterable.JoinedIterable;
 import bazis.cactoos3.map.Entries;
 import bazis.cactoos3.map.MapOf;
+import bazis.cactoos3.text.FormattedText;
 import bazis.sitex3.SitexReport;
 import bazis.sitex3.misc.ReportRow;
 import bazis.utils.global_person_search.Appoint;
@@ -14,6 +15,7 @@ import bazis.utils.global_person_search.Esrn;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Petition;
 import bazis.utils.global_person_search.Protocol;
+import bazis.utils.global_person_search.dates.FormattedDate;
 import bazis.utils.global_person_search.dates.HumanDate;
 import bazis.utils.global_person_search.ext.TextOf;
 import java.io.File;
@@ -22,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -56,6 +59,9 @@ final class ZipProtocol implements Protocol {
     public void outputTo(AdmRequest request) throws BazisException {
         final Map<String, Object> params = new ReportParams(
             this.esrn, request, new JoinedIterable<>(this.lists)
+        );
+        final FormattedDate subfolder = new FormattedDate(
+            "yyyy-MM-dd_HH-mm-ss-SSS", new Date()
         );
         final Collection<File> files = new LinkedList<>();
         int counter = 1, group = 1;
@@ -93,7 +99,13 @@ final class ZipProtocol implements Protocol {
                             new Entries<>(
                                 params,
                                 new ReportRow()
-                                    .withInt("filename", counter++)
+                                    .withString("subfolder", subfolder)
+                                    .withString(
+                                        "filename",
+                                        new FormattedText(
+                                            "%d_%s", counter++, person.borough()
+                                        )
+                                    )
                             )
                         )
                     )

@@ -1,6 +1,7 @@
 package bazis.utils.global_person_search.protocol.jsp;
 
 import bazis.cactoos3.Func;
+import bazis.cactoos3.Opt;
 import bazis.cactoos3.collection.ListOf;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.MappedIterable;
@@ -9,6 +10,7 @@ import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Petition;
 import bazis.utils.global_person_search.dates.HumanDate;
 import java.util.Collection;
+import java.util.Date;
 
 public final class JspPerson {
 
@@ -40,6 +42,19 @@ public final class JspPerson {
 
     public String getPassport() throws BazisException {
         return this.person.passport();
+    }
+
+    public String getStatus() throws BazisException {
+        return this.person.status();
+    }
+
+    public String getRegOffDate() throws BazisException {
+        final Opt<Date> date = new Person.RegOff(this.person).date();
+        return date.has() ? new HumanDate(date.get()).asString() : "";
+    }
+
+    public String getRegOffReason() {
+        return new Person.RegOff(this.person).reason();
     }
 
     @SuppressWarnings("MethodReturnOfConcreteClass")

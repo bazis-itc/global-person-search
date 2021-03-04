@@ -36,6 +36,9 @@
 				<b>СНИЛС:</b> <c:out value="${person.snils}"/><br>
 				<b>Район:</b> <c:out value="${person.borough}"/><br>
 				<b>Документ удостоверяющий личность:</b> <c:out value="${person.passport}"/><br>
+				<b>Статус ЛД:</b> <c:out value="${person.status}"/><br>
+				<b>Дата снятия с учета:</b> <c:out value="${person.regOffDate}"/><br>
+				<b>Причина снятия с учета:</b> <c:out value="${person.regOffReason}"/><br>
 							
 				<table class="sort">
 					<thead>
@@ -72,7 +75,33 @@
 						</tr>			
 					</c:forEach>
 					</tbody>
-				</table>
+				</table>				
+							
+				<c:if test="${requestScope.displayPetitions}">
+					<br>
+					<table class="sort">
+						<thead>
+						<tr class="gridRow">
+							<th><b>МСП</b></th>
+							<th><b>ЛК</b></th>
+							<th><b>Дата регистрации заявления</b></th>
+							<th><b>Дата подготовки решения</b></th>
+							<th><b>Статус заявления</b></th>
+						</tr>	
+						</thead>
+						<tbody>
+						<c:forEach var="petition" items="${person.petitions}">
+							<tr class="gridRow">
+								<td><c:out value="${petition.msp}"/></td>
+								<td><c:out value="${petition.category}"/></td>
+								<td><c:out value="${petition.regDate}"/></td>
+								<td><c:out value="${petition.appointDate}"/></td>
+								<td><c:out value="${petition.status}"/></td>
+							</tr>			
+						</c:forEach>
+						</tbody>
+					</table>
+				</c:if>	
 				<br><br><br>
 			</c:forEach>
 		</c:forEach>
