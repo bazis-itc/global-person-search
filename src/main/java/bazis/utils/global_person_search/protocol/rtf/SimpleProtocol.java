@@ -12,7 +12,6 @@ import bazis.utils.global_person_search.Esrn;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.ext.Entries;
-import java.io.File;
 import java.util.Map;
 import sx.admin.AdmRequest;
 
@@ -45,30 +44,28 @@ final class SimpleProtocol implements Protocol {
         SitexReport report = this.esrn.report("globalPersonSearchProtocol");
         int group = 1;
         for (final Iterable<Person> persons : this.lists) {
-            for (final Person person : persons)
-                report = SimpleProtocol.append(report, group, person);
+            for (final Person person : persons) {
+                final Map<String, Object> row = new RtfPerson(person);
+                if (new IsEmpty(person.appoints()).value())
+                    report = report.append(group, row);
+                else for (final Appoint appoint : person.appoints())
+                    report = report.append(
+                        group,
+                        new MapOf<>(new Entries<>(row, new RtfAppoint(appoint)))
+                    );
+            }
             group++;
         }
-        final File file = report.toFile(
-            new ReportParams(
-                this.esrn, request, new JoinedIterable<>(this.lists)
+        request.set(
+            "protocol",
+            this.esrn.downloadUrl(
+                report.toFile(
+                    new ReportParams(
+                        this.esrn, request, new JoinedIterable<>(this.lists)
+                    )
+                )
             )
         );
-        request.set("protocol", this.esrn.downloadUrl(file));
-    }
-
-    private static SitexReport append(SitexReport report,
-        Number group, Person person) throws BazisException {
-        final Map<String, Object> row = new RtfPerson(person);
-        SitexReport result = report;
-        if (new IsEmpty(person.appoints()).value())
-            result = result.append(group, row);
-        else for (final Appoint appoint : person.appoints())
-            result = result.append(
-                group,
-                new MapOf<>(new Entries<>(row, new RtfAppoint(appoint)))
-            );
-        return result;
     }
 
 }

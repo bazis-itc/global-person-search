@@ -56,7 +56,6 @@ final class JdbcPerson implements Person {
                                     record.getValue("localId", String.class)
                                 )
                             );
-                            System.out.println("data fetched");
                             return result.has()
                                 ? DSL.using(SQLDialect.DEFAULT)
                                     .fetch(result.get())
@@ -83,7 +82,7 @@ final class JdbcPerson implements Person {
                     new Func<String, String>() {
                         @Override
                         public String apply(String field) {
-                            return new SmartRecord(JdbcPerson.this.record)
+                            return new NoNulls(JdbcPerson.this.record)
                                 .string(field);
                         }
                     }
@@ -95,7 +94,7 @@ final class JdbcPerson implements Person {
     @Override
     public Date birthdate() throws BazisException {
         final Opt<Date> date =
-            new SmartRecord(this.record).date("birthdate");
+            new NoNulls(this.record).date("birthdate");
         if (!date.has())
             throw new BazisException("Person birthdate not defined");
         return date.get();
@@ -103,22 +102,22 @@ final class JdbcPerson implements Person {
 
     @Override
     public String address() {
-        return new SmartRecord(this.record).string("address");
+        return new NoNulls(this.record).string("address");
     }
 
     @Override
     public String snils() {
-        return new SmartRecord(this.record).string("snils");
+        return new NoNulls(this.record).string("snils");
     }
 
     @Override
     public String borough() {
-        return new SmartRecord(this.record).string("boroughName");
+        return new NoNulls(this.record).string("boroughName");
     }
 
     @Override
     public String passport() {
-        return new SmartRecord(this.record).string("passport");
+        return new NoNulls(this.record).string("passport");
     }
 
     @Override

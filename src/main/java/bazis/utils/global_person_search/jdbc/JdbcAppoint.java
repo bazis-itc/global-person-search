@@ -9,6 +9,7 @@ import bazis.cactoos3.text.UncheckedText;
 import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.Period;
+import bazis.utils.global_person_search.ext.NoNulls;
 import org.jooq.Record;
 
 final class JdbcAppoint implements Appoint {
@@ -21,17 +22,17 @@ final class JdbcAppoint implements Appoint {
 
     @Override
     public String type() {
-        return new SmartRecord(this.record).string("mspGuid");
+        return new NoNulls(this.record).string("mspGuid");
     }
 
     @Override
     public String msp() {
-        return new SmartRecord(this.record).string("mspName");
+        return new NoNulls(this.record).string("mspName");
     }
 
     @Override
     public String category() {
-        return new SmartRecord(this.record).string("category");
+        return new NoNulls(this.record).string("category");
     }
 
     @Override
@@ -46,7 +47,7 @@ final class JdbcAppoint implements Appoint {
                     new Func<String, String>() {
                         @Override
                         public String apply(String field) {
-                            return new SmartRecord(JdbcAppoint.this.record)
+                            return new NoNulls(JdbcAppoint.this.record)
                                 .string(field);
                         }
                     }
@@ -57,12 +58,12 @@ final class JdbcAppoint implements Appoint {
 
     @Override
     public String status() {
-        return new SmartRecord(this.record).string("status");
+        return new NoNulls(this.record).string("status");
     }
 
     @Override
     public Iterable<Period> periods() {
-        final String periods = new SmartRecord(this.record).string("periods");
+        final String periods = new NoNulls(this.record).string("periods");
         return new MappedIterable<>(
             periods.isEmpty()
                 ? new EmptyIterable<String>()
@@ -79,7 +80,7 @@ final class JdbcAppoint implements Appoint {
     @Override
     public Iterable<Payout> payouts() {
         return new JdbcPayouts(
-            new SmartRecord(this.record).string("payments")
+            new NoNulls(this.record).string("payments")
         );
     }
 

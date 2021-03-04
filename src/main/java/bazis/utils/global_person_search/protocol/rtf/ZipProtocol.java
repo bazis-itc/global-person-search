@@ -1,5 +1,6 @@
 package bazis.utils.global_person_search.protocol.rtf;
 
+import bazis.cactoos3.Text;
 import bazis.cactoos3.collection.ListOf;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.EmptyIterable;
@@ -60,7 +61,7 @@ final class ZipProtocol implements Protocol {
         final Map<String, Object> params = new ReportParams(
             this.esrn, request, new JoinedIterable<>(this.lists)
         );
-        final FormattedDate subfolder = new FormattedDate(
+        final Text subfolder = new FormattedDate(
             "yyyy-MM-dd_HH-mm-ss-SSS", new Date()
         );
         final Collection<File> files = new LinkedList<>();

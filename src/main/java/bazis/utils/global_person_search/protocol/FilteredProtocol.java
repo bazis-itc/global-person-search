@@ -257,7 +257,7 @@ final class FilteredAppoint implements Appoint {
                     return
                         !new MonthYearBean(FilteredAppoint.this.startDate)
                             .afterInDay(date)
-                            && !new MonthYearBean(FilteredAppoint.this.endDate)
+                        && !new MonthYearBean(FilteredAppoint.this.endDate)
                             .beforeInDay(date);
                 }
             }
