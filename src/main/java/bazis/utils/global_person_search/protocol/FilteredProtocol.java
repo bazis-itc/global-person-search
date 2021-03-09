@@ -19,6 +19,7 @@ import java.util.Map;
 import sx.admin.AdmRequest;
 import sx.common.MonthYearBean;
 
+@Deprecated
 public final class FilteredProtocol implements Protocol {
 
     private final Protocol origin;

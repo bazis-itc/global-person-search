@@ -15,8 +15,8 @@ import bazis.utils.global_person_search.misc.ParamsOf;
 import bazis.utils.global_person_search.misc.RequestPerson;
 import bazis.utils.global_person_search.misc.Server;
 import bazis.utils.global_person_search.protocol.CompoundProtocol;
-import bazis.utils.global_person_search.protocol.FilteredProtocol;
 import bazis.utils.global_person_search.protocol.JspProtocol;
+import bazis.utils.global_person_search.protocol.ProtocolWithFilter;
 import bazis.utils.global_person_search.protocol.SplitProtocol;
 import bazis.utils.global_person_search.protocol.rtf.RtfProtocol;
 import com.google.gson.JsonObject;
@@ -69,16 +69,14 @@ public final class ResultAction implements SitexAction {
                         ? "" : "Не опрошены районы: " + server.fails()
                 ).trim()
             );
-        new FilteredProtocol(
+        new ProtocolWithFilter(
             new SplitProtocol(
                 new CompoundProtocol(
                     new JspProtocol(), new RtfProtocol(this.esrn, this.config)
                 ),
                 person
             ),
-            this.esrn.measures(new ParamsOf(request).msp()).keySet(),
-            new ParamsOf(request).startDate(),
-            new ParamsOf(request).endDate()
+            this.esrn
         ).append(persons).outputTo(request);
     }
 
