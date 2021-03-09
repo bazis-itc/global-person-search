@@ -1,11 +1,13 @@
 package sx.bazis.uninfoobmen.web.bean.operation;
 
+import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.text.JoinedText;
 import bazis.utils.global_person_search.jdbc.JdbcRegister;
 import bazis.utils.global_person_search.json.JsonPersons;
 import bazis.utils.global_person_search.json.JsonRequest;
 import bazis.utils.global_person_search.json.JsonText;
 import bazis.utils.global_person_search.misc.EncryptedText;
+import bazis.utils.global_person_search.misc.ServerError;
 import bazis.utils.global_person_search.misc.UsonBoroughs;
 import java.util.Collection;
 import java.util.HashMap;
@@ -29,7 +31,7 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
 
     @Override
     public ReturnDataObject exec(HashMap<String, String> hashMap,
-        DataObject dataObject, HttpSession httpSession) {
+        DataObject dataObject, HttpSession httpSession) throws BazisException {
         ReturnDataObject result;
         //noinspection OverlyBroadCatchBlock
         try {
@@ -63,9 +65,7 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
             );
         } catch (final Exception ex) {
             result = super.getReturnMessage(
-                "ERROR",
-                ex.getMessage() == null ? ex.toString() : ex.getMessage(),
-                ex
+                "ERROR", new ServerError(ex).asString()
             );
         }
         return result;

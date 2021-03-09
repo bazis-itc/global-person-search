@@ -39,7 +39,8 @@
 				<b>Статус ЛД:</b> <c:out value="${person.status}"/><br>
 				<b>Дата снятия с учета:</b> <c:out value="${person.regOffDate}"/><br>
 				<b>Причина снятия с учета:</b> <c:out value="${person.regOffReason}"/><br>
-							
+
+				<br>
 				<table class="sort">
 					<thead>
 					<tr class="gridRow">
