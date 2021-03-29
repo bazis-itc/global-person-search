@@ -1,5 +1,6 @@
 package bazis.utils.global_person_search.protocol.rtf;
 
+import bazis.cactoos3.Opt;
 import bazis.cactoos3.Text;
 import bazis.cactoos3.collection.ListOf;
 import bazis.cactoos3.exception.BazisException;
@@ -19,6 +20,8 @@ import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.dates.FormattedDate;
 import bazis.utils.global_person_search.dates.HumanDate;
 import bazis.utils.global_person_search.ext.TextOf;
+import bazis.utils.global_person_search.misc.ParamsOf;
+import bazis.utils.global_person_search.misc.RequestPerson;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -114,15 +117,27 @@ final class ZipProtocol implements Protocol {
             }
             group++;
         }
+        final Opt<Number> personId = new ParamsOf(request).personId();
         request.set(
-            "protocol", this.esrn.downloadUrl(ZipProtocol.toZip(files))
+            "protocol",
+            this.esrn.downloadUrl(
+                ZipProtocol.toZip(
+                    files,
+                    (
+                        personId.has()
+                            ? this.esrn.person(personId.get())
+                            : new RequestPerson(request)
+                    ).fio()
+                )
+            )
         );
     }
 
-    private static File toZip(Iterable<File> files) throws BazisException {
+    private static File toZip(Iterable<File> files, String name)
+        throws BazisException {
         final File result = new File(
             new ListOf<>(files).get(0).getParentFile(),
-            "report.zip"
+            String.format("%s.zip", name)
         );
         try (
             final FileOutputStream output = new FileOutputStream(result);
