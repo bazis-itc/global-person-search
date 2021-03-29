@@ -117,6 +117,20 @@ final class ZipProtocol implements Protocol {
             }
             group++;
         }
+        if (files.isEmpty()) files.add(
+            this.esrn
+                .report("globalPersonSearchProtocol")
+                .toFile(
+                    new MapOf<>(
+                        new Entries<>(
+                            params,
+                            new ReportRow()
+                                .withString("subfolder", subfolder)
+                                .withString("filename", "Не найдено")
+                        )
+                    )
+                )
+        );
         final Opt<Number> personId = new ParamsOf(request).personId();
         request.set(
             "protocol",

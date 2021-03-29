@@ -20,7 +20,7 @@ import sx.common.reportsystem.MockReport;
 public final class ZipProtocolITCase {
 
     @Test
-    public void itCase() throws BazisException {
+    public void twoPersons() throws BazisException {
         final Iterable<Person> persons = new IterableOf<Person>(
             new FakePerson(),
             new FakePerson(
@@ -49,6 +49,34 @@ public final class ZipProtocolITCase {
                 }
             )
         ).append(persons).append(persons).outputTo(new FakeRequest());
+    }
+
+    @Test
+    public void noPersons() throws BazisException {
+        new ZipProtocol(
+            new FakeEsrn(
+                new Scalar<SitexReport>() {
+                    private int counter = 0;
+                    @Override
+                    public SitexReport value() {
+                        this.counter++;
+                        return new MockReport(
+                            new File(
+                                MockReport.class
+                                    .getResource("/uln.rtf").getFile()
+                            ),
+                            new File(
+                                "output",
+                                String.format("%d.rtf", this.counter)
+                            )
+                        );
+                    }
+                }
+            )
+        )
+            .append(new EmptyIterable<Person>())
+            .append(new EmptyIterable<Person>())
+            .outputTo(new FakeRequest());
     }
 
 }
