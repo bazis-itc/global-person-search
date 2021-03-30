@@ -41,6 +41,7 @@
 				<b>Причина снятия с учета:</b> <c:out value="${person.regOffReason}"/><br>
 
 				<br>
+				<b>Назначения</b>
 				<table class="sort">
 					<thead>
 					<tr class="gridRow">
@@ -80,6 +81,7 @@
 							
 				<c:if test="${requestScope.displayPetitions}">
 					<br>
+				        <b>Заявления</b>
 					<table class="sort">
 						<thead>
 						<tr class="gridRow">

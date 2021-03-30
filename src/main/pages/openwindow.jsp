@@ -15,7 +15,7 @@
 		+ "&designCode=<c:out value='${data.designCode}'/>" 
 		+ "&objId=<%=admRequest.getObjIdList().get(0).toString()%>"
 		,"_blank"
-		,"height=200,width=400,status=yes,toolbar=no,scrollbars=yes,menubar=no,location=no,resizable=no,channelmode=no");
+		,"status=yes,toolbar=no,scrollbars=yes,menubar=no,location=no,resizable=no,channelmode=no");
   </script>
   </body>
 </html>

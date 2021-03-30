@@ -242,7 +242,7 @@
 		</div>
 				
         <div align=right style="padding-right:10px;">
-          <input type="submit" value="Дальше" class="button_green"/>
+          <input type="submit" value="Дальше" class="button_blue"/>
         </div>
 	</form>
 	<!--<div style="padding-right:10px; display: inline-flex; float:right;">
