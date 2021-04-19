@@ -1,4 +1,4 @@
-package bazis.utils.global_person_search.protocol;
+package bazis.utils.global_person_search.protocol.filtered;
 
 import bazis.cactoos3.Func;
 import bazis.cactoos3.exception.BazisException;
@@ -6,62 +6,15 @@ import bazis.cactoos3.iterable.FilteredIterable;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.opt.OptOrDefault;
 import bazis.utils.global_person_search.Appoint;
-import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.Period;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Petition;
-import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.ext.Any;
 import bazis.utils.global_person_search.ext.SetOf;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
-import sx.admin.AdmRequest;
 import sx.common.MonthYearBean;
-
-@Deprecated
-public final class FilteredProtocol implements Protocol {
-
-    private final Protocol origin;
-
-    private final Iterable<String> msp;
-
-    private final Date startDate, endDate;
-
-    public FilteredProtocol(Protocol origin, Iterable<String> msp,
-        Date startDate, Date endDate) {
-        this.origin = origin;
-        this.msp = msp;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
-    @Override
-    public Protocol append(Iterable<Person> persons) throws BazisException {
-        return this.origin.append(
-            new MappedIterable<>(
-                persons,
-                new Func<Person, Person>() {
-                    @Override
-                    public Person apply(Person person) {
-                        return new FilteredPerson(
-                            person,
-                            FilteredProtocol.this.msp,
-                            FilteredProtocol.this.startDate,
-                            FilteredProtocol.this.endDate
-                        );
-                    }
-                }
-            )
-        );
-    }
-
-    @Override
-    public void outputTo(AdmRequest request) throws BazisException {
-        this.origin.outputTo(request);
-    }
-
-}
 
 final class FilteredPerson implements Person {
 
@@ -196,73 +149,6 @@ final class FilteredPerson implements Person {
                 }
             }
         ).value();
-    }
-
-}
-
-@SuppressWarnings("ClassWithTooManyMethods")
-final class FilteredAppoint implements Appoint {
-
-    private final Appoint origin;
-
-    private final Date startDate, endDate;
-
-    FilteredAppoint(Appoint origin, Date startDate, Date endDate) {
-        this.origin = origin;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
-    @Override
-    public String type() {
-        return this.origin.type();
-    }
-
-    @Override
-    public String msp() {
-        return this.origin.msp();
-    }
-
-    @Override
-    public String category() {
-        return this.origin.category();
-    }
-
-    @Override
-    public String child() {
-        return this.origin.child();
-    }
-
-    @Override
-    public String status() {
-        return this.origin.status();
-    }
-
-    @Override
-    public Iterable<Period> periods() throws BazisException {
-        return this.origin.periods();
-    }
-
-    @Override
-    public Iterable<Payout> payouts() {
-        return new FilteredIterable<>(
-            this.origin.payouts(),
-            new Func<Payout, Boolean>() {
-                @Override
-                public Boolean apply(Payout payout) {
-                    final MonthYearBean date = new MonthYearBean(
-                        payout.year().intValue(),
-                        payout.month().intValue(),
-                        1
-                    );
-                    return
-                        !new MonthYearBean(FilteredAppoint.this.startDate)
-                            .afterInDay(date)
-                        && !new MonthYearBean(FilteredAppoint.this.endDate)
-                            .beforeInDay(date);
-                }
-            }
-        );
     }
 
 }

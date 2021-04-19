@@ -1,4 +1,4 @@
-package bazis.utils.global_person_search.protocol;
+package bazis.utils.global_person_search.protocol.filtered;
 
 import bazis.cactoos3.Func;
 import bazis.cactoos3.exception.BazisException;
@@ -11,7 +11,7 @@ import bazis.utils.global_person_search.Protocol;
 import bazis.utils.global_person_search.misc.ParamsOf;
 import sx.admin.AdmRequest;
 
-public final class ProtocolWithFilter implements Protocol {
+public final class FilteredProtocol implements Protocol {
 
     private final Protocol origin;
 
@@ -19,11 +19,11 @@ public final class ProtocolWithFilter implements Protocol {
 
     private final Iterable<Iterable<Person>> lists;
 
-    public ProtocolWithFilter(Protocol origin, Esrn esrn) {
+    public FilteredProtocol(Protocol origin, Esrn esrn) {
         this(origin, esrn, new EmptyIterable<Iterable<Person>>());
     }
 
-    private ProtocolWithFilter(Protocol origin, Esrn esrn,
+    private FilteredProtocol(Protocol origin, Esrn esrn,
         Iterable<Iterable<Person>> lists) {
         this.origin = origin;
         this.esrn = esrn;
@@ -32,7 +32,7 @@ public final class ProtocolWithFilter implements Protocol {
 
     @Override
     public Protocol append(Iterable<Person> persons) {
-        return new ProtocolWithFilter(
+        return new FilteredProtocol(
             this.origin, this.esrn, new JoinedIterable<>(this.lists, persons)
         );
     }
