@@ -1,15 +1,22 @@
 package bazis.utils.global_person_search.protocol.filtered;
 
 import bazis.cactoos3.Func;
+import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.iterable.FilteredIterable;
 import bazis.cactoos3.iterable.MappedIterable;
 import bazis.cactoos3.opt.OptOrDefault;
+import bazis.cactoos3.scalar.And;
+import bazis.cactoos3.scalar.IsEmpty;
+import bazis.cactoos3.scalar.Or;
+import bazis.cactoos3.scalar.ScalarOf;
 import bazis.utils.global_person_search.Appoint;
+import bazis.utils.global_person_search.Payout;
 import bazis.utils.global_person_search.Period;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.Petition;
 import bazis.utils.global_person_search.ext.Any;
+import bazis.utils.global_person_search.ext.DatePeriod;
 import bazis.utils.global_person_search.ext.SetOf;
 import java.util.Collection;
 import java.util.Date;
@@ -114,14 +121,39 @@ final class FilteredPerson implements Person {
             new Func<Appoint, Boolean>() {
                 @Override
                 public Boolean apply(Appoint appoint) throws Exception {
-                    return (list.isEmpty() || list.contains(appoint.type()))
-                        && FilteredPerson.this.checkPeriods(appoint);
+                    return new And(
+                        new Or(
+                            new IsEmpty(list),
+                            new ScalarOf<>(list.contains(appoint.type()))
+                        ),
+                        new Or(
+                            FilteredPerson.this.checkPeriods(appoint),
+                            new Any<>(
+                                appoint.payouts(),
+                                new Func<Payout, Boolean>() {
+                                    @Override
+                                    public Boolean apply(Payout payout)
+                                        throws BazisException {
+                                        return new DatePeriod(
+                                            FilteredPerson.this.startDate,
+                                            FilteredPerson.this.endDate
+                                        ).contains(
+                                            new MonthYearBean(
+                                                payout.year().intValue(),
+                                                payout.month().intValue()
+                                            ).getDate()
+                                        );
+                                    }
+                                }
+                            )
+                        )
+                    ).value();
                 }
             }
         );
     }
 
-    private boolean checkPeriods(Appoint appoint) throws Exception {
+    private Scalar<Boolean> checkPeriods(Appoint appoint) throws Exception {
         return new Any<>(
             appoint.periods(),
             new Func<Period, Boolean>() {
@@ -148,7 +180,7 @@ final class FilteredPerson implements Person {
                             );
                 }
             }
-        ).value();
+        );
     }
 
 }

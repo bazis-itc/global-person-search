@@ -8,6 +8,17 @@ import java.util.Date;
 @SuppressWarnings("MagicNumber")
 public final class FakePayout implements Payout {
 
+    private final Number year, month;
+
+    public FakePayout() {
+        this(2016, 7);
+    }
+
+    public FakePayout(Number year, Number month) {
+        this.year = year;
+        this.month = month;
+    }
+
     @Override
     public Date date() throws BazisException {
         return new IsoDate("2019-12-05").value();
@@ -15,12 +26,12 @@ public final class FakePayout implements Payout {
 
     @Override
     public Number year() {
-        return 2016;
+        return this.year;
     }
 
     @Override
     public Number month() {
-        return 7;
+        return this.month;
     }
 
     @Override
