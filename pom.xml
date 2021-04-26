@@ -38,7 +38,7 @@
             <properties>
                 <sitex.version>uln</sitex.version>
                 <bazis-common.version>3.5</bazis-common.version>
-                <centralUrl>http://172.17.60.6:9080/central_test/</centralUrl>
+                <centralUrl>http://172.17.60.6/central/</centralUrl>
                 <displayPetitions>true</displayPetitions>
             </properties>
         </profile>
