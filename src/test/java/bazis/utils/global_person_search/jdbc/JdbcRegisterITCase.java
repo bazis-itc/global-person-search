@@ -31,7 +31,7 @@ public final class JdbcRegisterITCase {
             final Connection central = DriverManager.getConnection(
                 new ConcatedText(
                 "jdbc:sqlserver://10.65.12.5;",
-                    "databaseName=update_test_central;",
+                    "databaseName=central;",
                     "user=sa;password=S1tex2016"
                 ).asString()
             );
