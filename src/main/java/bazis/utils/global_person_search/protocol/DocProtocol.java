@@ -96,6 +96,12 @@ public final class DocProtocol implements Protocol {
                 )
             )
             .set(
+                DSL.field("GIVEDOCUMENTORG"),
+                this.context.fetchValue(
+                    "SELECT OUID FROM SPR_ORG_BASE WHERE GUID = 'd6902bdd-401c-4e77-b7c3-54a486ab9921'"
+                )
+            )
+            .set(
                 DSL.field("ISSUEEXTENSIONSDATE"),
                 DSL.field("GETDATE()", Double.class)
             )
