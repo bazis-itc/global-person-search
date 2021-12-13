@@ -94,6 +94,7 @@ public final class ResultAction implements SitexAction {
                         new IsEmpty(persons).value()
                             ? ResultAction.NO_RESULT : ""
                     )
+                    .withString("fio", person.fio())
             );
     }
 
