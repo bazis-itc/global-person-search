@@ -81,15 +81,9 @@
             <groupId>bazis</groupId>
             <artifactId>bazis.interaction-platform</artifactId>
             <!--suppress MavenModelInspection -->
-            <version>4.1</version>
+            <version>5.0.2</version>
             <classifier>${sitex.version}</classifier>
             <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>sitex</groupId>
-                    <artifactId>sitex</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

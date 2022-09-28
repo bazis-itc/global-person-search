@@ -14,13 +14,11 @@ import bazis.utils.global_person_search.Appoint;
 import bazis.utils.global_person_search.Borough;
 import bazis.utils.global_person_search.Person;
 import bazis.utils.global_person_search.ext.Lines;
-import java.sql.ResultSet;
 import java.util.Date;
 import java.util.Map;
 import org.jooq.Record;
 import org.jooq.RecordMapper;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
+import org.jooq.Result;
 
 final class JdbcPerson implements Person {
 
@@ -141,23 +139,21 @@ final class JdbcPerson implements Person {
         );
         if (borough == null) throw new BazisException("Borough not found");
         @SuppressWarnings("DynamicRegexReplaceableByCompiledPattern")
-        final Opt<ResultSet> result = borough.select(
+        final Opt<Result<Record>> result = borough.select(
             new CheckedText(query).asString().replace(
                 "#id#",
                 this.record.getValue("localId", String.class)
             )
         );
         return result.has()
-            ? DSL.using(SQLDialect.DEFAULT)
-                .fetch(result.get())
-                .map(
-                    new RecordMapper<Record, Appoint>() {
-                        @Override
-                        public Appoint map(Record appoint) {
-                            return new JdbcAppoint(appoint);
-                        }
+            ? result.get().map(
+                new RecordMapper<Record, Appoint>() {
+                    @Override
+                    public Appoint map(Record appoint) {
+                        return new JdbcAppoint(appoint);
                     }
-                )
+                }
+            )
             : new EmptyIterable<Appoint>();
     }
 
