@@ -13,6 +13,7 @@
             <id>Воронеж</id>
             <properties>
                 <sitex.version>vrn</sitex.version>
+                <bazis-common.version>3.5</bazis-common.version>
                 <centralUrl/>
                 <displayPayments>true</displayPayments>
             </properties>
