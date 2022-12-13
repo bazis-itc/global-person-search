@@ -19,12 +19,10 @@ import bazis.utils.global_person_search.Petition;
 import bazis.utils.global_person_search.ext.NoNulls;
 import bazis.utils.global_person_search.ext.TextResource;
 import java.nio.charset.Charset;
-import java.sql.ResultSet;
 import java.util.Date;
 import java.util.Map;
 import org.jooq.Record;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
+import org.jooq.Result;
 
 final class JdbcPerson implements Person {
 
@@ -45,7 +43,7 @@ final class JdbcPerson implements Person {
                             );
                             if (borough == null)
                                 throw new BazisException("Borough not found");
-                            final Opt<ResultSet> result = borough.select(
+                            final Opt<Result<Record>> result = borough.select(
                                 new CheckedText(
                                     new TextResource(
                                         JdbcPerson.class, "JdbcPerson.sql",
@@ -57,9 +55,7 @@ final class JdbcPerson implements Person {
                                 )
                             );
                             return result.has()
-                                ? DSL.using(SQLDialect.DEFAULT)
-                                    .fetch(result.get())
-                                : new EmptyIterable<Record>();
+                                ? result.get() : new EmptyIterable<Record>();
                         }
                     }
                 )

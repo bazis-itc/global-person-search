@@ -13,29 +13,25 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: sitex:sitex:uln" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: bazis:bazis.interaction-platform:uln:4.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.metaparadigm:json-rpc:1.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.poi:poi:3.14" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: commons-codec:commons-codec:1.10" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.poi:poi-ooxml:3.14" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.poi:poi-ooxml-schemas:3.14" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.xmlbeans:xmlbeans:2.6.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: stax:stax-api:1.0.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.virtuald:curvesapi:1.03" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.tomcat:tomcat-jdbc:7.0.19" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: commons-lang:commons-lang:2.5" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sun.xml.stream:sjsxp:1.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: bsh:bsh:1.3.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.findbugs:jsr305:2.0.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.slf4j:slf4j-api:1.7.12" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: sitex:sitex:vrn" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: bazis:bazis.interaction-platform:vrn:6.1.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.threeten:threetenbp:1.6.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: net.sf.jasperreports:jasperreports:6.4.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: net.sf.jasperreports:jasperreports-fonts:6.0.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.lowagie:itext:2.1.7" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: bouncycastle:bcmail-jdk14:138" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: bouncycastle:bcprov-jdk14:138" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bouncycastle:bctsp-jdk14:1.38" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bouncycastle:bcprov-jdk14:1.38" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bouncycastle:bcmail-jdk14:1.38" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.itextpdf:itextpdf:5.5.13.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: commons-io:commons-io:1.3.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.gson:gson:2.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.xml.bind:jaxb-api:2.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.xml.stream:stax-api:1.0-2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Maven: bazis:bazis-cactoos:3.5" level="project" />
-    <orderEntry type="library" name="Maven: bazis:bazis-sitex:uln:3.5" level="project" />
+    <orderEntry type="library" name="Maven: bazis:bazis-sitex:vrn:3.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jooq:jooq:3.6.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
@@ -48,16 +44,18 @@
     <orderEntry type="library" scope="TEST" name="Maven: bazis:bazis-sitex:3.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.velocity:velocity:1.7" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: commons-collections:commons-collections:3.2.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.poi:poi-ooxml:3.14" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.poi:poi:3.14" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: commons-codec:commons-codec:1.10" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.poi:poi-ooxml-schemas:3.14" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.xmlbeans:xmlbeans:2.6.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: stax:stax-api:1.0.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.github.virtuald:curvesapi:1.03" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.sun.media:jai-codec:1.1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: javax.media:jai-core:1.1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.ant:ant:1.8.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.ant:ant-launcher:1.8.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: com.lowagie:itext:2.1.7" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: bouncycastle:bcmail-jdk14:138" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: bouncycastle:bcprov-jdk14:138" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.bouncycastle:bctsp-jdk14:1.38" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.bouncycastle:bcprov-jdk14:1.38" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.bouncycastle:bcmail-jdk14:1.38" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.microsoft.sqlserver:mssql-jdbc:6.1.0.jre8" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.microsoft.azure:azure-keyvault:0.9.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.microsoft.azure:azure-core:0.9.3" level="project" />
@@ -84,6 +82,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: com.nimbusds:nimbus-jose-jwt:3.1.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.bouncycastle:bcprov-jdk15on:1.51" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.slf4j:slf4j-nop:1.7.26" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.slf4j:slf4j-api:1.7.26" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.google.guava:guava:20.0" level="project" />
   </component>
 </module>
