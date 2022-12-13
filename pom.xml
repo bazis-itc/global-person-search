@@ -13,7 +13,7 @@
             <id>Воронеж</id>
             <properties>
                 <sitex.version>vrn</sitex.version>
-                <centralUrl>http://192.168.155.9:8080/central/</centralUrl>
+                <centralUrl/>
                 <displayPayments>true</displayPayments>
             </properties>
         </profile>
