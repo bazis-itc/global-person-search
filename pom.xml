@@ -22,6 +22,7 @@
             <id>Рязань</id>
             <properties>
                 <sitex.version>rzn</sitex.version>
+                <bazis-common.version>3.5</bazis-common.version>
                 <centralUrl>http://192.168.120.108:8080/central/</centralUrl>
                 <extendedSearch>true</extendedSearch>
             </properties>
