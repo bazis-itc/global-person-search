@@ -2,12 +2,12 @@ package bazis.utils.global_person_search.sx;
 
 import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
-import bazis.cactoos3.map.EmptyMap;
 import bazis.cactoos3.scalar.CheckedScalar;
 import bazis.sitex3.SitexReport;
 import bazis.utils.global_person_search.Esrn;
 import bazis.utils.global_person_search.Person;
 import java.io.File;
+import java.util.Collections;
 import java.util.Map;
 import sx.cms.CmsActionUtils;
 import sx.cms.CmsApplication;
@@ -37,7 +37,7 @@ public final class SxEsrn implements Esrn {
     @Override
     public Map<String, String> measures(String links) {
         return links.isEmpty()
-            ? new EmptyMap<String, String>() : new MspMap(links);
+            ? Collections.<String, String>emptyMap() : new MspMap(links);
     }
 
     @Override
