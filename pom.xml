@@ -32,7 +32,7 @@
             <properties>
                 <sitex.version>tmb</sitex.version>
                 <bazis-common.version>3.5</bazis-common.version>
-                <centralUrl>http://10.65.12.11:8080/central/</centralUrl>
+                <centralUrl/>
                 <displayPayments>true</displayPayments>
             </properties>
         </profile>
