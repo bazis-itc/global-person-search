@@ -9,6 +9,8 @@ import bazis.utils.global_person_search.json.JsonText;
 import bazis.utils.global_person_search.misc.EncryptedText;
 import bazis.utils.global_person_search.misc.ServerError;
 import bazis.utils.global_person_search.misc.UsonBoroughs;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -19,6 +21,7 @@ import org.jooq.impl.DSL;
 import sx.bazis.uninfoobmen.sys.store.DataObject;
 import sx.bazis.uninfoobmen.sys.store.ReturnDataObject;
 import sx.datastore.SXDsFactory;
+import sx.datastore.db.SXDb;
 
 public final class GlobalPersonSearchOperation extends UIOperationBase {
 
@@ -33,12 +36,11 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
     public ReturnDataObject exec(HashMap<String, String> hashMap,
         DataObject dataObject, HttpSession httpSession) throws BazisException {
         ReturnDataObject result;
+        Connection connection = null;
         //noinspection OverlyBroadCatchBlock
         try {
-            final DSLContext context = DSL.using(
-                SXDsFactory.getDs().getDb().getDataSource(),
-                SQLDialect.DEFAULT
-            );
+            connection = SXDsFactory.getDs().getDb().getConnection();
+            final DSLContext context = DSL.using(connection, SQLDialect.DEFAULT);
             final JsonRequest request = new JsonRequest(
                 new JsonText(
                     new EncryptedText(dataObject.getInputStream())
@@ -67,6 +69,12 @@ public final class GlobalPersonSearchOperation extends UIOperationBase {
             result = super.getReturnMessage(
                 "ERROR", new ServerError(ex).asString()
             );
+        } finally {
+            try {
+                SXDb.closeConnection(connection);
+            } catch (final SQLException ex) {
+                //ignore
+            }
         }
         return result;
     }

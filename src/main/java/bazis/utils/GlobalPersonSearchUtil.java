@@ -1,6 +1,5 @@
 package bazis.utils;
 
-import bazis.cactoos3.Scalar;
 import bazis.cactoos3.exception.BazisException;
 import bazis.cactoos3.map.Entry;
 import bazis.cactoos3.map.MapOf;
@@ -12,13 +11,9 @@ import bazis.utils.global_person_search.ext.JspAction;
 import bazis.utils.global_person_search.ext.SitexAction;
 import bazis.utils.global_person_search.misc.ParamsOf;
 import bazis.utils.global_person_search.sx.SxEsrn;
-import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
 import sx.admin.AdmAction;
 import sx.admin.AdmApplication;
 import sx.admin.AdmRequest;
-import sx.datastore.SXDsFactory;
 
 public final class GlobalPersonSearchUtil extends AdmAction {
 
@@ -39,8 +34,7 @@ public final class GlobalPersonSearchUtil extends AdmAction {
                                     public void execute(AdmRequest request) {
                                         request.set(
                                             "extended",
-                                            !new ParamsOf(request)
-                                                .personId().has()
+                                            !new ParamsOf(request).personId().has()
                                         );
                                     }
                                 },
@@ -57,20 +51,7 @@ public final class GlobalPersonSearchUtil extends AdmAction {
                         new Entry<String, SitexAction>(
                             "resultCmd",
                             new JspAction(
-                                new CreateDoc(
-                                    new Scalar<DSLContext>() {
-                                        @Override
-                                        public DSLContext value()
-                                            throws Exception {
-                                            return DSL.using(
-                                                SXDsFactory.getDs()
-                                                    .getDb().getDataSource(),
-                                                SQLDialect.DEFAULT
-                                            );
-                                        }
-                                    },
-                                    new SxEsrn()
-                                ),
+                                new CreateDoc(new SxEsrn()),
                                 "global_person_search/message"
                             )
                         )
