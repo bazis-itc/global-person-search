@@ -62,7 +62,6 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
 
-        <programmer.name>IvanovVA</programmer.name>
         <bazis-common.version>3.2</bazis-common.version>
 
         <extendedSearch>false</extendedSearch>
@@ -201,9 +200,7 @@
                         <configuration>
                             <filesets>
                                 <fileset>
-                                    <directory>
-                                        target/${programmer.name}/WEB-INF
-                                    </directory>
+                                    <directory>target/WEB-INF</directory>
                                 </fileset>
                             </filesets>
                         </configuration>
@@ -215,9 +212,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.1.1</version>
                 <configuration>
-                    <outputDirectory>
-                        target/${programmer.name}/WEB-INF/lib
-                    </outputDirectory>
+                    <outputDirectory>target/WEB-INF/lib</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>
@@ -232,7 +227,7 @@
                         </goals>
                         <configuration>
                             <outputDirectory>
-                                target/${programmer.name}/WEB-INF/cms/admin/util/global_person_search
+                                target/WEB-INF/cms/admin/util/global_person_search
                             </outputDirectory>
                             <resources>
                                 <resource>
@@ -254,9 +249,9 @@
                         </goals>
                         <configuration>
                             <tasks>
-                                <mkdir dir="${basedir}/target/${programmer.name}/WEB-INF/reports/globalPersonSearchProtocol" />
+                                <mkdir dir="${basedir}/target/WEB-INF/reports/globalPersonSearchProtocol" />
                                 <copy file="src/main/templates/${sitex.version}.rtf"
-                                      tofile="target/${programmer.name}/WEB-INF/rep_templates/globalPersonSearchProtocol.rtf"/>
+                                      tofile="target/WEB-INF/rep_templates/globalPersonSearchProtocol.rtf"/>
                             </tasks>
                         </configuration>
                     </execution>

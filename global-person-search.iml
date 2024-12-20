@@ -13,8 +13,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: sitex:sitex:vrn" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: bazis:bazis.interaction-platform:vrn:6.1.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: sitex:sitex:rzn" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: bazis:bazis.interaction-platform:rzn:6.1.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.threeten:threetenbp:1.6.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.sf.jasperreports:jasperreports:6.4.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.sf.jasperreports:jasperreports-fonts:6.0.0" level="project" />
@@ -31,7 +31,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.xml.stream:stax-api:1.0-2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Maven: bazis:bazis-cactoos:3.5" level="project" />
-    <orderEntry type="library" name="Maven: bazis:bazis-sitex:vrn:3.5" level="project" />
+    <orderEntry type="library" name="Maven: bazis:bazis-sitex:rzn:3.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jooq:jooq:3.6.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
